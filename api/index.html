@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venuu Content Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #0a0a0f; color: #f0eee8; min-height: 100vh; }
+  .header { padding: 1.25rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.5px; }
+  .logo span { color: #e8a44a; }
+  .badge { font-size: 11px; font-weight: 500; background: rgba(232,164,74,0.15); color: #e8a44a; border: 0.5px solid rgba(232,164,74,0.3); padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .main { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 65px); }
+  .sidebar { border-right: 0.5px solid rgba(255,255,255,0.08); padding: 1.5rem; display: flex; flex-direction: column; gap: 6px; }
+  .sidebar-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin: 12px 0 4px; font-weight: 500; }
+  .mode-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; border: none; background: transparent; color: rgba(240,238,232,0.5); font-family: 'DM Sans', sans-serif; font-size: 13.5px; cursor: pointer; text-align: left; transition: all 0.15s; width: 100%; }
+  .mode-btn:hover { background: rgba(255,255,255,0.05); color: #f0eee8; }
+  .mode-btn.active { background: rgba(232,164,74,0.12); color: #e8a44a; border: 0.5px solid rgba(232,164,74,0.2); }
+  .mode-btn .icon { width: 26px; height: 26px; border-radius: 6px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .mode-btn.active .icon { background: rgba(232,164,74,0.15); }
+  .content { padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .content-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+  .content-sub { font-size: 13px; color: rgba(240,238,232,0.4); margin-top: 3px; }
+  .controls-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .control-group { display: flex; flex-direction: column; gap: 6px; }
+  .control-label { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(240,238,232,0.4); font-weight: 500; }
+  select, input[type="text"] { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 8px; color: #f0eee8; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 12px; outline: none; width: 100%; transition: border-color 0.15s; -webkit-appearance: none; }
+  select:focus, input[type="text"]:focus { border-color: rgba(232,164,74,0.5); }
+  select option { background: #1a1a24; color: #f0eee8; }
+  .tone-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { padding: 5px 12px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.12); background: transparent; color: rgba(240,238,232,0.5); font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
+  .chip:hover { border-color: rgba(232,164,74,0.4); color: #e8a44a; }
+  .chip.active { background: rgba(232,164,74,0.12); border-color: rgba(232,164,74,0.4); color: #e8a44a; }
+  .generate-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 24px; background: #e8a44a; color: #0a0a0f; border: none; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; width: 100%; }
+  .generate-btn:hover { background: #f0b55c; transform: translateY(-1px); }
+  .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .loading-bar { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; display: none; }
+  .loading-bar.active { display: block; }
+  .loading-bar-inner { height: 100%; background: #e8a44a; border-radius: 2px; animation: loadingAnim 1.5s ease-in-out infinite; width: 40%; }
+  @keyframes loadingAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+  .results-area { display: flex; flex-direction: column; gap: 12px; }
+  .result-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1rem 1.25rem; animation: fadeIn 0.3s ease; }
+  .result-card:hover { border-color: rgba(232,164,74,0.2); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .result-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .result-platform { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.35); font-weight: 500; }
+  .copy-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(240,238,232,0.4); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
+  .copy-btn:hover { border-color: rgba(232,164,74,0.4); color: #e8a44a; }
+  .copy-btn.copied { color: #7bc67e; border-color: rgba(123,198,126,0.3); }
+  .result-text { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.85); white-space: pre-wrap; }
+  .result-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .result-tag { font-size: 11px; color: rgba(232,164,74,0.7); background: rgba(232,164,74,0.08); padding: 2px 8px; border-radius: 4px; }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; color: rgba(240,238,232,0.2); font-size: 13px; gap: 8px; border: 0.5px dashed rgba(255,255,255,0.08); border-radius: 12px; text-align: center; }
+  .tab-row { display: flex; gap: 0; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  .tab { padding: 8px 16px; font-size: 12.5px; color: rgba(240,238,232,0.4); border: none; background: transparent; font-family: 'DM Sans', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; margin-bottom: -0.5px; }
+  .tab:hover { color: rgba(240,238,232,0.7); }
+  .tab.active { color: #e8a44a; border-bottom-color: #e8a44a; }
+  .error-msg { background: rgba(226,75,74,0.1); border: 0.5px solid rgba(226,75,74,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: rgba(240,180,180,0.9); display: none; }
+  .error-msg.visible { display: block; }
+  @media (max-width: 768px) { .main { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.08); flex-direction: row; flex-wrap: wrap; padding: 1rem; } .sidebar-label { display: none; } .controls-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">venuu<span>.</span>ai</div>
+  <div class="badge">Content Studio</div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-label">Generate</div>
+    <button class="mode-btn active" onclick="setMode('captions', this)">
+      <div class="icon">✦</div>Caption Factory
+    </button>
+    <button class="mode-btn" onclick="setMode('hooks', this)">
+      <div class="icon">◈</div>Hook Generator
+    </button>
+    <button class="mode-btn" onclick="setMode('week', this)">
+      <div class="icon">◻</div>Weekly Calendar
+    </button>
+    <button class="mode-btn" onclick="setMode('bar', this)">
+      <div class="icon">◆</div>Bar Spotlight
+    </button>
+    <div class="sidebar-label">Platform</div>
+    <button class="mode-btn" onclick="setMode('story', this)">
+      <div class="icon">○</div>Story Scripts
+    </button>
+    <button class="mode-btn" onclick="setMode('tiktok', this)">
+      <div class="icon">▷</div>TikTok Captions
+    </button>
+  </div>
+
+  <div class="content">
+    <div>
+      <div class="content-title" id="modeTitle">Caption Factory</div>
+      <div class="content-sub" id="modeSub">Generate ready-to-post captions for any night, any bar, any vibe.</div>
+    </div>
+
+    <div class="controls-row">
+      <div class="control-group">
+        <div class="control-label">Vibe</div>
+        <select id="vibeSelect">
+          <option value="hype">Hype Night</option>
+          <option value="chill">Chill Vibes</option>
+          <option value="college">College Scene</option>
+          <option value="ladies">Girls Night</option>
+          <option value="weekday">Weekday Deals</option>
+          <option value="weekend">Weekend Chaos</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <div class="control-label">Day</div>
+        <select id="daySelect">
+          <option value="Friday">Friday</option>
+          <option value="Saturday">Saturday</option>
+          <option value="Thursday">Thursday</option>
+          <option value="Wednesday">Wednesday</option>
+          <option value="Any night">Any Night</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <div class="control-label">Bar / Event (optional)</div>
+        <input type="text" id="barInput" placeholder="e.g. The Strip, UTK area..." />
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">Tone</div>
+      <div class="tone-chips">
+        <button class="chip active" onclick="toggleTone(this, 'Bold & Unapologetic')">Bold</button>
+        <button class="chip" onclick="toggleTone(this, 'Playful & Flirty')">Flirty</button>
+        <button class="chip" onclick="toggleTone(this, 'FOMO-inducing')">FOMO</button>
+        <button class="chip" onclick="toggleTone(this, 'Mysterious')">Mysterious</button>
+        <button class="chip" onclick="toggleTone(this, 'Hype beast energy')">Hype</button>
+        <button class="chip" onclick="toggleTone(this, 'Funny & Relatable')">Funny</button>
+        <button class="chip" onclick="toggleTone(this, 'Luxe & Exclusive')">Luxe</button>
+      </div>
+    </div>
+
+    <button class="generate-btn" id="genBtn" onclick="generate()">Generate Content ✦</button>
+    <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
+    <div class="error-msg" id="errorMsg"></div>
+
+    <div class="tab-row" id="tabRow" style="display:none;">
+      <button class="tab active" onclick="setTab('all', this)">All</button>
+      <button class="tab" onclick="setTab('instagram', this)">Instagram</button>
+      <button class="tab" onclick="setTab('tiktok', this)">TikTok</button>
+    </div>
+
+    <div class="results-area" id="resultsArea">
+      <div class="empty-state">
+        <div style="font-size:28px; opacity:0.3;">◈</div>
+        <div>Set your vibe and hit generate.</div>
+        <div style="font-size:11px; opacity:0.5;">Powered by Claude AI</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentMode = 'captions';
+let activeTones = new Set(['Bold & Unapologetic']);
+let currentResults = [];
+let currentFilter = 'all';
+
+const modeConfig = {
+  captions: {
+    title: 'Caption Factory',
+    sub: 'Generate ready-to-post captions for any night, any bar, any vibe.',
+    prompt: (v,d,b,t) => `You are a social media content creator for Venuu, a nightlife app showing live headcounts at bars. Audience: 18-28 year olds in Knoxville/UTK area. Brand voice: bold, confident, fun, sexy — think a great night out. Generate 4 captions. Context: ${d} night, ${v} vibe${b?`, featuring ${b}`:''}.  Tone: ${t}. Mix Instagram (2-4 lines + hashtags) and TikTok (punchy, hook-first). Reference the live headcount feature in at least 2. Return ONLY a JSON array, no markdown: [{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]},{"platform":"TikTok","text":"...","tags":[]}]`
+  },
+  hooks: {
+    title: 'Hook Generator',
+    sub: 'First 3 seconds make or break a video. Generate scroll-stopping opening lines.',
+    prompt: (v,d,b,t) => `You are a viral TikTok strategist for Venuu, a nightlife bar app. Generate 5 video hook lines for ${d} ${v} content${b?` at ${b}`:''}.  Tone: ${t}. Rules: each hook is the FIRST LINE spoken or shown on screen, under 10 words, creates immediate FOMO or curiosity, at least 2 reference knowing which bar is packed live. Return ONLY JSON array: [{"platform":"TikTok/Reels","text":"hook here","tags":["concept"]}]`
+  },
+  week: {
+    title: 'Weekly Calendar',
+    sub: 'A full week of content ideas mapped by day and platform.',
+    prompt: (v,d,b,t) => `You are social media manager for Venuu, a nightlife app. Create 5 posts Mon-Sat building toward weekend hype. Tone: ${t}. Each post distinct, different platform. Return ONLY JSON array: [{"platform":"Instagram","text":"caption with emojis and hashtags","tags":["Mon","awareness"]},{"platform":"TikTok","text":"hook + concept","tags":["Tue","engagement"]},{"platform":"Instagram","text":"...","tags":["Wed","feature"]},{"platform":"TikTok","text":"...","tags":["Thu","hype"]},{"platform":"Instagram","text":"...","tags":["Fri/Sat","weekend"]}]`
+  },
+  bar: {
+    title: 'Bar Spotlight',
+    sub: 'Hype content to feature a specific bar and drive traffic on Venuu.',
+    prompt: (v,d,b,t) => `You are creating bar spotlight content for Venuu. Feature ${b||'a Knoxville bar'} — make people want to go tonight. ${d} night, ${v} energy. Tone: ${t}. Feel authentic not ad-like. Reference live headcount naturally in at least 2. Return ONLY JSON array: [{"platform":"Instagram","text":"...","tags":["#venue","#knoxville","#venuu"]},{"platform":"TikTok","text":"...","tags":[]},{"platform":"Instagram Story","text":"...","tags":[]},{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]}]`
+  },
+  story: {
+    title: 'Story Scripts',
+    sub: 'Punchy copy for Instagram and TikTok stories and video overlays.',
+    prompt: (v,d,b,t) => `Generate 5 Instagram Story or TikTok text overlay scripts for Venuu. ${d}, ${v} vibe. Tone: ${t}. These appear ON SCREEN over nightlife footage. Each is 1-3 short punchy lines. Bold. Visual. Makes people swipe up. Return ONLY JSON array: [{"platform":"Story","text":"line1\nline2","tags":["overlay"]}]`
+  },
+  tiktok: {
+    title: 'TikTok Captions',
+    sub: 'Native TikTok captions with hooks, CTAs, and trending energy.',
+    prompt: (v,d,b,t) => `Write 5 viral TikTok captions for Venuu, a nightlife app. ${d}, ${v}${b?`, ${b}`:''}.  Tone: ${t}. Sound like a 22-year-old who actually goes out — not a brand manager. Use current slang naturally. Reference Venuu's live bar tracking in at least 3. Return ONLY JSON array: [{"platform":"TikTok","text":"caption with emojis","tags":["#fyp","#knoxvillenightlife","#venuu"]}]`
+  }
+};
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cfg = modeConfig[mode];
+  document.getElementById('modeTitle').textContent = cfg.title;
+  document.getElementById('modeSub').textContent = cfg.sub;
+  clearResults();
+}
+
+function toggleTone(btn, tone) {
+  if (activeTones.has(tone)) {
+    if (activeTones.size === 1) return;
+    activeTones.delete(tone);
+    btn.classList.remove('active');
+  } else {
+    activeTones.add(tone);
+    btn.classList.add('active');
+  }
+}
+
+function clearResults() {
+  currentResults = [];
+  document.getElementById('tabRow').style.display = 'none';
+  document.getElementById('errorMsg').classList.remove('visible');
+  document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Set your vibe and hit generate.</div><div style="font-size:11px;opacity:0.5;">Powered by Claude AI</div></div>`;
+}
+
+async function generate() {
+  const v = document.getElementById('vibeSelect').value;
+  const d = document.getElementById('daySelect').value;
+  const b = document.getElementById('barInput').value.trim();
+  const t = Array.from(activeTones).join(', ');
+  const btn = document.getElementById('genBtn');
+  const loader = document.getElementById('loadingBar');
+  const errorEl = document.getElementById('errorMsg');
+
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  loader.classList.add('active');
+  errorEl.classList.remove('visible');
+  document.getElementById('tabRow').style.display = 'none';
+  document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Cooking up content...</div></div>`;
+
+  const cfg = modeConfig[currentMode];
+  const prompt = cfg.prompt(v, d, b, t);
+
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    currentResults = parsed;
+    renderResults(parsed);
+  } catch(e) {
+    errorEl.textContent = `Something went wrong: ${e.message}. Check your API key is set in Vercel.`;
+    errorEl.classList.add('visible');
+    clearResults();
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Generate Content ✦';
+    loader.classList.remove('active');
+  }
+}
+
+function setTab(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderResults(currentResults);
+}
+
+function renderResults(results) {
+  if (!results || !results.length) { clearResults(); return; }
+  const filtered = currentFilter === 'all' ? results : results.filter(r => r.platform.toLowerCase().includes(currentFilter));
+  document.getElementById('tabRow').style.display = 'flex';
+  document.getElementById('resultsArea').innerHTML = filtered.map((r, i) => `
+    <div class="result-card">
+      <div class="result-card-header">
+        <div class="result-platform">${r.platform}</div>
+        <button class="copy-btn" onclick="copyText(this, ${i})" id="copy-${i}">Copy</button>
+      </div>
+      <div class="result-text">${esc(r.text)}</div>
+      ${r.tags && r.tags.length ? `<div class="result-tags">${r.tags.map(t=>`<span class="result-tag">${esc(t)}</span>`).join('')}</div>` : ''}
+    </div>`).join('') || `<div class="empty-state"><div>No results for this filter.</div></div>`;
+}
+
+function copyText(btn, i) {
+  const filtered = currentFilter === 'all' ? currentResults : currentResults.filter(r => r.platform.toLowerCase().includes(currentFilter));
+  const item = filtered[i];
+  if (!item) return;
+  const full = item.text + (item.tags && item.tags.length ? '\n\n' + item.tags.join(' ') : '');
+  navigator.clipboard.writeText(full).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
