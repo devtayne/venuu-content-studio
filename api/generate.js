@@ -29,9 +29,11 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('CLAUDE RAW RESPONSE:', JSON.stringify(data));
     return res.status(200).json(data);
 
   } catch (error) {
+    console.error('HANDLER ERROR:', error.message);
     return res.status(500).json({ error: 'Generation failed', details: error.message });
   }
 }
