@@ -196,28 +196,49 @@ GOOD EXAMPLE (write like this):
 Generate 4 captions. Mix Instagram (2-4 lines + hashtags) and TikTok (1-2 lines, hook-first). Return ONLY a JSON array, no markdown, no explanation:
 [{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]},{"platform":"TikTok","text":"...","tags":[]}]`
   },
-  hooks: {
+hooks: {
     title: 'Hook Generator',
     sub: 'First 3 seconds make or break a video. Generate scroll-stopping opening lines.',
-    prompt: (v,d,b,t) => `You write opening hooks for TikTok and Reels videos for Venuu, a nightlife app showing live bar headcounts in Knoxville.
+    prompt: (v,d,b,t) => `You write opening hooks for TikTok and Reels for Venuu — a premium nightlife app that shows live headcounts at bars in real time.
 
-Context: ${d}, ${v} vibe${b?`, ${b}`:''}. Tone: ${t}.
+Context: ${d}, ${v} vibe${b?`, at ${b}`:''}. Tone: ${t}.
 
-A hook is the FIRST thing seen or heard in the video. It has one job: stop the scroll.
+THE BRAND: Venuu sits at the intersection of luxury and college nightlife. Think Don Julio ads meets UTK Saturday night. Aspirational but real. Sexy but never desperate. The people using this app know where they're going before they leave — and that confidence is the whole personality.
+
+THE AUDIENCE: 18-28, Knoxville. Girls getting ready together. Guys who already know the plan. People who take going out seriously without taking themselves too seriously.
+
+A hook is the FIRST LINE seen or heard — its only job is to make someone stop scrolling in under 2 seconds.
+
+TONE GUIDANCE FOR "${t}":
+- Flirty = confidence that doesn't explain itself. Implied story. Let the viewer fill in the blanks. A raised eyebrow, not a wink emoji.
+- FOMO = specificity creates envy. "94% capacity at 10pm" is more powerful than "it was SO packed"
+- Hype = earned energy, not announced energy. Show don't tell.
+- Mysterious = incomplete sentences. Let it hang.
+- Bold = statement of fact, no justification needed
+- Funny = dry, self-aware, never silly
 
 STRICT RULES:
-- Under 8 words each
-- No mention of cover, payment, or skip the line
-- No cringe energy — no "POV you're about to have the best night"
-- No questions that sound like an ad — "Want to know which bar is packed tonight?" is terrible
-- Specific and confident beats vague and hyped every time
-- At least 2 hooks should reference knowing which bar is packed before you leave
+- Under 10 words each
+- No cover charge, payment, or skip the line mentions
+- Never start with "POV:"
+- Never ask a question that sounds like an ad
+- Lowercase feels more native — use it
+- The best hooks imply a whole story in one line
+- At least 2 should reference the live headcount naturally — like something you'd text a friend
 
-BAD EXAMPLE: "POV: You're about to have the best night ever using Venuu! 🔥"
-GOOD EXAMPLE: "we already knew it was gonna be that kind of saturday"
-GOOD EXAMPLE: "checked the app. pulled up. said nothing."
+NEVER WRITE LIKE THIS:
+- "Cool Beans was calling our names tonight" — too poetic, too soft
+- "saturday energy found us at Cool Beans" — passive and dull
+- "POV: Best night of your life starts here" — cringe, desperate
 
-Generate 5 hooks. Return ONLY JSON array:
+WRITE MORE LIKE THIS:
+- "she checked Venuu. grabbed her jacket. said nothing."
+- "Cool Beans at 91%. yeah we're going."
+- "some bars just have that saturday energy. the app confirmed it."
+- "knew before we left. that was the whole point."
+- "the numbers don't lie and neither does a good saturday night"
+
+Generate 5 hooks that would genuinely stop someone scrolling at 8pm on a ${d} getting ready to go out. Return ONLY JSON array, no markdown:
 [{"platform":"TikTok/Reels","text":"hook here","tags":["concept"]}]`
   },
   week: {
