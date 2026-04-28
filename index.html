@@ -385,11 +385,29 @@ async function generate() {
     if (!res.ok) throw new Error(`Server error: ${res.status}`);
 
     const data = await res.json();
-    const raw = data.content.map(i => i.text || '').join('');
-    const clean = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-    currentResults = parsed;
-    renderResults(parsed);
+
+// Handle both direct n8n response and wrapped Claude response
+let parsed;
+if (Array.isArray(data)) {
+  parsed = data[0];
+} else if (data.caption) {
+  parsed = data;
+} else if (data.content) {
+  const raw = data.content.map(i => i.text || '').join('');
+  const clean = raw.replace(/```json|```/g, '').trim();
+  parsed = JSON.parse(clean);
+}
+
+// Convert single object to array for renderResults
+const results = [
+  { platform: 'Instagram', text: parsed.caption, tags: [] },
+  { platform: 'TikTok', text: parsed.tiktok, tags: ['#fyp', '#venuu'] },
+  { platform: 'Hook', text: parsed.hook, tags: [] },
+  { platform: 'Higgsfield Prompt', text: parsed.higgsfield_prompt, tags: [] }
+];
+
+currentResults = results;
+renderResults(results);
   } catch(e) {
     errorEl.textContent = `Something went wrong: ${e.message}. Check your API key is set in Vercel.`;
     errorEl.classList.add('visible');
