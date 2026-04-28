@@ -376,7 +376,7 @@ async function generate() {
   const prompt = cfg.prompt(v, d, b, t);
 
   try {
-    const res = await fetch('/api/generate', {
+    const res = await fetch('https://tribewebservices.app.n8n.cloud/webhook/bfd0b18d-22ad-4556-a89b-0bf0c29e0489', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
