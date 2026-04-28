@@ -14,26 +14,16 @@ export default async function handler(req, res) {
   try {
     const { prompt } = req.body;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://tribewebservices.app.n8n.cloud/webhook/bfd0b18d-22ad-4556-a89b-0bf0c29e0489', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1500,
-        messages: [{ role: 'user', content: prompt }]
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
     });
 
     const data = await response.json();
-    console.log('CLAUDE RAW RESPONSE:', JSON.stringify(data));
     return res.status(200).json(data);
 
   } catch (error) {
-    console.error('HANDLER ERROR:', error.message);
-    return res.status(500).json({ error: 'Generation failed', details: error.message });
+    return res.status(500).json({ error: 'Pipeline failed', details: error.message });
   }
 }
