@@ -4,74 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Venuu Content Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;900&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: #0a0a0f; color: #f0eee8; min-height: 100vh; }
+
+  /* HEADER */
   .header { padding: 1.25rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
-.logo {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 900;
-    font-size: 24px;
-    letter-spacing: -0.5px;
-    color: #F47B20;
-  }
-  .logo span { color: #F47B20; }
-  .badge { font-size: 11px; font-weight: 500; background: rgba(232,164,74,0.15); color: #F47B20; border: 0.5px solid rgba(232,164,74,0.3); padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
-  .main { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 65px); }
-  .sidebar { border-right: 0.5px solid rgba(255,255,255,0.08); padding: 1.5rem; display: flex; flex-direction: column; gap: 6px; }
-  .sidebar-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin: 12px 0 4px; font-weight: 500; }
-  .mode-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; border: none; background: transparent; color: rgba(240,238,232,0.5); font-family: 'DM Sans', sans-serif; font-size: 13.5px; cursor: pointer; text-align: left; transition: all 0.15s; width: 100%; }
-  .mode-btn:hover { background: rgba(255,255,255,0.05); color: #f0eee8; }
-  .mode-btn.active { background: rgba(232,164,74,0.12); color: #F47B20; border: 0.5px solid rgba(232,164,74,0.2); }
-  .mode-btn .icon { width: 26px; height: 26px; border-radius: 6px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
-  .mode-btn.active .icon { background: rgba(232,164,74,0.15); }
-  .content { padding: 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
-  .content-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
-  .content-sub { font-size: 13px; color: rgba(240,238,232,0.4); margin-top: 3px; }
-  .controls-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  .control-group { display: flex; flex-direction: column; gap: 6px; }
-  .control-label { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(240,238,232,0.4); font-weight: 500; }
-  select, input[type="text"] { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 8px; color: #f0eee8; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 12px; outline: none; width: 100%; transition: border-color 0.15s; -webkit-appearance: none; }
-  select:focus, input[type="text"]:focus { border-color: rgba(232,164,74,0.5); }
-  select option { background: #1a1a24; color: #f0eee8; }
-  .tone-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { padding: 5px 12px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.12); background: transparent; color: rgba(240,238,232,0.5); font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
-  .chip:hover { border-color: rgba(232,164,74,0.4); color: #F47B20; }
-  .chip.active { background: rgba(232,164,74,0.12); border-color: rgba(232,164,74,0.4); color: #F47B20; }
-  .generate-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 24px; background: #F47B20; color: #0a0a0f; border: none; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.15s; width: 100%; }
-  .generate-btn:hover { background: #f0b55c; transform: translateY(-1px); }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .logo { font-family: 'DM Sans', sans-serif; font-weight: 900; font-size: 24px; letter-spacing: -0.5px; color: #F47B20; }
+  .tagline { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-top: -2px; }
+  .badge { font-size: 11px; font-weight: 500; background: rgba(244,123,32,0.15); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.3); padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* MODE TABS */
+  .mode-tabs { display: flex; gap: 0; border-bottom: 0.5px solid rgba(255,255,255,0.08); padding: 0 2rem; }
+  .mode-tab { padding: 1rem 1.5rem; font-size: 13px; font-weight: 500; color: rgba(240,238,232,0.4); border: none; background: transparent; font-family: 'DM Sans', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; margin-bottom: -0.5px; display: flex; align-items: center; gap: 8px; }
+  .mode-tab:hover { color: rgba(240,238,232,0.7); }
+  .mode-tab.active { color: #F47B20; border-bottom-color: #F47B20; }
+  .mode-tab .tab-icon { font-size: 15px; }
+
+  /* MAIN LAYOUT */
+  .main { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
+
+  /* MODE HEADER */
+  .mode-header { display: flex; flex-direction: column; gap: 4px; }
+  .mode-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: #f0eee8; }
+  .mode-sub { font-size: 13px; color: rgba(240,238,232,0.4); }
+
+  /* FILTERS */
+  .filters-grid { display: grid; gap: 12px; }
+  .filters-2 { grid-template-columns: 1fr 1fr; }
+  .filters-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .filter-group { display: flex; flex-direction: column; gap: 6px; }
+  .filter-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.35); font-weight: 500; }
+  .filter-input { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 8px; color: #f0eee8; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 14px; outline: none; width: 100%; transition: border-color 0.15s; }
+  .filter-input:focus { border-color: rgba(244,123,32,0.5); }
+  .filter-input::placeholder { color: rgba(240,238,232,0.2); }
+  .filter-select { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 8px; color: #f0eee8; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 14px; outline: none; width: 100%; transition: border-color 0.15s; -webkit-appearance: none; cursor: pointer; }
+  .filter-select:focus { border-color: rgba(244,123,32,0.5); }
+  .filter-select option { background: #1a1a1a; }
+
+  /* GENERATE BUTTON */
+  .generate-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; background: #F47B20; color: #0a0a0f; border: none; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; width: 100%; letter-spacing: 0.3px; }
+  .generate-btn:hover { background: #ff8c35; transform: translateY(-1px); }
   .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* LOADING */
   .loading-bar { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; display: none; }
   .loading-bar.active { display: block; }
   .loading-bar-inner { height: 100%; background: #F47B20; border-radius: 2px; animation: loadingAnim 1.5s ease-in-out infinite; width: 40%; }
   @keyframes loadingAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
-  .results-area { display: flex; flex-direction: column; gap: 12px; }
-  .result-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1rem 1.25rem; animation: fadeIn 0.3s ease; }
-  .result-card:hover { border-color: rgba(232,164,74,0.2); }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-  .result-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-  .result-platform { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.35); font-weight: 500; }
-  .copy-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(240,238,232,0.4); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
-  .copy-btn:hover { border-color: rgba(232,164,74,0.4); color: #F47B20; }
-  .copy-btn.copied { color: #7bc67e; border-color: rgba(123,198,126,0.3); }
-  .result-text { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.85); white-space: pre-wrap; }
-  .result-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-  .result-tag { font-size: 11px; color: rgba(232,164,74,0.7); background: rgba(232,164,74,0.08); padding: 2px 8px; border-radius: 4px; }
-  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; color: rgba(240,238,232,0.2); font-size: 13px; gap: 8px; border: 0.5px dashed rgba(255,255,255,0.08); border-radius: 12px; text-align: center; }
-  .tab-row { display: flex; gap: 0; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
-  .tab { padding: 8px 16px; font-size: 12.5px; color: rgba(240,238,232,0.4); border: none; background: transparent; font-family: 'DM Sans', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; margin-bottom: -0.5px; }
-  .tab:hover { color: rgba(240,238,232,0.7); }
-  .tab.active { color: #F47B20; border-bottom-color: #F47B20; }
+
+  /* ERROR */
   .error-msg { background: rgba(226,75,74,0.1); border: 0.5px solid rgba(226,75,74,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: rgba(240,180,180,0.9); display: none; }
   .error-msg.visible { display: block; }
-  @media (max-width: 768px) { .main { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.08); flex-direction: row; flex-wrap: wrap; padding: 1rem; } .sidebar-label { display: none; } .controls-row { grid-template-columns: 1fr; } }
+
+  /* RESULTS */
+  .results-area { display: flex; flex-direction: column; gap: 16px; }
+  .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: rgba(240,238,232,0.2); font-size: 13px; gap: 10px; border: 0.5px dashed rgba(255,255,255,0.07); border-radius: 12px; text-align: center; }
+  .empty-icon { font-size: 32px; opacity: 0.3; }
+
+  /* RESULT CARDS */
+  .result-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; animation: fadeIn 0.3s ease; transition: border-color 0.15s; }
+  .result-card:hover { border-color: rgba(244,123,32,0.2); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .result-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .result-label { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(240,238,232,0.35); font-weight: 500; }
+  .result-label-orange { color: #F47B20; }
+  .copy-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(240,238,232,0.4); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 4px 12px; cursor: pointer; transition: all 0.15s; }
+  .copy-btn:hover { border-color: rgba(244,123,32,0.4); color: #F47B20; }
+  .copy-btn.copied { color: #7bc67e; border-color: rgba(123,198,126,0.3); }
+  .result-text { font-size: 14px; line-height: 1.7; color: rgba(240,238,232,0.8); white-space: pre-wrap; }
+
+  /* SLIDE CARDS */
+  .slides-container { display: flex; flex-direction: column; gap: 12px; }
+  .slide-card { background: rgba(244,123,32,0.04); border: 0.5px solid rgba(244,123,32,0.15); border-radius: 10px; padding: 1rem 1.25rem; }
+  .slide-number { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #F47B20; font-weight: 500; margin-bottom: 8px; }
+  .slide-copy { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.8); margin-bottom: 10px; white-space: pre-wrap; }
+  .slide-prompt-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin-bottom: 6px; margin-top: 12px; border-top: 0.5px solid rgba(255,255,255,0.06); padding-top: 12px; }
+  .slide-prompt { font-size: 12px; line-height: 1.6; color: rgba(240,238,232,0.5); font-style: italic; }
+  .slide-copy-btn { margin-top: 10px; background: transparent; border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; color: rgba(240,238,232,0.35); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
+  .slide-copy-btn:hover { border-color: rgba(244,123,32,0.3); color: #F47B20; }
+  .slide-copy-btn.copied { color: #7bc67e; }
+
+  /* DIVIDER */
+  .section-divider { height: 0.5px; background: rgba(255,255,255,0.06); }
+
+  @media (max-width: 768px) {
+    .main { padding: 1.25rem; }
+    .filters-2, .filters-3 { grid-template-columns: 1fr; }
+    .mode-tab { padding: 0.75rem 1rem; font-size: 12px; }
+  }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
-  <div style="display:flex; align-items:center; gap:10px;">
+  <div class="header-left">
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="32" height="32" rx="8" fill="#1a1a1a"/>
       <circle cx="16" cy="16" r="11" stroke="#F47B20" stroke-width="2" fill="none"/>
@@ -79,304 +109,217 @@
     </svg>
     <div>
       <div class="logo">venuu</div>
-      <div style="font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.3); text-transform:uppercase; margin-top:-2px;">Your cheat code for nightlife</div>
+      <div class="tagline">Your cheat code for nightlife</div>
     </div>
   </div>
   <div class="badge">Content Studio</div>
 </div>
 
+<!-- MODE TABS -->
+<div class="mode-tabs">
+  <button class="mode-tab active" onclick="setMode('story', this)">
+    <span class="tab-icon">◻</span> Story
+  </button>
+  <button class="mode-tab" onclick="setMode('carousel', this)">
+    <span class="tab-icon">◈</span> Carousel
+  </button>
+  <button class="mode-tab" onclick="setMode('reels', this)">
+    <span class="tab-icon">▷</span> Reels
+  </button>
+</div>
+
+<!-- MAIN -->
 <div class="main">
-  <div class="sidebar">
-    <div class="sidebar-label">Generate</div>
-    <button class="mode-btn active" onclick="setMode('captions', this)">
-      <div class="icon">✦</div>Caption Factory
-    </button>
-    <button class="mode-btn" onclick="setMode('hooks', this)">
-      <div class="icon">◈</div>Hook Generator
-    </button>
-    <button class="mode-btn" onclick="setMode('week', this)">
-      <div class="icon">◻</div>Weekly Calendar
-    </button>
-    <button class="mode-btn" onclick="setMode('bar', this)">
-      <div class="icon">◆</div>Bar Spotlight
-    </button>
-    <div class="sidebar-label">Platform</div>
-    <button class="mode-btn" onclick="setMode('story', this)">
-      <div class="icon">○</div>Story Scripts
-    </button>
-    <button class="mode-btn" onclick="setMode('tiktok', this)">
-      <div class="icon">▷</div>TikTok Captions
-    </button>
+  <div class="mode-header">
+    <div class="mode-title" id="modeTitle">Story Post</div>
+    <div class="mode-sub" id="modeSub">Generate vertical flyer-style image prompts for bar deals and events tonight.</div>
   </div>
 
-  <div class="content">
-    <div>
-      <div class="content-title" id="modeTitle">Caption Factory</div>
-      <div class="content-sub" id="modeSub">Generate ready-to-post captions for any night, any bar, any vibe.</div>
-    </div>
+  <!-- FILTERS — rendered dynamically -->
+  <div id="filtersContainer"></div>
 
-    <div class="controls-row">
-      <div class="control-group">
-        <div class="control-label">Vibe</div>
-        <select id="vibeSelect">
-          <option value="hype">Hype Night</option>
-          <option value="chill">Chill Vibes</option>
-          <option value="college">College Scene</option>
-          <option value="ladies">Girls Night</option>
-          <option value="weekday">Weekday Deals</option>
-          <option value="weekend">Weekend Chaos</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <div class="control-label">Day</div>
-        <select id="daySelect">
-          <option value="Friday">Friday</option>
-          <option value="Saturday">Saturday</option>
-          <option value="Thursday">Thursday</option>
-          <option value="Wednesday">Wednesday</option>
-          <option value="Any night">Any Night</option>
-        </select>
-      </div>
-      <div class="control-group">
-        <div class="control-label">Bar / Event (optional)</div>
-        <input type="text" id="barInput" placeholder="e.g. The Strip, UTK area..." />
-      </div>
-    </div>
+  <button class="generate-btn" id="genBtn" onclick="generate()">Generate ✦</button>
+  <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
+  <div class="error-msg" id="errorMsg"></div>
 
-    <div class="control-group">
-      <div class="control-label">Tone</div>
-      <div class="tone-chips">
-        <button class="chip active" onclick="toggleTone(this, 'Bold & Unapologetic')">Bold</button>
-        <button class="chip" onclick="toggleTone(this, 'Playful & Flirty')">Flirty</button>
-        <button class="chip" onclick="toggleTone(this, 'FOMO-inducing')">FOMO</button>
-        <button class="chip" onclick="toggleTone(this, 'Mysterious')">Mysterious</button>
-        <button class="chip" onclick="toggleTone(this, 'Hype beast energy')">Hype</button>
-        <button class="chip" onclick="toggleTone(this, 'Funny & Relatable')">Funny</button>
-        <button class="chip" onclick="toggleTone(this, 'Luxe & Exclusive')">Luxe</button>
-      </div>
-    </div>
-
-    <button class="generate-btn" id="genBtn" onclick="generate()">Generate Content ✦</button>
-    <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
-    <div class="error-msg" id="errorMsg"></div>
-
-    <div class="tab-row" id="tabRow" style="display:none;">
-      <button class="tab active" onclick="setTab('all', this)">All</button>
-      <button class="tab" onclick="setTab('instagram', this)">Instagram</button>
-      <button class="tab" onclick="setTab('tiktok', this)">TikTok</button>
-    </div>
-
-    <div class="results-area" id="resultsArea">
-      <div class="empty-state">
-        <div style="font-size:28px; opacity:0.3;">◈</div>
-        <div>Set your vibe and hit generate.</div>
-        <div style="font-size:11px; opacity:0.5;">Powered by Claude AI</div>
-      </div>
+  <div class="results-area" id="resultsArea">
+    <div class="empty-state">
+      <div class="empty-icon">◈</div>
+      <div>Fill in your filters and hit generate.</div>
+      <div style="font-size:11px; opacity:0.5; margin-top:4px;">Powered by Claude AI + Higgsfield</div>
     </div>
   </div>
 </div>
 
 <script>
-let currentMode = 'captions';
-let activeTones = new Set(['Bold & Unapologetic']);
-let currentResults = [];
-let currentFilter = 'all';
+let currentMode = 'story';
 
 const modeConfig = {
-  captions: {
-    title: 'Caption Factory',
-    sub: 'Generate ready-to-post captions for any night, any bar, any vibe.',
-    prompt: (v,d,b,t) => `You are writing social media captions for Venuu, a nightlife app that shows live headcounts at bars in real time. The app lets you see exactly how packed each bar is before you go out.
-
-Audience: 18-28 year olds, UTK students and Knoxville locals who go out regularly.
-Tone: ${t}
-Context: ${d} night, ${v} vibe${b?`, featuring ${b}`:''}
-
-STRICT RULES:
-- Do NOT mention skip the line, pay cover, cover charge, or any payment features
-- Do NOT use phrases like "vibes are immaculate", "the energy is unmatched", "unforgettable night"
-- Do NOT use forced rhymes or cheesy wordplay
-- Do NOT write like a brand manager — write like someone who actually goes out
-- Do NOT use more than 2 exclamation points across all captions combined
-- DO write in short punchy sentences
-- DO be specific — "wall to wall by 10pm" beats "packed and lit"
-- DO reference the live headcount feature naturally, not as an advertisement
-- DO create genuine FOMO through specificity and confidence, not hype words
-
-BAD EXAMPLE (never write like this):
-"The vibes are IMMACULATE tonight! Come skip the line and pay cover on Venuu! The energy is unmatched! 🔥🔥🔥 #knoxville #nightlife #venuu"
-
-GOOD EXAMPLE (write like this):
-"checked venuu before we left. cool beans already at 80%. we got there at 10 and yeah. saturday did its thing 🖤 #knoxville"
-
-Generate 4 captions. Mix Instagram (2-4 lines + hashtags) and TikTok (1-2 lines, hook-first). Return ONLY a JSON array, no markdown, no explanation:
-[{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]},{"platform":"TikTok","text":"...","tags":[]}]`
-  },
-hooks: {
-    title: 'Hook Generator',
-    sub: 'First 3 seconds make or break a video. Generate scroll-stopping opening lines.',
-    prompt: (v,d,b,t) => `You write opening hooks for TikTok and Reels for Venuu — a premium nightlife app that shows live headcounts at bars in real time.
-
-Context: ${d}, ${v} vibe${b?`, at ${b}`:''}. Tone: ${t}.
-
-THE BRAND: Venuu sits at the intersection of luxury and college nightlife. Think Don Julio ads meets UTK Saturday night. Aspirational but real. Sexy but never desperate. The people using this app know where they're going before they leave — and that confidence is the whole personality.
-
-THE AUDIENCE: 18-28, Knoxville. Girls getting ready together. Guys who already know the plan. People who take going out seriously without taking themselves too seriously.
-
-A hook is the FIRST LINE seen or heard — its only job is to make someone stop scrolling in under 2 seconds.
-
-TONE GUIDANCE FOR "${t}":
-- Flirty = confidence that doesn't explain itself. Implied story. Let the viewer fill in the blanks. A raised eyebrow, not a wink emoji.
-- FOMO = specificity creates envy. "94% capacity at 10pm" is more powerful than "it was SO packed"
-- Hype = earned energy, not announced energy. Show don't tell.
-- Mysterious = incomplete sentences. Let it hang.
-- Bold = statement of fact, no justification needed
-- Funny = dry, self-aware, never silly
-
-STRICT RULES:
-- Under 10 words each
-- No cover charge, payment, or skip the line mentions
-- Never start with "POV:"
-- Never ask a question that sounds like an ad
-- Lowercase feels more native — use it
-- The best hooks imply a whole story in one line
-- At least 2 should reference the live headcount naturally — like something you'd text a friend
-
-NEVER WRITE LIKE THIS:
-- "Cool Beans was calling our names tonight" — too poetic, too soft
-- "saturday energy found us at Cool Beans" — passive and dull
-- "POV: Best night of your life starts here" — cringe, desperate
-
-WRITE MORE LIKE THIS:
-- "she checked Venuu. grabbed her jacket. said nothing."
-- "Cool Beans at 91%. yeah we're going."
-- "knew the vibe before we walked in. that's the whole point."
-- "outfit was already decided. venuu confirmed the rest."
-- "85% capacity and climbing. we did not hesitate."
-- "the girls checked Venuu. the plan made itself."
-- "some saturdays just have a address. tonight it was Cool Beans."
-
-IMPORTANT: At least 2 hooks should feel like they were written by or for a girl getting ready to go out. 
-Think: the pregame energy, the outfit check, the group chat that already decided, the confidence of knowing 
-exactly where you're going before you leave the house. That specific feminine Saturday night energy 
-is the soul of this content.
-
-Generate 5 hooks that would genuinely stop someone scrolling at 8pm on a ${d} getting ready to go out. Return ONLY JSON array, no markdown:
-[{"platform":"TikTok/Reels","text":"hook here","tags":["concept"]}]`
-  },
-  week: {
-    title: 'Weekly Calendar',
-    sub: 'A full week of content ideas mapped by day and platform.',
-    prompt: (v,d,b,t) => `You are the social media brain behind Venuu, a Knoxville nightlife app that shows live bar headcounts. Create a weekly content calendar — 5 posts, Monday through Saturday, building toward weekend energy.
-
-Tone: ${t}. Each post should feel different — different formats, different angles, different energy levels.
-
-STRICT RULES:
-- No mention of cover charge, skip the line, or payment features
-- Monday/Tuesday posts should feel relatable and low-key — save the hype for Thu-Sat
-- At least 1 post should be funny/self-aware about going out culture
-- At least 1 post should reference the live headcount feature naturally
-- Write like a real person, not a social media intern at a corporation
-- No generic nightlife phrases — be specific to Knoxville and college culture
-
-Return ONLY JSON array:
-[{"platform":"Instagram","text":"full caption","tags":["Mon","awareness"]},{"platform":"TikTok","text":"hook + concept","tags":["Tue","engagement"]},{"platform":"Instagram","text":"...","tags":["Wed","feature"]},{"platform":"TikTok","text":"...","tags":["Thu","hype"]},{"platform":"Instagram","text":"...","tags":["Fri/Sat","weekend"]}]`
-  },
-  bar: {
-    title: 'Bar Spotlight',
-    sub: 'Hype content to feature a specific bar and drive traffic on Venuu.',
-    prompt: (v,d,b,t) => `Write bar spotlight content for Venuu featuring ${b||'a Knoxville bar'}. Make people genuinely want to go there — not because you told them it was great, but because the writing made them feel like they were missing out.
-
-${d} night, ${v} energy. Tone: ${t}.
-
-STRICT RULES:
-- No mention of cover charge, skip the line, or payment features  
-- Do NOT sound like an advertisement or sponsored post
-- Do NOT use "amazing atmosphere" or "great drinks" — that means nothing
-- Be specific about the bar — time of night, what kind of crowd, what it feels like
-- Reference Venuu's live headcount naturally in at least 2 posts — like a friend telling you what the app showed them, not like an ad
-- The goal is to make someone text their group chat "we're going here"
-
-Return ONLY JSON array:
-[{"platform":"Instagram","text":"...","tags":["#knoxville","#venuu"]},{"platform":"TikTok","text":"...","tags":[]},{"platform":"Instagram Story","text":"...","tags":[]},{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]}]`
-  },
   story: {
-    title: 'Story Scripts',
-    sub: 'Punchy copy for Instagram and TikTok stories and video overlays.',
-    prompt: (v,d,b,t) => `Write text overlay scripts for Instagram Stories and TikTok for Venuu. These words appear ON SCREEN over real nightlife footage.
+    title: 'Story Post',
+    sub: 'Generate vertical flyer-style image prompts for bar deals and events tonight.',
+    filters: [
+      { id: 'bar', label: 'Bar Name', placeholder: 'e.g. Cool Beans, The Strip...' },
+      { id: 'deal', label: 'Deal / Event', placeholder: 'e.g. $3 margaritas, Thirsty Thursday, Live DJ...' },
+      { id: 'urgency', label: 'Urgency / Mood', placeholder: 'e.g. Tonight only, Limited spots, This weekend...' },
+      { id: 'style', label: 'Visual Style', placeholder: 'e.g. Dark and moody, Bright neon, Luxury, Minimal...' }
+    ],
+    prompt: (f) => `You are a creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
 
-${d}, ${v} vibe. Tone: ${t}.
+Brief:
+- Bar: ${f.bar || 'Knoxville bar'}
+- Deal/Event: ${f.deal || 'tonight special'}
+- Urgency/Mood: ${f.urgency || 'tonight only'}
+- Visual Style: ${f.style || 'dark and moody'}
 
-STRICT RULES:
-- No cover charge, skip the line, or payment mentions
-- Maximum 3 lines per script — less is always more
-- These need to work as text on screen — short, punchy, readable in 2 seconds
-- Think bold statements, not descriptions
-- At least 2 should create FOMO through implication, not by saying "you're missing out"
-- Write like a caption a cool person would put on their own story, not branded content
+Brand: Venuu — black background, orange (#F47B20) accent color, lowercase wordmark. Premium nightlife aesthetic. Target: 18-28 college crowd.
 
-BAD: "Use Venuu to see which bars are packed tonight! Don't miss out! 🔥"
-GOOD: "knoxville on a saturday\nwe knew before we left\nvenuu"
+Each prompt should be a detailed, specific image generation prompt that describes:
+- The overall composition and layout
+- Text elements to include (bar name, deal, "venuu" branding, date)
+- Color palette and lighting
+- Background/atmosphere
+- Style references
 
-Return ONLY JSON array:
-[{"platform":"Story","text":"line1\nline2\nline3","tags":["overlay"]}]`
+Make each of the 3 prompts distinctly different in approach — one more typography-focused, one more atmospheric/photo-real, one more graphic/designed.
+
+Return ONLY a JSON object, no markdown:
+{
+  "prompt1": "detailed image generation prompt here...",
+  "prompt2": "detailed image generation prompt here...",
+  "prompt3": "detailed image generation prompt here..."
+}`
   },
-  tiktok: {
-    title: 'TikTok Captions',
-    sub: 'Native TikTok captions with hooks, CTAs, and trending energy.',
-    prompt: (v,d,b,t) => `Write TikTok captions for Venuu, a Knoxville nightlife app. ${d}, ${v}${b?`, ${b}`:''}.  Tone: ${t}.
 
-TikTok captions are different from Instagram — they're conversational, lowercase-heavy, self-aware, and short. The best ones feel like a text message, not a caption.
+  carousel: {
+    title: 'Carousel Post',
+    sub: 'Generate polished multi-slide carousel copy and image prompts for each slide.',
+    filters: [
+      { id: 'topic', label: 'Topic / Announcement', placeholder: 'e.g. Venuu launches in Nashville, How the app works...' },
+      { id: 'tone', label: 'Tone', placeholder: 'e.g. Exciting announcement, Educational, Hype, Professional...' },
+      { id: 'slides', label: 'Number of Slides', placeholder: 'e.g. 5', type: 'number' },
+      { id: 'cta', label: 'Call to Action', placeholder: 'e.g. Download now, Follow us, Coming soon...' }
+    ],
+    prompt: (f) => `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
 
-STRICT RULES:
-- No cover charge, skip the line, or payment features
-- No hashtag dumps — maximum 3 hashtags, all relevant
-- Lowercase feels more native to TikTok — use it where it fits
-- No "POV:" unless it's genuinely creative and unexpected
-- Reference Venuu's live headcount feature in at least 3 — but make it feel like something you'd actually say to a friend
-- Self-aware and slightly understated beats over-hyped every single time
+Brief:
+- Topic: ${f.topic || 'Venuu app announcement'}
+- Tone: ${f.tone || 'exciting and premium'}
+- CTA: ${f.cta || 'Download Venuu'}
 
-BAD: "POV: You used Venuu to find the most LIT bar in Knoxville! 🔥🔥 #fyp #nightlife #venuu #knoxville #bars"
-GOOD: "opened the app before we left. cool beans was already at 90%. we didn't even debate it #knoxville #venuu"
+Brand: Venuu — "your cheat code for nightlife". Black and orange. Premium but approachable. 18-28 audience.
 
-Generate 5 captions. Return ONLY JSON array:
-[{"platform":"TikTok","text":"caption","tags":["#fyp","#venuu"]}]`
+For each slide provide:
+1. Slide copy (headline + 1-2 supporting lines max — carousels are visual, keep text tight)
+2. An image generation prompt for that slide's visual
+
+Make the slides flow as a narrative — slide 1 hooks, middle slides deliver value, final slide is the CTA.
+
+Return ONLY a JSON object, no markdown:
+{
+  "slides": [
+    {
+      "slide": 1,
+      "copy": "slide headline and supporting text",
+      "image_prompt": "detailed image generation prompt for this slide"
+    }
+  ]
+}`
+  },
+
+  reels: {
+    title: 'Reels',
+    sub: 'Generate Higgsfield video prompts, hooks, and captions for Instagram Reels.',
+    filters: [
+      { id: 'vibe', label: 'Vibe / Energy', placeholder: 'e.g. Saturday night chaos, Luxe girls night, College pregame...' },
+      { id: 'character', label: 'Character Style', placeholder: 'e.g. Brunette in black dress, Group of girls, Mystery silhouette...' },
+      { id: 'setting', label: 'Setting', placeholder: 'e.g. Rooftop bar, Packed dance floor, Getting ready at home...' },
+      { id: 'bar', label: 'Bar / Location (optional)', placeholder: 'e.g. Cool Beans, Market Square, Knoxville...' }
+    ],
+    prompt: (f) => `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.
+
+Brief:
+- Vibe: ${f.vibe || 'Saturday night'}
+- Character: ${f.character || 'stylish woman in her 20s'}
+- Setting: ${f.setting || 'nightlife bar scene'}
+- Location: ${f.bar || 'Knoxville'}
+
+Brand voice: Confident, aspirational, sexy but never desperate. Think Don Julio meets college nightlife. The app shows live headcounts at bars so you always know where to go before you leave.
+
+Generate:
+1. A detailed Higgsfield video prompt (cinematic, specific about lighting, movement, character, atmosphere — formatted for AI video generation)
+2. A scroll-stopping hook (first line of the video — under 10 words, lowercase, implies a story without explaining it)
+3. An Instagram caption (2-4 lines, Venuu brand voice — confident, specific, never try-hard. Reference the live headcount feature naturally. End with 2-3 hashtags max)
+
+CAPTION RULES:
+- No "POV:", no exclamation spam, no "vibes are immaculate"
+- Write like a 22 year old who actually goes out, not a brand manager
+- Specific beats vague every time
+- The hook for the video and the caption hook can be different
+
+Return ONLY a JSON object, no markdown:
+{
+  "higgsfield_prompt": "full cinematic video generation prompt...",
+  "hook": "scroll-stopping opening line",
+  "caption": "instagram caption with hashtags"
+}`
   }
 };
 
 function setMode(mode, btn) {
   currentMode = mode;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const cfg = modeConfig[mode];
   document.getElementById('modeTitle').textContent = cfg.title;
   document.getElementById('modeSub').textContent = cfg.sub;
+  renderFilters(cfg.filters);
   clearResults();
 }
 
-function toggleTone(btn, tone) {
-  if (activeTones.has(tone)) {
-    if (activeTones.size === 1) return;
-    activeTones.delete(tone);
-    btn.classList.remove('active');
-  } else {
-    activeTones.add(tone);
-    btn.classList.add('active');
-  }
+function renderFilters(filters) {
+  const container = document.getElementById('filtersContainer');
+  const gridClass = filters.length <= 2 ? 'filters-2' : 'filters-3';
+  container.innerHTML = `<div class="filters-grid ${gridClass}">
+    ${filters.map(f => `
+      <div class="filter-group">
+        <div class="filter-label">${f.label}</div>
+        <input
+          class="filter-input"
+          id="filter_${f.id}"
+          type="${f.type || 'text'}"
+          placeholder="${f.placeholder}"
+        />
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+function getFilterValues() {
+  const cfg = modeConfig[currentMode];
+  const values = {};
+  cfg.filters.forEach(f => {
+    const el = document.getElementById(`filter_${f.id}`);
+    values[f.id] = el ? el.value.trim() : '';
+  });
+  return values;
 }
 
 function clearResults() {
-  currentResults = [];
-  document.getElementById('tabRow').style.display = 'none';
+  document.getElementById('resultsArea').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">◈</div>
+      <div>Fill in your filters and hit generate.</div>
+      <div style="font-size:11px; opacity:0.5; margin-top:4px;">Powered by Claude AI + Higgsfield</div>
+    </div>`;
   document.getElementById('errorMsg').classList.remove('visible');
-  document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Set your vibe and hit generate.</div><div style="font-size:11px;opacity:0.5;">Powered by Claude AI</div></div>`;
 }
 
 async function generate() {
-  const v = document.getElementById('vibeSelect').value;
-  const d = document.getElementById('daySelect').value;
-  const b = document.getElementById('barInput').value.trim();
-  const t = Array.from(activeTones).join(', ');
+  const filters = getFilterValues();
+  const cfg = modeConfig[currentMode];
+  const prompt = cfg.prompt(filters);
+
   const btn = document.getElementById('genBtn');
   const loader = document.getElementById('loadingBar');
   const errorEl = document.getElementById('errorMsg');
@@ -385,11 +328,11 @@ async function generate() {
   btn.textContent = 'Generating...';
   loader.classList.add('active');
   errorEl.classList.remove('visible');
-  document.getElementById('tabRow').style.display = 'none';
-  document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Cooking up content...</div></div>`;
-
-  const cfg = modeConfig[currentMode];
-  const prompt = cfg.prompt(v, d, b, t);
+  document.getElementById('resultsArea').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon" style="opacity:0.4;">◈</div>
+      <div>Building your content...</div>
+    </div>`;
 
   try {
     const res = await fetch('/api/generate', {
@@ -399,79 +342,104 @@ async function generate() {
     });
 
     if (!res.ok) throw new Error(`Server error: ${res.status}`);
-
     const data = await res.json();
+    let parsed;
 
-// Handle both direct n8n response and wrapped Claude response
-let parsed;
-if (Array.isArray(data)) {
-  parsed = data[0];
-} else if (data.caption) {
-  parsed = data;
-} else if (data.content) {
-  const raw = data.content.map(i => i.text || '').join('');
-  const clean = raw.replace(/```json|```/g, '').trim();
-  parsed = JSON.parse(clean);
-}
+    if (data.caption || data.prompt1 || data.slides || data.higgsfield_prompt) {
+      parsed = data;
+    } else if (data.content) {
+      const raw = data.content.map(i => i.text || '').join('');
+      const clean = raw.replace(/```json|```/g, '').trim();
+      parsed = JSON.parse(clean);
+    } else {
+      parsed = data;
+    }
 
-// Convert single object to array for renderResults
-const results = [
-  { platform: 'Instagram', text: parsed.caption, tags: [] },
-  { platform: 'TikTok', text: parsed.tiktok, tags: ['#fyp', '#venuu'] },
-  { platform: 'Hook', text: parsed.hook, tags: [] },
-  { platform: 'Higgsfield Prompt', text: parsed.higgsfield_prompt, tags: [] }
-];
-
-currentResults = results;
-renderResults(results);
+    renderResults(parsed);
   } catch(e) {
-    errorEl.textContent = `Something went wrong: ${e.message}. Check your API key is set in Vercel.`;
+    errorEl.textContent = `Something went wrong: ${e.message}`;
     errorEl.classList.add('visible');
     clearResults();
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Generate Content ✦';
+    btn.textContent = 'Generate ✦';
     loader.classList.remove('active');
   }
 }
 
-function setTab(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  renderResults(currentResults);
-}
+function renderResults(data) {
+  const area = document.getElementById('resultsArea');
 
-function renderResults(results) {
-  if (!results || !results.length) { clearResults(); return; }
-  const filtered = currentFilter === 'all' ? results : results.filter(r => r.platform.toLowerCase().includes(currentFilter));
-  document.getElementById('tabRow').style.display = 'flex';
-  document.getElementById('resultsArea').innerHTML = filtered.map((r, i) => `
-    <div class="result-card">
-      <div class="result-card-header">
-        <div class="result-platform">${r.platform}</div>
-        <button class="copy-btn" onclick="copyText(this, ${i})" id="copy-${i}">Copy</button>
+  if (currentMode === 'story') {
+    area.innerHTML = [
+      { key: 'prompt1', label: 'Flyer Prompt 1' },
+      { key: 'prompt2', label: 'Flyer Prompt 2' },
+      { key: 'prompt3', label: 'Flyer Prompt 3' }
+    ].map((item, i) => `
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-label result-label-orange">${item.label}</div>
+          <button class="copy-btn" onclick="copyText(this, \`${esc(data[item.key] || '')}\`)">Copy Prompt</button>
+        </div>
+        <div class="result-text">${esc(data[item.key] || 'Not generated')}</div>
       </div>
-      <div class="result-text">${esc(r.text)}</div>
-      ${r.tags && r.tags.length ? `<div class="result-tags">${r.tags.map(t=>`<span class="result-tag">${esc(t)}</span>`).join('')}</div>` : ''}
-    </div>`).join('') || `<div class="empty-state"><div>No results for this filter.</div></div>`;
+    `).join('');
+
+  } else if (currentMode === 'carousel') {
+    const slides = data.slides || [];
+    area.innerHTML = `<div class="slides-container">
+      ${slides.map(s => `
+        <div class="slide-card">
+          <div class="slide-number">Slide ${s.slide}</div>
+          <div class="slide-copy">${esc(s.copy || '')}</div>
+          <button class="slide-copy-btn" onclick="copyText(this, \`${esc(s.copy || '')}\`)">Copy Copy</button>
+          <div class="slide-prompt-label">Image Prompt</div>
+          <div class="slide-prompt">${esc(s.image_prompt || '')}</div>
+          <button class="slide-copy-btn" onclick="copyText(this, \`${esc(s.image_prompt || '')}\`)">Copy Prompt</button>
+        </div>
+      `).join('')}
+    </div>`;
+
+  } else if (currentMode === 'reels') {
+    area.innerHTML = [
+      { key: 'higgsfield_prompt', label: 'Higgsfield Video Prompt' },
+      { key: 'hook', label: 'Video Hook' },
+      { key: 'caption', label: 'Instagram Caption' }
+    ].map(item => `
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-label result-label-orange">${item.label}</div>
+          <button class="copy-btn" onclick="copyText(this, \`${esc(data[item.key] || '')}\`)">Copy</button>
+        </div>
+        <div class="result-text">${esc(data[item.key] || 'Not generated')}</div>
+      </div>
+    `).join('');
+  }
 }
 
-function copyText(btn, i) {
-  const filtered = currentFilter === 'all' ? currentResults : currentResults.filter(r => r.platform.toLowerCase().includes(currentFilter));
-  const item = filtered[i];
-  if (!item) return;
-  const full = item.text + (item.tags && item.tags.length ? '\n\n' + item.tags.join(' ') : '');
-  navigator.clipboard.writeText(full).then(() => {
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    setTimeout(() => {
+      btn.textContent = btn.textContent.includes('Prompt') ? 'Copy Prompt' : btn.textContent.includes('Copy') ? 'Copy' : 'Copy Copy';
+      btn.classList.remove('copied');
+    }, 2000);
   });
 }
 
 function esc(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/`/g,'&#96;')
+    .replace(/\$/g,'&#36;');
 }
+
+// Init
+renderFilters(modeConfig.story.filters);
 </script>
 </body>
 </html>
