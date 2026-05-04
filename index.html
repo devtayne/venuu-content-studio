@@ -152,7 +152,182 @@
 </div>
 
 <script>
-let currentMode = 'story';
+const barKnowledgeBase = {
+  "cool beans": {
+    fullName: "Cool Beans Bar & Grill",
+    aesthetic: "iconic UTK campus dive bar, neon-lit and chaotic in the best way",
+    colors: "warm neon glow, dark interiors, orange and green accents",
+    interior: "neon signs covering every wall, dart boards, pool tables, stuffed animals on the ceiling, sticky floors, jumbotron patio",
+    vibe: "Knoxville's longest running dive bar since 2000, every UTK student's second home, always packed, always loud",
+    crowd: "UTK students, super seniors, game day warriors, 21st birthday destination",
+    signature: "Purple Hooter cocktail, legendary bartender Kevin, beer pong tables, $11 wings"
+  },
+  "half barrel": {
+    fullName: "The Half Barrel",
+    aesthetic: "upscale college pub with serious bourbon credentials",
+    colors: "dark wood tones, warm amber lighting, classic pub palette",
+    interior: "long bar down the right side, wood-paneled walls, booths, pool tables in back, rear patio",
+    vibe: "Cumberland Ave institution, best bourbon selection outside Kentucky, 35+ draft beers, craft beer meets college crowd",
+    crowd: "beer nerds, college crowd, bourbon enthusiasts, game day regulars",
+    signature: "40+ beers on tap, massive bourbon/whiskey selection, trivia nights Thursdays, arcade games"
+  },
+  "hanna's": {
+    fullName: "Hanna's",
+    aesthetic: "Fort Sanders neighborhood bar, laid back and local",
+    colors: "warm tones, casual college bar palette",
+    interior: "neighborhood bar feel, intimate, regulars-driven",
+    vibe: "Fort Sanders staple, low-key and welcoming, not trying too hard",
+    crowd: "UTK students, Fort Sanders locals, after-class crowd",
+    signature: "neighborhood regulars, casual vibe, affordable drinks"
+  },
+  "kern's food hall": {
+    fullName: "Kern's Food Hall",
+    aesthetic: "historic 1931 Art Deco industrial bakery transformed into South Knoxville's premier food and entertainment destination",
+    colors: "original weathered steel beams, dark charcoal steelwork, terra-cotta tile, warm natural light from clerestory windows",
+    interior: "65,000 sq ft historic industrial space, exposed original steel beams, wood ceilings, factory silo visible inside, rooftop bar, outdoor event space, 20+ food vendors",
+    vibe: "community gathering place with serious cultural weight, historic preservation meets modern culinary scene, 3 bars including rooftop, live music, 1 mile from UTK",
+    crowd: "food lovers, young professionals, UTK crowd, South Knoxville locals, families during day, nightlife crowd after dark",
+    signature: "rooftop bar, historic Art Deco facade, live music events, 20+ food vendors, movie nights"
+  },
+  "literboard": {
+    fullName: "LiterBoard",
+    aesthetic: "modern college bar with a party game focus",
+    colors: "bright, energetic, fun",
+    interior: "game-focused layout, social and competitive atmosphere",
+    vibe: "built around drinking games and social competition, high energy, younger crowd",
+    crowd: "UTK students, 21-25 crowd, competitive drinkers",
+    signature: "drinking games, high energy, party atmosphere"
+  },
+  "lunaverse": {
+    fullName: "LunaVerse",
+    aesthetic: "Knoxville's premier nightclub, featured venue on Venuu, eclectic and immersive",
+    colors: "purple, cosmic tones, neon, moody club lighting",
+    interior: "nightclub layout, dance floor, DJ booth, atmospheric lighting",
+    vibe: "one of Knoxville's top nightlife destinations, featured club on the Venuu map, serious party energy",
+    crowd: "nightlife seekers, dancers, 21-28 crowd, weekend warriors",
+    signature: "DJ nights, featured Venuu partner, dance floor, immersive atmosphere"
+  },
+  "old city sports bar": {
+    fullName: "Old City Sports Bar",
+    aesthetic: "classic sports bar in the heart of Knoxville's historic Old City",
+    colors: "sports bar palette, TVs everywhere, team colors",
+    interior: "multiple screens, bar seating, game day setup",
+    vibe: "Old City location, game day central, casual and accessible",
+    crowd: "sports fans, Old City regulars, game day crowd",
+    signature: "Old City location, game day atmosphere, multiple sports screens"
+  },
+  "preservation pub": {
+    fullName: "Preservation Pub",
+    aesthetic: "three-story quirky speakeasy meets rooftop beer garden, Knoxville institution",
+    colors: "eclectic, kitschy, string lights, crystals, flamingos, Alice in Wonderland energy",
+    interior: "three floors each with distinct vibe, Moonshine Roof Garden with Magic Beer Tree, plastic flamingos, kitschy decorations, string lights throughout",
+    vibe: "Market Square landmark, 300+ beers, rooftop with stunning city views, live music always, locals and visitors converge here",
+    crowd: "eclectic mix, music lovers, rooftop crowd, Market Square regulars, 21+ diverse age range",
+    signature: "Magic Beer Tree, Moonshine Roof Garden, 300+ beers, flamingos, speakeasy vibe, Market Square views"
+  },
+  "radius rooftop": {
+    fullName: "Radius Rooftop Bar & Lounge",
+    aesthetic: "upscale hotel rooftop bar above Embassy Suites, 360-degree circular bar, rooftop pool, luxury nightlife",
+    colors: "sophisticated dark tones, warm accent lighting, city skyline backdrop, bougie and sleek",
+    interior: "360° circular bar, indoor and outdoor rooftop areas, adjacent to rooftop pool, panoramic views of Knoxville skyline, Sunsphere, Smoky Mountains, Tennessee River",
+    vibe: "Knoxville's most premium nightlife spot, hotel rooftop energy, younger crowd gets LITTY on weekends, live music on weeknights, stunning views",
+    crowd: "young professionals, upscale nightlife crowd, hotel guests, 21-35 skewing younger on weekends",
+    signature: "rooftop pool, 360° bar, Sunsphere views, best bourbon selection in downtown, VIP energy"
+  },
+  "southbound": {
+    fullName: "Southbound Nightclub",
+    aesthetic: "Knoxville's largest nightclub, Old City dance club royalty",
+    colors: "club lighting, colorful DJ lights, dark club aesthetic with neon accents",
+    interior: "three floors, three large dance floors, six full-service bars including outdoor patio, live DJ on each floor, Old City courtyard outdoor stage",
+    vibe: "THE nightclub in Knoxville, where Southern Belles go to get down, DJ Eric B resident DJ, Thu/Fri/Sat only, nightclub attire mandatory, VIP bottle service",
+    crowd: "21+, nightclub crowd, dancers, hip-hop and R&B lovers, bottle service crowd, serious nightlife people",
+    signature: "DJ Eric B, three dance floors, VIP bottle service, Old City Courtyard outdoor stage, nightclub attire required"
+  },
+  "southside garage": {
+    fullName: "Southside Garage",
+    aesthetic: "South Knoxville food truck park meets craft beer bar, laid back and outdoorsy",
+    colors: "casual industrial, outdoor patio vibes, relaxed palette",
+    interior: "large indoor-outdoor setup, big patios, patio games, TV screens, food truck park layout",
+    vibe: "South Landing area, family-friendly during day, craft beer haven, trivia Tuesdays, Southwestern cuisine focus",
+    crowd: "South Knoxville locals, craft beer enthusiasts, families, after-work crowd",
+    signature: "craft beer selection, Southwestern food, large patios, patio games, trivia Tuesdays"
+  },
+  "sunspot": {
+    fullName: "Sunspot",
+    aesthetic: "Cumberland Ave staple, artsy and eclectic with a long Knoxville history",
+    colors: "warm, artistic, eclectic — think colorful and creative",
+    interior: "creative decor, warm atmosphere, Cumberland Ave location",
+    vibe: "long-standing Knoxville institution on the Strip, artsy crowd, creative energy",
+    crowd: "art crowd, UTK students, Cumberland Ave regulars, creative types",
+    signature: "Strip location, longtime Knoxville staple, artistic atmosphere"
+  },
+  "taqueria mares": {
+    fullName: "Taqueria Mares",
+    aesthetic: "vibrant Mexican bar and restaurant with authentic energy",
+    colors: "bright, warm Mexican palette, vibrant and colorful",
+    interior: "Mexican restaurant atmosphere, bar area, lively and colorful",
+    vibe: "authentic Mexican food meets Knoxville nightlife, margarita central",
+    crowd: "food and drink lovers, UTK area crowd, margarita seekers",
+    signature: "authentic Mexican cuisine, margaritas, vibrant atmosphere"
+  },
+  "the bookstore": {
+    fullName: "The Bookstore Bar",
+    aesthetic: "quirky literary-themed bar, one of Knoxville's hidden gems",
+    colors: "warm, bookish, intimate — dark wood and warm light",
+    interior: "book-themed decor, intimate setting, cozy bar atmosphere",
+    vibe: "unique concept, literary aesthetic, conversation-focused, UTK area",
+    crowd: "UTK students and faculty, book lovers, people who want something different",
+    signature: "literary theme, intimate atmosphere, unique Knoxville bar concept"
+  },
+  "the hill bar & grill": {
+    fullName: "The Hill Bar & Grill",
+    aesthetic: "classic Knoxville bar and grill, Fort Sanders neighborhood anchor",
+    colors: "traditional bar palette, warm and welcoming",
+    interior: "bar and grill setup, TV screens, comfortable seating",
+    vibe: "neighborhood institution, solid drinks, game day reliable",
+    crowd: "Fort Sanders locals, UTK crowd, neighborhood regulars",
+    signature: "neighborhood bar staple, reliable game day spot"
+  },
+  "undeclared": {
+    fullName: "Undeclared",
+    aesthetic: "college bar built specifically for the undeclared major energy — fun, chaotic, young",
+    colors: "college bar palette, energetic and fun",
+    interior: "college bar layout, high energy, social setup",
+    vibe: "name says it all — chaotic college energy, UTK adjacent, young crowd",
+    crowd: "UTK students, 21-24 crowd, college party seekers",
+    signature: "college party atmosphere, young crowd, Strip location"
+  },
+  "yacht club": {
+    fullName: "Fort Sanders Yacht Club",
+    aesthetic: "beloved Fort Sanders dive bar with retro gaming and craft beer charm",
+    colors: "warm, dim, cozy — classic dive bar palette with a nerdy twist",
+    interior: "booth seating, warm lighting, coin-op arcade games, smoking parlor in rear, small porch area",
+    vibe: "one of Knoxville's hidden gems, retro gaming meets craft beer, intimate and unpretentious, UTK adjacent",
+    crowd: "UTK students, gamers, craft beer lovers, people who hate pretentious bars",
+    signature: "Mario Kart and Super Smash Bros, chocolate raspberry gose, coin-op arcade, smoking parlor"
+  },
+  "yee-haw brewing": {
+    fullName: "Yee-Haw Brewing Company",
+    aesthetic: "Knoxville's beloved craft brewery with Southern pride and industrial cool",
+    colors: "warm industrial tones, Southern craft brewery palette, warm wood and brick",
+    interior: "brewery taproom setup, industrial aesthetic, warm and inviting, multiple seating areas",
+    vibe: "Knoxville craft beer institution, Southern roots meets craft culture, taproom energy",
+    crowd: "craft beer enthusiasts, Knoxville locals, brewery tourists, older college crowd",
+    signature: "house-brewed craft beers, Southern brewing heritage, taproom atmosphere"
+  }
+};
+
+function findBarProfile(barInput) {
+  if (!barInput) return null;
+  const input = barInput.toLowerCase().trim();
+  for (const key of Object.keys(barKnowledgeBase)) {
+    if (input.includes(key) || key.includes(input)) {
+      return barKnowledgeBase[key];
+    }
+  }
+  return null;
+}
+ let currentMode = 'story';
 
 const modeConfig = {
   story: {
