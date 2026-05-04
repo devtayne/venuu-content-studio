@@ -8,30 +8,18 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: #0a0a0f; color: #f0eee8; min-height: 100vh; }
-
-  /* HEADER */
   .header { padding: 1.25rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
   .header-left { display: flex; align-items: center; gap: 10px; }
   .logo { font-family: 'DM Sans', sans-serif; font-weight: 900; font-size: 24px; letter-spacing: -0.5px; color: #F47B20; }
   .tagline { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; margin-top: -2px; }
   .badge { font-size: 11px; font-weight: 500; background: rgba(244,123,32,0.15); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.3); padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
-
-  /* MODE TABS */
-  .mode-tabs { display: flex; gap: 0; border-bottom: 0.5px solid rgba(255,255,255,0.08); padding: 0 2rem; }
+  .mode-tabs { display: flex; border-bottom: 0.5px solid rgba(255,255,255,0.08); padding: 0 2rem; }
   .mode-tab { padding: 1rem 1.5rem; font-size: 13px; font-weight: 500; color: rgba(240,238,232,0.4); border: none; background: transparent; font-family: 'DM Sans', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; margin-bottom: -0.5px; display: flex; align-items: center; gap: 8px; }
   .mode-tab:hover { color: rgba(240,238,232,0.7); }
   .mode-tab.active { color: #F47B20; border-bottom-color: #F47B20; }
-  .mode-tab .tab-icon { font-size: 15px; }
-
-  /* MAIN LAYOUT */
   .main { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
-
-  /* MODE HEADER */
-  .mode-header { display: flex; flex-direction: column; gap: 4px; }
   .mode-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: #f0eee8; }
-  .mode-sub { font-size: 13px; color: rgba(240,238,232,0.4); }
-
-  /* FILTERS */
+  .mode-sub { font-size: 13px; color: rgba(240,238,232,0.4); margin-top: 4px; }
   .filters-grid { display: grid; gap: 12px; }
   .filters-2 { grid-template-columns: 1fr 1fr; }
   .filters-3 { grid-template-columns: 1fr 1fr 1fr; }
@@ -40,43 +28,26 @@
   .filter-input { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 8px; color: #f0eee8; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 14px; outline: none; width: 100%; transition: border-color 0.15s; }
   .filter-input:focus { border-color: rgba(244,123,32,0.5); }
   .filter-input::placeholder { color: rgba(240,238,232,0.2); }
-  .filter-select { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 8px; color: #f0eee8; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 14px; outline: none; width: 100%; transition: border-color 0.15s; -webkit-appearance: none; cursor: pointer; }
-  .filter-select:focus { border-color: rgba(244,123,32,0.5); }
-  .filter-select option { background: #1a1a1a; }
-
-  /* GENERATE BUTTON */
-  .generate-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; background: #F47B20; color: #0a0a0f; border: none; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; width: 100%; letter-spacing: 0.3px; }
+  .generate-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; background: #F47B20; color: #0a0a0f; border: none; border-radius: 10px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s; width: 100%; }
   .generate-btn:hover { background: #ff8c35; transform: translateY(-1px); }
   .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  /* LOADING */
   .loading-bar { height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; display: none; }
   .loading-bar.active { display: block; }
   .loading-bar-inner { height: 100%; background: #F47B20; border-radius: 2px; animation: loadingAnim 1.5s ease-in-out infinite; width: 40%; }
   @keyframes loadingAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
-
-  /* ERROR */
   .error-msg { background: rgba(226,75,74,0.1); border: 0.5px solid rgba(226,75,74,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: rgba(240,180,180,0.9); display: none; }
   .error-msg.visible { display: block; }
-
-  /* RESULTS */
   .results-area { display: flex; flex-direction: column; gap: 16px; }
   .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: rgba(240,238,232,0.2); font-size: 13px; gap: 10px; border: 0.5px dashed rgba(255,255,255,0.07); border-radius: 12px; text-align: center; }
-  .empty-icon { font-size: 32px; opacity: 0.3; }
-
-  /* RESULT CARDS */
   .result-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; animation: fadeIn 0.3s ease; transition: border-color 0.15s; }
   .result-card:hover { border-color: rgba(244,123,32,0.2); }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   .result-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-  .result-label { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(240,238,232,0.35); font-weight: 500; }
-  .result-label-orange { color: #F47B20; }
+  .result-label { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: #F47B20; font-weight: 500; }
   .copy-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(240,238,232,0.4); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 4px 12px; cursor: pointer; transition: all 0.15s; }
   .copy-btn:hover { border-color: rgba(244,123,32,0.4); color: #F47B20; }
   .copy-btn.copied { color: #7bc67e; border-color: rgba(123,198,126,0.3); }
   .result-text { font-size: 14px; line-height: 1.7; color: rgba(240,238,232,0.8); white-space: pre-wrap; }
-
-  /* SLIDE CARDS */
   .slides-container { display: flex; flex-direction: column; gap: 12px; }
   .slide-card { background: rgba(244,123,32,0.04); border: 0.5px solid rgba(244,123,32,0.15); border-radius: 10px; padding: 1rem 1.25rem; }
   .slide-number { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #F47B20; font-weight: 500; margin-bottom: 8px; }
@@ -86,10 +57,6 @@
   .slide-copy-btn { margin-top: 10px; background: transparent; border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; color: rgba(240,238,232,0.35); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
   .slide-copy-btn:hover { border-color: rgba(244,123,32,0.3); color: #F47B20; }
   .slide-copy-btn.copied { color: #7bc67e; }
-
-  /* DIVIDER */
-  .section-divider { height: 0.5px; background: rgba(255,255,255,0.06); }
-
   @media (max-width: 768px) {
     .main { padding: 1.25rem; }
     .filters-2, .filters-3 { grid-template-columns: 1fr; }
@@ -99,7 +66,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-left">
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,38 +81,26 @@
   <div class="badge">Content Studio</div>
 </div>
 
-<!-- MODE TABS -->
 <div class="mode-tabs">
-  <button class="mode-tab active" onclick="setMode('story', this)">
-    <span class="tab-icon">◻</span> Story
-  </button>
-  <button class="mode-tab" onclick="setMode('carousel', this)">
-    <span class="tab-icon">◈</span> Carousel
-  </button>
-  <button class="mode-tab" onclick="setMode('reels', this)">
-    <span class="tab-icon">▷</span> Reels
-  </button>
+  <button class="mode-tab active" onclick="setMode('story', this)">◻ Story</button>
+  <button class="mode-tab" onclick="setMode('carousel', this)">◈ Carousel</button>
+  <button class="mode-tab" onclick="setMode('reels', this)">▷ Reels</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
-  <div class="mode-header">
+  <div>
     <div class="mode-title" id="modeTitle">Story Post</div>
     <div class="mode-sub" id="modeSub">Generate vertical flyer-style image prompts for bar deals and events tonight.</div>
   </div>
-
-  <!-- FILTERS — rendered dynamically -->
   <div id="filtersContainer"></div>
-
   <button class="generate-btn" id="genBtn" onclick="generate()">Generate ✦</button>
   <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
   <div class="error-msg" id="errorMsg"></div>
-
   <div class="results-area" id="resultsArea">
     <div class="empty-state">
-      <div class="empty-icon">◈</div>
+      <div style="font-size:32px;opacity:0.3;">◈</div>
       <div>Fill in your filters and hit generate.</div>
-      <div style="font-size:11px; opacity:0.5; margin-top:4px;">Powered by Claude AI + Higgsfield</div>
+      <div style="font-size:11px;opacity:0.5;margin-top:4px;">Powered by Claude AI + Higgsfield</div>
     </div>
   </div>
 </div>
@@ -160,16 +114,16 @@ const barKnowledgeBase = {
     interior: "neon signs covering every wall, dart boards, pool tables, stuffed animals on the ceiling, sticky floors, jumbotron patio",
     vibe: "Knoxville's longest running dive bar since 2000, every UTK student's second home, always packed, always loud",
     crowd: "UTK students, super seniors, game day warriors, 21st birthday destination",
-    signature: "Purple Hooter cocktail, legendary bartender Kevin, beer pong tables, $11 wings"
+    signature: "Purple Hooter cocktail, legendary bartender Kevin, beer pong tables"
   },
   "half barrel": {
     fullName: "The Half Barrel",
     aesthetic: "upscale college pub with serious bourbon credentials",
     colors: "dark wood tones, warm amber lighting, classic pub palette",
     interior: "long bar down the right side, wood-paneled walls, booths, pool tables in back, rear patio",
-    vibe: "Cumberland Ave institution, best bourbon selection outside Kentucky, 35+ draft beers, craft beer meets college crowd",
+    vibe: "Cumberland Ave institution, best bourbon selection outside Kentucky, 35+ draft beers",
     crowd: "beer nerds, college crowd, bourbon enthusiasts, game day regulars",
-    signature: "40+ beers on tap, massive bourbon/whiskey selection, trivia nights Thursdays, arcade games"
+    signature: "40+ beers on tap, massive bourbon selection, trivia nights Thursdays"
   },
   "hanna's": {
     fullName: "Hanna's",
@@ -183,33 +137,33 @@ const barKnowledgeBase = {
   "kern's food hall": {
     fullName: "Kern's Food Hall",
     aesthetic: "historic 1931 Art Deco industrial bakery transformed into South Knoxville's premier food and entertainment destination",
-    colors: "original weathered steel beams, dark charcoal steelwork, terra-cotta tile, warm natural light from clerestory windows",
-    interior: "65,000 sq ft historic industrial space, exposed original steel beams, wood ceilings, factory silo visible inside, rooftop bar, outdoor event space, 20+ food vendors",
-    vibe: "community gathering place with serious cultural weight, historic preservation meets modern culinary scene, 3 bars including rooftop, live music, 1 mile from UTK",
-    crowd: "food lovers, young professionals, UTK crowd, South Knoxville locals, families during day, nightlife crowd after dark",
-    signature: "rooftop bar, historic Art Deco facade, live music events, 20+ food vendors, movie nights"
+    colors: "weathered steel beams, dark charcoal steelwork, terra-cotta tile, warm natural light",
+    interior: "65,000 sq ft historic industrial space, exposed steel beams, wood ceilings, factory silo, rooftop bar, 20+ food vendors",
+    vibe: "community gathering place, historic preservation meets modern culinary scene, 3 bars including rooftop, live music",
+    crowd: "food lovers, young professionals, UTK crowd, South Knoxville locals",
+    signature: "rooftop bar, historic Art Deco facade, live music, 20+ food vendors"
   },
   "literboard": {
     fullName: "LiterBoard",
     aesthetic: "modern college bar with a party game focus",
     colors: "bright, energetic, fun",
     interior: "game-focused layout, social and competitive atmosphere",
-    vibe: "built around drinking games and social competition, high energy, younger crowd",
+    vibe: "built around drinking games and social competition, high energy",
     crowd: "UTK students, 21-25 crowd, competitive drinkers",
     signature: "drinking games, high energy, party atmosphere"
   },
   "lunaverse": {
     fullName: "LunaVerse",
-    aesthetic: "Knoxville's premier nightclub, featured venue on Venuu, eclectic and immersive",
+    aesthetic: "Knoxville's premier nightclub, eclectic and immersive",
     colors: "purple, cosmic tones, neon, moody club lighting",
     interior: "nightclub layout, dance floor, DJ booth, atmospheric lighting",
-    vibe: "one of Knoxville's top nightlife destinations, featured club on the Venuu map, serious party energy",
+    vibe: "one of Knoxville's top nightlife destinations, featured club on Venuu map, serious party energy",
     crowd: "nightlife seekers, dancers, 21-28 crowd, weekend warriors",
     signature: "DJ nights, featured Venuu partner, dance floor, immersive atmosphere"
   },
   "old city sports bar": {
     fullName: "Old City Sports Bar",
-    aesthetic: "classic sports bar in the heart of Knoxville's historic Old City",
+    aesthetic: "classic sports bar in Knoxville's historic Old City",
     colors: "sports bar palette, TVs everywhere, team colors",
     interior: "multiple screens, bar seating, game day setup",
     vibe: "Old City location, game day central, casual and accessible",
@@ -219,43 +173,43 @@ const barKnowledgeBase = {
   "preservation pub": {
     fullName: "Preservation Pub",
     aesthetic: "three-story quirky speakeasy meets rooftop beer garden, Knoxville institution",
-    colors: "eclectic, kitschy, string lights, crystals, flamingos, Alice in Wonderland energy",
-    interior: "three floors each with distinct vibe, Moonshine Roof Garden with Magic Beer Tree, plastic flamingos, kitschy decorations, string lights throughout",
-    vibe: "Market Square landmark, 300+ beers, rooftop with stunning city views, live music always, locals and visitors converge here",
-    crowd: "eclectic mix, music lovers, rooftop crowd, Market Square regulars, 21+ diverse age range",
-    signature: "Magic Beer Tree, Moonshine Roof Garden, 300+ beers, flamingos, speakeasy vibe, Market Square views"
+    colors: "eclectic, kitschy, string lights, crystals, flamingos",
+    interior: "three floors each with distinct vibe, Moonshine Roof Garden with Magic Beer Tree, plastic flamingos, string lights",
+    vibe: "Market Square landmark, 300+ beers, rooftop city views, live music always",
+    crowd: "eclectic mix, music lovers, rooftop crowd, Market Square regulars",
+    signature: "Magic Beer Tree, Moonshine Roof Garden, 300+ beers, flamingos, Market Square views"
   },
   "radius rooftop": {
     fullName: "Radius Rooftop Bar & Lounge",
-    aesthetic: "upscale hotel rooftop bar above Embassy Suites, 360-degree circular bar, rooftop pool, luxury nightlife",
-    colors: "sophisticated dark tones, warm accent lighting, city skyline backdrop, bougie and sleek",
-    interior: "360° circular bar, indoor and outdoor rooftop areas, adjacent to rooftop pool, panoramic views of Knoxville skyline, Sunsphere, Smoky Mountains, Tennessee River",
-    vibe: "Knoxville's most premium nightlife spot, hotel rooftop energy, younger crowd gets LITTY on weekends, live music on weeknights, stunning views",
-    crowd: "young professionals, upscale nightlife crowd, hotel guests, 21-35 skewing younger on weekends",
-    signature: "rooftop pool, 360° bar, Sunsphere views, best bourbon selection in downtown, VIP energy"
+    aesthetic: "upscale hotel rooftop bar above Embassy Suites, 360-degree circular bar, rooftop pool",
+    colors: "sophisticated dark tones, warm accent lighting, city skyline backdrop",
+    interior: "360 circular bar, indoor and outdoor rooftop, adjacent rooftop pool, panoramic city views",
+    vibe: "Knoxville's most premium nightlife spot, younger crowd gets lit on weekends, stunning views of Sunsphere and Smokies",
+    crowd: "young professionals, upscale nightlife crowd, 21-35",
+    signature: "rooftop pool, 360 bar, Sunsphere views, best bourbon downtown, VIP energy"
   },
   "southbound": {
     fullName: "Southbound Nightclub",
     aesthetic: "Knoxville's largest nightclub, Old City dance club royalty",
     colors: "club lighting, colorful DJ lights, dark club aesthetic with neon accents",
-    interior: "three floors, three large dance floors, six full-service bars including outdoor patio, live DJ on each floor, Old City courtyard outdoor stage",
-    vibe: "THE nightclub in Knoxville, where Southern Belles go to get down, DJ Eric B resident DJ, Thu/Fri/Sat only, nightclub attire mandatory, VIP bottle service",
-    crowd: "21+, nightclub crowd, dancers, hip-hop and R&B lovers, bottle service crowd, serious nightlife people",
-    signature: "DJ Eric B, three dance floors, VIP bottle service, Old City Courtyard outdoor stage, nightclub attire required"
+    interior: "three floors, three large dance floors, six full-service bars, outdoor patio bar, Old City courtyard outdoor stage",
+    vibe: "THE nightclub in Knoxville, where Southern Belles go to get down, DJ Eric B resident DJ, Thu-Sat only, nightclub attire mandatory",
+    crowd: "21+, nightclub crowd, dancers, hip-hop and R&B lovers, bottle service crowd",
+    signature: "DJ Eric B, three dance floors, VIP bottle service, Old City Courtyard outdoor stage"
   },
   "southside garage": {
     fullName: "Southside Garage",
     aesthetic: "South Knoxville food truck park meets craft beer bar, laid back and outdoorsy",
-    colors: "casual industrial, outdoor patio vibes, relaxed palette",
-    interior: "large indoor-outdoor setup, big patios, patio games, TV screens, food truck park layout",
-    vibe: "South Landing area, family-friendly during day, craft beer haven, trivia Tuesdays, Southwestern cuisine focus",
+    colors: "casual industrial, outdoor patio vibes",
+    interior: "large indoor-outdoor setup, big patios, patio games, TV screens",
+    vibe: "South Landing area, craft beer haven, trivia Tuesdays, Southwestern cuisine",
     crowd: "South Knoxville locals, craft beer enthusiasts, families, after-work crowd",
-    signature: "craft beer selection, Southwestern food, large patios, patio games, trivia Tuesdays"
+    signature: "craft beer selection, Southwestern food, large patios, patio games"
   },
   "sunspot": {
     fullName: "Sunspot",
-    aesthetic: "Cumberland Ave staple, artsy and eclectic with a long Knoxville history",
-    colors: "warm, artistic, eclectic — think colorful and creative",
+    aesthetic: "Cumberland Ave staple, artsy and eclectic with long Knoxville history",
+    colors: "warm, artistic, eclectic, colorful and creative",
     interior: "creative decor, warm atmosphere, Cumberland Ave location",
     vibe: "long-standing Knoxville institution on the Strip, artsy crowd, creative energy",
     crowd: "art crowd, UTK students, Cumberland Ave regulars, creative types",
@@ -273,13 +227,13 @@ const barKnowledgeBase = {
   "the bookstore": {
     fullName: "The Bookstore Bar",
     aesthetic: "quirky literary-themed bar, one of Knoxville's hidden gems",
-    colors: "warm, bookish, intimate — dark wood and warm light",
+    colors: "warm, bookish, intimate, dark wood and warm light",
     interior: "book-themed decor, intimate setting, cozy bar atmosphere",
     vibe: "unique concept, literary aesthetic, conversation-focused, UTK area",
     crowd: "UTK students and faculty, book lovers, people who want something different",
     signature: "literary theme, intimate atmosphere, unique Knoxville bar concept"
   },
-  "the hill bar & grill": {
+  "the hill": {
     fullName: "The Hill Bar & Grill",
     aesthetic: "classic Knoxville bar and grill, Fort Sanders neighborhood anchor",
     colors: "traditional bar palette, warm and welcoming",
@@ -290,29 +244,29 @@ const barKnowledgeBase = {
   },
   "undeclared": {
     fullName: "Undeclared",
-    aesthetic: "college bar built specifically for the undeclared major energy — fun, chaotic, young",
+    aesthetic: "college bar built for chaotic fun, young and uninhibited",
     colors: "college bar palette, energetic and fun",
     interior: "college bar layout, high energy, social setup",
-    vibe: "name says it all — chaotic college energy, UTK adjacent, young crowd",
+    vibe: "name says it all, chaotic college energy, UTK adjacent, young crowd",
     crowd: "UTK students, 21-24 crowd, college party seekers",
     signature: "college party atmosphere, young crowd, Strip location"
   },
   "yacht club": {
     fullName: "Fort Sanders Yacht Club",
     aesthetic: "beloved Fort Sanders dive bar with retro gaming and craft beer charm",
-    colors: "warm, dim, cozy — classic dive bar palette with a nerdy twist",
-    interior: "booth seating, warm lighting, coin-op arcade games, smoking parlor in rear, small porch area",
-    vibe: "one of Knoxville's hidden gems, retro gaming meets craft beer, intimate and unpretentious, UTK adjacent",
+    colors: "warm, dim, cozy, classic dive bar palette with nerdy twist",
+    interior: "booth seating, warm lighting, coin-op arcade games, smoking parlor in rear, small porch",
+    vibe: "one of Knoxville's hidden gems, retro gaming meets craft beer, intimate and unpretentious",
     crowd: "UTK students, gamers, craft beer lovers, people who hate pretentious bars",
-    signature: "Mario Kart and Super Smash Bros, chocolate raspberry gose, coin-op arcade, smoking parlor"
+    signature: "Mario Kart and Super Smash Bros, coin-op arcade, smoking parlor, chocolate raspberry gose"
   },
-  "yee-haw brewing": {
+  "yee-haw": {
     fullName: "Yee-Haw Brewing Company",
     aesthetic: "Knoxville's beloved craft brewery with Southern pride and industrial cool",
     colors: "warm industrial tones, Southern craft brewery palette, warm wood and brick",
     interior: "brewery taproom setup, industrial aesthetic, warm and inviting, multiple seating areas",
     vibe: "Knoxville craft beer institution, Southern roots meets craft culture, taproom energy",
-    crowd: "craft beer enthusiasts, Knoxville locals, brewery tourists, older college crowd",
+    crowd: "craft beer enthusiasts, Knoxville locals, brewery tourists",
     signature: "house-brewed craft beers, Southern brewing heritage, taproom atmosphere"
   }
 };
@@ -327,78 +281,51 @@ function findBarProfile(barInput) {
   }
   return null;
 }
- let currentMode = 'story';
 
 const modeConfig = {
   story: {
     title: 'Story Post',
     sub: 'Generate vertical flyer-style image prompts for bar deals and events tonight.',
     filters: [
-      { id: 'bar', label: 'Bar Name', placeholder: 'e.g. Cool Beans, The Strip...' },
+      { id: 'bar', label: 'Bar Name', placeholder: 'e.g. Cool Beans, Radius Rooftop...' },
       { id: 'deal', label: 'Deal / Event', placeholder: 'e.g. $3 margaritas, Thirsty Thursday, Live DJ...' },
       { id: 'urgency', label: 'Urgency / Mood', placeholder: 'e.g. Tonight only, Limited spots, This weekend...' },
       { id: 'style', label: 'Visual Style', placeholder: 'e.g. Dark and moody, Bright neon, Luxury, Minimal...' }
     ],
     prompt: (f) => {
-  const bar = findBarProfile(f.bar);
-  const barContext = bar ? `
-BAR PROFILE — ${bar.fullName}:
+      const bar = findBarProfile(f.bar);
+      const barContext = bar
+        ? `BAR PROFILE — ${bar.fullName}:
 - Aesthetic: ${bar.aesthetic}
 - Colors & Lighting: ${bar.colors}
 - Interior: ${bar.interior}
 - Vibe: ${bar.vibe}
 - Signature elements: ${bar.signature}
-Use these specific details to make each flyer feel unmistakably like THIS bar, not a generic venue.` : `Bar: ${f.bar || 'Knoxville bar'}`;
+Use these specific details to make each flyer feel unmistakably like THIS bar.`
+        : `Bar: ${f.bar || 'Knoxville bar'}`;
 
-  return `You are a creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
+      return `You are a creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
 
 Brief:
 ${barContext}
 - Deal/Event: ${f.deal || 'tonight special'}
 - Urgency/Mood: ${f.urgency || 'tonight only'}
-- Visual Style preference: ${f.style || 'dark and moody'}
-
-Brand: Venuu — black background, orange (#F47B20) accent color, lowercase "venuu" wordmark. Premium nightlife aesthetic. Target: 18-28 college crowd.
-
-Each prompt should describe:
-- The overall composition and layout referencing the bar's actual aesthetic
-- Text elements to include (bar name in their style, the deal, "venuu" branding, tonight's date)
-- Specific color palette and lighting pulled from this bar's real atmosphere
-- Background/atmosphere that feels like you're actually there
-- Style direction
-
-Make all 3 distinctly different in approach — one typography-focused, one atmospheric/photo-real, one graphic/designed.
-
-Return ONLY a JSON object, no markdown:
-{
-  "prompt1": "detailed image generation prompt...",
-  "prompt2": "detailed image generation prompt...",
-  "prompt3": "detailed image generation prompt..."
-}`;
-}
-Brief:
-- Bar: ${f.bar || 'Knoxville bar'}
-- Deal/Event: ${f.deal || 'tonight special'}
-- Urgency/Mood: ${f.urgency || 'tonight only'}
 - Visual Style: ${f.style || 'dark and moody'}
 
-Brand: Venuu — black background, orange (#F47B20) accent color, lowercase wordmark. Premium nightlife aesthetic. Target: 18-28 college crowd.
+Brand: Venuu — black background, orange (#F47B20) accent color, lowercase venuu wordmark. Premium nightlife aesthetic. Target: 18-28 college crowd.
 
-Each prompt should be a detailed, specific image generation prompt that describes:
-- The overall composition and layout
-- Text elements to include (bar name, deal, "venuu" branding, date)
-- Color palette and lighting
-- Background/atmosphere
-- Style references
+Each prompt should describe:
+- Composition and layout referencing the bar's actual aesthetic
+- Text elements to include (bar name, the deal, venuu branding, tonight's date)
+- Specific color palette and lighting from this bar's real atmosphere
+- Background and atmosphere that feels like you are actually there
+- Style direction
 
-Make each of the 3 prompts distinctly different in approach — one more typography-focused, one more atmospheric/photo-real, one more graphic/designed.
+Make all 3 distinctly different — one typography-focused, one atmospheric photo-real, one graphic and designed.
 
 Return ONLY a JSON object, no markdown:
-{
-  "prompt1": "detailed image generation prompt here...",
-  "prompt2": "detailed image generation prompt here...",
-  "prompt3": "detailed image generation prompt here..."
-}`
+{"prompt1":"detailed image generation prompt...","prompt2":"detailed image generation prompt...","prompt3":"detailed image generation prompt..."}`;
+    }
   },
 
   carousel: {
@@ -407,60 +334,30 @@ Return ONLY a JSON object, no markdown:
     filters: [
       { id: 'topic', label: 'Topic / Announcement', placeholder: 'e.g. Venuu launches in Nashville, How the app works...' },
       { id: 'tone', label: 'Tone', placeholder: 'e.g. Exciting announcement, Educational, Hype, Professional...' },
-      { id: 'slides', label: 'Number of Slides', placeholder: 'e.g. 5', type: 'number' },
+      { id: 'slides', label: 'Number of Slides', placeholder: 'e.g. 5' },
       { id: 'cta', label: 'Call to Action', placeholder: 'e.g. Download now, Follow us, Coming soon...' }
     ],
     prompt: (f) => {
-  const bar = findBarProfile(f.bar);
-  const barContext = bar ? `Bar: ${bar.fullName} — ${bar.aesthetic}. Colors: ${bar.colors}. Vibe: ${bar.vibe}.` : `Bar: ${f.bar || 'Knoxville'}`;
+      const bar = findBarProfile(f.bar);
+      const barContext = bar
+        ? `Bar context: ${bar.fullName} — ${bar.aesthetic}. Colors: ${bar.colors}. Vibe: ${bar.vibe}.`
+        : '';
 
-  return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
+      return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
 
-Brief:
-- Topic: ${f.topic || 'Venuu app announcement'}
-- ${barContext}
-- Tone: ${f.tone || 'exciting and premium'}
-- CTA: ${f.cta || 'Download Venuu'}
-
-Brand: Venuu — "your cheat code for nightlife". Black and orange. Premium but approachable. 18-28 audience.
-
-For each slide provide:
-1. Slide copy (headline + 1-2 supporting lines max)
-2. An image generation prompt for that slide's visual
-
-Return ONLY a JSON object, no markdown:
-{
-  "slides": [
-    {
-      "slide": 1,
-      "copy": "slide headline and supporting text",
-      "image_prompt": "detailed image generation prompt for this slide"
-    }
-  ]
-}`;}
 Brief:
 - Topic: ${f.topic || 'Venuu app announcement'}
 - Tone: ${f.tone || 'exciting and premium'}
 - CTA: ${f.cta || 'Download Venuu'}
+${barContext}
 
-Brand: Venuu — "your cheat code for nightlife". Black and orange. Premium but approachable. 18-28 audience.
+Brand: Venuu — your cheat code for nightlife. Black and orange. Premium but approachable. 18-28 audience.
 
-For each slide provide:
-1. Slide copy (headline + 1-2 supporting lines max — carousels are visual, keep text tight)
-2. An image generation prompt for that slide's visual
-
-Make the slides flow as a narrative — slide 1 hooks, middle slides deliver value, final slide is the CTA.
+For each slide provide slide copy (headline plus 1-2 supporting lines max) and an image generation prompt for that slide's visual. Make slides flow as a narrative — slide 1 hooks, middle slides deliver value, final slide is the CTA.
 
 Return ONLY a JSON object, no markdown:
-{
-  "slides": [
-    {
-      "slide": 1,
-      "copy": "slide headline and supporting text",
-      "image_prompt": "detailed image generation prompt for this slide"
+{"slides":[{"slide":1,"copy":"slide headline and supporting text","image_prompt":"detailed image generation prompt"}]}`;
     }
-  ]
-}`
   },
 
   reels: {
@@ -470,63 +367,36 @@ Return ONLY a JSON object, no markdown:
       { id: 'vibe', label: 'Vibe / Energy', placeholder: 'e.g. Saturday night chaos, Luxe girls night, College pregame...' },
       { id: 'character', label: 'Character Style', placeholder: 'e.g. Brunette in black dress, Group of girls, Mystery silhouette...' },
       { id: 'setting', label: 'Setting', placeholder: 'e.g. Rooftop bar, Packed dance floor, Getting ready at home...' },
-      { id: 'bar', label: 'Bar / Location (optional)', placeholder: 'e.g. Cool Beans, Market Square, Knoxville...' }
+      { id: 'bar', label: 'Bar / Location (optional)', placeholder: 'e.g. Cool Beans, Radius Rooftop, Knoxville...' }
     ],
     prompt: (f) => {
-  const bar = findBarProfile(f.bar);
-  const barContext = bar ? `Bar: ${bar.fullName} — ${bar.aesthetic}. Colors: ${bar.colors}. Vibe: ${bar.vibe}.` : `Bar: ${f.bar || 'Knoxville'}`;
+      const bar = findBarProfile(f.bar);
+      const barContext = bar
+        ? `Location: ${bar.fullName} — ${bar.aesthetic}. Atmosphere: ${bar.colors}. Known for: ${bar.signature}.`
+        : `Location: ${f.bar || 'Knoxville nightlife'}`;
 
-  return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
+      return `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.
 
-Brief:
-- Topic: ${f.topic || 'Venuu app announcement'}
-- ${barContext}
-- Tone: ${f.tone || 'exciting and premium'}
-- CTA: ${f.cta || 'Download Venuu'}
-
-Brand: Venuu — "your cheat code for nightlife". Black and orange. Premium but approachable. 18-28 audience.
-
-For each slide provide:
-1. Slide copy (headline + 1-2 supporting lines max)
-2. An image generation prompt for that slide's visual
-
-Return ONLY a JSON object, no markdown:
-{
-  "slides": [
-    {
-      "slide": 1,
-      "copy": "slide headline and supporting text",
-      "image_prompt": "detailed image generation prompt for this slide"
-    }
-  ]
-}`;}
 Brief:
 - Vibe: ${f.vibe || 'Saturday night'}
 - Character: ${f.character || 'stylish woman in her 20s'}
 - Setting: ${f.setting || 'nightlife bar scene'}
-- Location: ${f.bar || 'Knoxville'}
+- ${barContext}
 
 Brand voice: Confident, aspirational, sexy but never desperate. Think Don Julio meets college nightlife. The app shows live headcounts at bars so you always know where to go before you leave.
 
 Generate:
-1. A detailed Higgsfield video prompt (cinematic, specific about lighting, movement, character, atmosphere — formatted for AI video generation)
-2. A scroll-stopping hook (first line of the video — under 10 words, lowercase, implies a story without explaining it)
-3. An Instagram caption (2-4 lines, Venuu brand voice — confident, specific, never try-hard. Reference the live headcount feature naturally. End with 2-3 hashtags max)
-
-CAPTION RULES:
-- No "POV:", no exclamation spam, no "vibes are immaculate"
-- Write like a 22 year old who actually goes out, not a brand manager
-- Specific beats vague every time
-- The hook for the video and the caption hook can be different
+1. A detailed Higgsfield video prompt (cinematic, specific about lighting, movement, character, atmosphere)
+2. A scroll-stopping hook (first line of video, under 10 words, lowercase, implies a story)
+3. An Instagram caption (2-4 lines, confident voice, reference live headcount naturally, 2-3 hashtags max, no POV no exclamation spam)
 
 Return ONLY a JSON object, no markdown:
-{
-  "higgsfield_prompt": "full cinematic video generation prompt...",
-  "hook": "scroll-stopping opening line",
-  "caption": "instagram caption with hashtags"
-}`
+{"higgsfield_prompt":"full cinematic video generation prompt...","hook":"scroll-stopping opening line","caption":"instagram caption with hashtags"}`;
+    }
   }
 };
+
+let currentMode = 'story';
 
 function setMode(mode, btn) {
   currentMode = mode;
@@ -542,25 +412,16 @@ function setMode(mode, btn) {
 function renderFilters(filters) {
   const container = document.getElementById('filtersContainer');
   const gridClass = filters.length <= 2 ? 'filters-2' : 'filters-3';
-  container.innerHTML = `<div class="filters-grid ${gridClass}">
-    ${filters.map(f => `
-      <div class="filter-group">
-        <div class="filter-label">${f.label}</div>
-        <input
-          class="filter-input"
-          id="filter_${f.id}"
-          type="${f.type || 'text'}"
-          placeholder="${f.placeholder}"
-        />
-      </div>
-    `).join('')}
-  </div>`;
+  container.innerHTML = `<div class="filters-grid ${gridClass}">${filters.map(f => `
+    <div class="filter-group">
+      <div class="filter-label">${f.label}</div>
+      <input class="filter-input" id="filter_${f.id}" type="text" placeholder="${f.placeholder}" />
+    </div>`).join('')}</div>`;
 }
 
 function getFilterValues() {
-  const cfg = modeConfig[currentMode];
   const values = {};
-  cfg.filters.forEach(f => {
+  modeConfig[currentMode].filters.forEach(f => {
     const el = document.getElementById(`filter_${f.id}`);
     values[f.id] = el ? el.value.trim() : '';
   });
@@ -570,18 +431,16 @@ function getFilterValues() {
 function clearResults() {
   document.getElementById('resultsArea').innerHTML = `
     <div class="empty-state">
-      <div class="empty-icon">◈</div>
+      <div style="font-size:32px;opacity:0.3;">◈</div>
       <div>Fill in your filters and hit generate.</div>
-      <div style="font-size:11px; opacity:0.5; margin-top:4px;">Powered by Claude AI + Higgsfield</div>
+      <div style="font-size:11px;opacity:0.5;margin-top:4px;">Powered by Claude AI + Higgsfield</div>
     </div>`;
   document.getElementById('errorMsg').classList.remove('visible');
 }
 
 async function generate() {
   const filters = getFilterValues();
-  const cfg = modeConfig[currentMode];
-  const prompt = cfg.prompt(filters);
-
+  const prompt = modeConfig[currentMode].prompt(filters);
   const btn = document.getElementById('genBtn');
   const loader = document.getElementById('loadingBar');
   const errorEl = document.getElementById('errorMsg');
@@ -592,7 +451,7 @@ async function generate() {
   errorEl.classList.remove('visible');
   document.getElementById('resultsArea').innerHTML = `
     <div class="empty-state">
-      <div class="empty-icon" style="opacity:0.4;">◈</div>
+      <div style="font-size:32px;opacity:0.4;">◈</div>
       <div>Building your content...</div>
     </div>`;
 
@@ -602,22 +461,9 @@ async function generate() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
     });
-
     if (!res.ok) throw new Error(`Server error: ${res.status}`);
     const data = await res.json();
-    let parsed;
-
-    if (data.caption || data.prompt1 || data.slides || data.higgsfield_prompt) {
-      parsed = data;
-    } else if (data.content) {
-      const raw = data.content.map(i => i.text || '').join('');
-      const clean = raw.replace(/```json|```/g, '').trim();
-      parsed = JSON.parse(clean);
-    } else {
-      parsed = data;
-    }
-
-    renderResults(parsed);
+    renderResults(data);
   } catch(e) {
     errorEl.textContent = `Something went wrong: ${e.message}`;
     errorEl.classList.add('visible');
@@ -633,34 +479,26 @@ function renderResults(data) {
   const area = document.getElementById('resultsArea');
 
   if (currentMode === 'story') {
-    area.innerHTML = [
-      { key: 'prompt1', label: 'Flyer Prompt 1' },
-      { key: 'prompt2', label: 'Flyer Prompt 2' },
-      { key: 'prompt3', label: 'Flyer Prompt 3' }
-    ].map((item, i) => `
+    area.innerHTML = ['prompt1','prompt2','prompt3'].map((key, i) => `
       <div class="result-card">
         <div class="result-card-header">
-          <div class="result-label result-label-orange">${item.label}</div>
-          <button class="copy-btn" onclick="copyText(this, \`${esc(data[item.key] || '')}\`)">Copy Prompt</button>
+          <div class="result-label">Flyer Prompt ${i+1}</div>
+          <button class="copy-btn" onclick="copyText(this, ${JSON.stringify(data[key] || '')})">Copy Prompt</button>
         </div>
-        <div class="result-text">${esc(data[item.key] || 'Not generated')}</div>
-      </div>
-    `).join('');
+        <div class="result-text">${esc(data[key] || 'Not generated')}</div>
+      </div>`).join('');
 
   } else if (currentMode === 'carousel') {
     const slides = data.slides || [];
-    area.innerHTML = `<div class="slides-container">
-      ${slides.map(s => `
-        <div class="slide-card">
-          <div class="slide-number">Slide ${s.slide}</div>
-          <div class="slide-copy">${esc(s.copy || '')}</div>
-          <button class="slide-copy-btn" onclick="copyText(this, \`${esc(s.copy || '')}\`)">Copy Copy</button>
-          <div class="slide-prompt-label">Image Prompt</div>
-          <div class="slide-prompt">${esc(s.image_prompt || '')}</div>
-          <button class="slide-copy-btn" onclick="copyText(this, \`${esc(s.image_prompt || '')}\`)">Copy Prompt</button>
-        </div>
-      `).join('')}
-    </div>`;
+    area.innerHTML = `<div class="slides-container">${slides.map(s => `
+      <div class="slide-card">
+        <div class="slide-number">Slide ${s.slide}</div>
+        <div class="slide-copy">${esc(s.copy || '')}</div>
+        <button class="slide-copy-btn" onclick="copyText(this, ${JSON.stringify(s.copy || '')})">Copy Copy</button>
+        <div class="slide-prompt-label">Image Prompt</div>
+        <div class="slide-prompt">${esc(s.image_prompt || '')}</div>
+        <button class="slide-copy-btn" onclick="copyText(this, ${JSON.stringify(s.image_prompt || '')})">Copy Prompt</button>
+      </div>`).join('')}</div>`;
 
   } else if (currentMode === 'reels') {
     area.innerHTML = [
@@ -670,37 +508,27 @@ function renderResults(data) {
     ].map(item => `
       <div class="result-card">
         <div class="result-card-header">
-          <div class="result-label result-label-orange">${item.label}</div>
-          <button class="copy-btn" onclick="copyText(this, \`${esc(data[item.key] || '')}\`)">Copy</button>
+          <div class="result-label">${item.label}</div>
+          <button class="copy-btn" onclick="copyText(this, ${JSON.stringify(data[item.key] || '')})">Copy</button>
         </div>
         <div class="result-text">${esc(data[item.key] || 'Not generated')}</div>
-      </div>
-    `).join('');
+      </div>`).join('');
   }
 }
 
 function copyText(btn, text) {
   navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = btn.textContent.includes('Prompt') ? 'Copy Prompt' : btn.textContent.includes('Copy') ? 'Copy' : 'Copy Copy';
-      btn.classList.remove('copied');
-    }, 2000);
+    setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 2000);
   });
 }
 
 function esc(str) {
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/`/g,'&#96;')
-    .replace(/\$/g,'&#36;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// Init
 renderFilters(modeConfig.story.filters);
 </script>
 </body>
