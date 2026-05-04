@@ -339,8 +339,43 @@ const modeConfig = {
       { id: 'urgency', label: 'Urgency / Mood', placeholder: 'e.g. Tonight only, Limited spots, This weekend...' },
       { id: 'style', label: 'Visual Style', placeholder: 'e.g. Dark and moody, Bright neon, Luxury, Minimal...' }
     ],
-    prompt: (f) => `You are a creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
+    prompt: (f) => {
+  const bar = findBarProfile(f.bar);
+  const barContext = bar ? `
+BAR PROFILE — ${bar.fullName}:
+- Aesthetic: ${bar.aesthetic}
+- Colors & Lighting: ${bar.colors}
+- Interior: ${bar.interior}
+- Vibe: ${bar.vibe}
+- Signature elements: ${bar.signature}
+Use these specific details to make each flyer feel unmistakably like THIS bar, not a generic venue.` : `Bar: ${f.bar || 'Knoxville bar'}`;
 
+  return `You are a creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
+
+Brief:
+${barContext}
+- Deal/Event: ${f.deal || 'tonight special'}
+- Urgency/Mood: ${f.urgency || 'tonight only'}
+- Visual Style preference: ${f.style || 'dark and moody'}
+
+Brand: Venuu — black background, orange (#F47B20) accent color, lowercase "venuu" wordmark. Premium nightlife aesthetic. Target: 18-28 college crowd.
+
+Each prompt should describe:
+- The overall composition and layout referencing the bar's actual aesthetic
+- Text elements to include (bar name in their style, the deal, "venuu" branding, tonight's date)
+- Specific color palette and lighting pulled from this bar's real atmosphere
+- Background/atmosphere that feels like you're actually there
+- Style direction
+
+Make all 3 distinctly different in approach — one typography-focused, one atmospheric/photo-real, one graphic/designed.
+
+Return ONLY a JSON object, no markdown:
+{
+  "prompt1": "detailed image generation prompt...",
+  "prompt2": "detailed image generation prompt...",
+  "prompt3": "detailed image generation prompt..."
+}`;
+}
 Brief:
 - Bar: ${f.bar || 'Knoxville bar'}
 - Deal/Event: ${f.deal || 'tonight special'}
@@ -375,8 +410,34 @@ Return ONLY a JSON object, no markdown:
       { id: 'slides', label: 'Number of Slides', placeholder: 'e.g. 5', type: 'number' },
       { id: 'cta', label: 'Call to Action', placeholder: 'e.g. Download now, Follow us, Coming soon...' }
     ],
-    prompt: (f) => `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
+    prompt: (f) => {
+  const bar = findBarProfile(f.bar);
+  const barContext = bar ? `Bar: ${bar.fullName} — ${bar.aesthetic}. Colors: ${bar.colors}. Vibe: ${bar.vibe}.` : `Bar: ${f.bar || 'Knoxville'}`;
 
+  return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
+
+Brief:
+- Topic: ${f.topic || 'Venuu app announcement'}
+- ${barContext}
+- Tone: ${f.tone || 'exciting and premium'}
+- CTA: ${f.cta || 'Download Venuu'}
+
+Brand: Venuu — "your cheat code for nightlife". Black and orange. Premium but approachable. 18-28 audience.
+
+For each slide provide:
+1. Slide copy (headline + 1-2 supporting lines max)
+2. An image generation prompt for that slide's visual
+
+Return ONLY a JSON object, no markdown:
+{
+  "slides": [
+    {
+      "slide": 1,
+      "copy": "slide headline and supporting text",
+      "image_prompt": "detailed image generation prompt for this slide"
+    }
+  ]
+}`;}
 Brief:
 - Topic: ${f.topic || 'Venuu app announcement'}
 - Tone: ${f.tone || 'exciting and premium'}
@@ -411,8 +472,34 @@ Return ONLY a JSON object, no markdown:
       { id: 'setting', label: 'Setting', placeholder: 'e.g. Rooftop bar, Packed dance floor, Getting ready at home...' },
       { id: 'bar', label: 'Bar / Location (optional)', placeholder: 'e.g. Cool Beans, Market Square, Knoxville...' }
     ],
-    prompt: (f) => `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.
+    prompt: (f) => {
+  const bar = findBarProfile(f.bar);
+  const barContext = bar ? `Bar: ${bar.fullName} — ${bar.aesthetic}. Colors: ${bar.colors}. Vibe: ${bar.vibe}.` : `Bar: ${f.bar || 'Knoxville'}`;
 
+  return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
+
+Brief:
+- Topic: ${f.topic || 'Venuu app announcement'}
+- ${barContext}
+- Tone: ${f.tone || 'exciting and premium'}
+- CTA: ${f.cta || 'Download Venuu'}
+
+Brand: Venuu — "your cheat code for nightlife". Black and orange. Premium but approachable. 18-28 audience.
+
+For each slide provide:
+1. Slide copy (headline + 1-2 supporting lines max)
+2. An image generation prompt for that slide's visual
+
+Return ONLY a JSON object, no markdown:
+{
+  "slides": [
+    {
+      "slide": 1,
+      "copy": "slide headline and supporting text",
+      "image_prompt": "detailed image generation prompt for this slide"
+    }
+  ]
+}`;}
 Brief:
 - Vibe: ${f.vibe || 'Saturday night'}
 - Character: ${f.character || 'stylish woman in her 20s'}
