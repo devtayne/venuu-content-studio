@@ -74,10 +74,10 @@
   .session-log-empty { font-size: 12px; color: rgba(240,238,232,0.2); font-style: italic; }
   .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
   .log-entry:last-child { border-bottom: none; }
-  .log-entry-left { display: flex; align-items: center; gap: 10px; }
-  .log-mode-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; background: rgba(244,123,32,0.12); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.2); }
-  .log-entry-desc { font-size: 12.5px; color: rgba(240,238,232,0.6); }
-  .log-entry-time { font-size: 11px; color: rgba(240,238,232,0.25); flex-shrink: 0; }
+  .log-entry-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .log-mode-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; background: rgba(244,123,32,0.12); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.2); flex-shrink: 0; }
+  .log-entry-desc { font-size: 12.5px; color: rgba(240,238,232,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .log-entry-time { font-size: 11px; color: rgba(240,238,232,0.25); flex-shrink: 0; margin-left: 8px; }
   .vision-page { padding: 0; }
   .vision-hero { padding: 2.5rem 2.5rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.07); }
   .vision-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #F47B20; margin-bottom: 10px; font-weight: 500; }
@@ -336,36 +336,51 @@ function findBarProfile(barInput) {
 const modeConfig = {
   story: {
     title: 'Story Post',
-    sub: 'Generate vertical flyer-style image prompts for bar deals and events tonight.',
+    sub: 'Generate vertical flyer image prompts with all event details included.',
     filters: [
       { id: 'bar', label: 'Bar Name', placeholder: 'e.g. Cool Beans, Radius Rooftop...' },
-      { id: 'deal', label: 'Deal / Event', placeholder: 'e.g. $3 margaritas, Thirsty Thursday, Live DJ...' },
-      { id: 'urgency', label: 'Urgency / Mood', placeholder: 'e.g. Tonight only, Limited spots, This weekend...' },
+      { id: 'event', label: 'Event Name', placeholder: 'e.g. Thirsty Thursday, Ladies Night, Live DJ...' },
+      { id: 'datetime', label: 'Date & Time', placeholder: 'e.g. Thursday May 9 · 9PM - 2AM' },
+      { id: 'deal', label: 'Deal / Offer', placeholder: 'e.g. $3 Margaritas, Free entry before 11, 2-for-1 drinks...' },
+      { id: 'extra', label: 'Extra Details (optional)', placeholder: 'e.g. 21+, Dress code, RSVP link...' },
       { id: 'style', label: 'Visual Style', placeholder: 'e.g. Dark and moody, Bright neon, Luxury, Minimal...' }
     ],
     prompt: (f) => {
       const bar = findBarProfile(f.bar);
       const barContext = bar
-        ? `BAR PROFILE — ${bar.fullName}:\n- Aesthetic: ${bar.aesthetic}\n- Colors & Lighting: ${bar.colors}\n- Interior details: ${bar.interior}\n- Vibe: ${bar.vibe}\n- Signature elements: ${bar.signature}`
+        ? `BAR PROFILE — ${bar.fullName}:\n- Aesthetic: ${bar.aesthetic}\n- Colors & Lighting: ${bar.colors}\n- Interior: ${bar.interior}\n- Vibe: ${bar.vibe}\n- Signature elements: ${bar.signature}`
         : `Bar: ${f.bar || 'Knoxville bar'}`;
+      const requiredText = [
+        f.bar ? `Bar name: "${f.bar}"` : null,
+        f.event ? `Event name: "${f.event}"` : null,
+        f.datetime ? `Date/Time: "${f.datetime}"` : null,
+        f.deal ? `Deal/Offer: "${f.deal}"` : null,
+        f.extra ? `Extra info: "${f.extra}"` : null,
+        `Brand mark: "venuu" lowercase in orange (#F47B20)`
+      ].filter(Boolean).join('\n- ');
+
       return `You are a visual creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
 
 BAR BRIEF:
 ${barContext}
-- Deal/Event: ${f.deal || 'tonight special'}
-- Urgency: ${f.urgency || 'tonight only'}
-- Visual Direction: ${f.style || 'dark and moody'}
 
-Brand: Venuu — pure black backgrounds, orange (#F47B20) as the ONLY accent color, lowercase venuu wordmark. Premium nightlife. 18-28 college crowd.
+VISUAL DIRECTION: ${f.style || 'dark and moody, premium nightlife'}
 
-CRITICAL — these are prompts for an AI IMAGE GENERATOR. Describe what the image LOOKS LIKE visually, not what text to place where. Focus on lighting quality, atmosphere, color temperature, mood, compositional elements, texture, depth of field, bokeh, film grain, and the emotional feeling the image creates. Text elements should be described as VISUAL OBJECTS — e.g. "glowing amber letterforms fading into dark bokeh" not "put the bar name here".
+REQUIRED TEXT ELEMENTS — every prompt MUST include ALL of these as visual objects rendered in the image:
+- ${requiredText}
 
-Make all 3 feel like completely different creative executions:
-- Prompt 1: Typography as the hero — letterforms, type scale, dramatic negative space
-- Prompt 2: Atmosphere and photo-realism — cinematic, feels like you are physically there
-- Prompt 3: Graphic and illustrative — stylized, geometric, intentionally designed
+CRITICAL RULES:
+1. These are prompts for an AI IMAGE GENERATOR — describe what the image LOOKS LIKE, not instructions for a designer
+2. Every required text element above MUST appear in each prompt, described as a physical visual object with specific typographic treatment, placement, size, color, and style
+3. Text elements should be integrated into the composition — not just listed at the end
+4. Describe the atmosphere, lighting, and mood of the bar accurately using the bar profile
+5. Each of the 3 prompts must feel like a completely different creative execution of the same brief
 
-Return ONLY a JSON object, no markdown, no explanation:
+Prompt 1 — TYPOGRAPHY HERO: Text and letterforms dominate. Dramatic type scale, bold hierarchy, pure negative space. The event details are the art.
+Prompt 2 — ATMOSPHERIC PHOTO-REAL: Cinematic bar scene in the background, text overlaid with specific typographic treatment. Feels like you are physically there.
+Prompt 3 — GRAPHIC AND DESIGNED: Stylized, geometric, illustrative. Strong visual concept with text integrated into the design system.
+
+Return ONLY a JSON object, no markdown:
 {"prompt1":"...","prompt2":"...","prompt3":"..."}`;
     }
   },
@@ -388,19 +403,19 @@ Brief:
 - CTA: ${f.cta || 'Download Venuu'}
 - Location: Use the city mentioned in the topic. If no city specified, use Knoxville TN. For new city launch content, lean into arrival energy and FOMO. For Knoxville content, lean into social proof and the live headcount feature.
 
-Brand voice: Confident, specific, never corporate. Venuu shows live headcounts at bars so you always know where to go before you leave. That is the core product — real time information about how packed each bar is.
+Brand voice: Confident, specific, never corporate. Venuu shows live headcounts at bars so you always know where to go before you leave. Core product is real time information about how packed each bar is.
 
 STRICT RULES:
 - Never mention skip the line, VIP access, cover charge, or exclusive perks
 - Never invent bar names or venue details unless provided
-- Each slide has a SHORT headline (3-6 words, all caps) that will be overlaid directly on the image
-- The image prompt for each slide describes BOTH the visual scene AND the text overlay as a visual element — e.g. "cinematic aerial Tampa skyline at night, dark semi-transparent gradient overlay in lower third, bold white condensed sans-serif text reading TAMPA WE VE LANDED centered in upper third, small orange venuu wordmark bottom right corner"
-- Generate ONE single Instagram caption for the whole post at the end — not per slide
+- Each slide has a SHORT headline (3-6 words, all caps) overlaid directly on the image
+- Image prompt describes BOTH the visual scene AND the text overlay as a visual element
+- Generate ONE single Instagram caption for the whole post — not per slide
 
 Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is CTA.
 
 Return ONLY a JSON object, no markdown:
-{"caption":"single instagram caption for the whole carousel with 2-3 hashtags","slides":[{"slide":1,"headline":"SLIDE HEADLINE","image_prompt":"full visual scene plus text overlay description"}]}`;
+{"caption":"single instagram caption for the whole carousel with 2-3 hashtags","slides":[{"slide":1,"headline":"SLIDE HEADLINE","image_prompt":"full visual scene plus text overlay description — e.g. cinematic aerial Tampa skyline at night, dark semi-transparent gradient lower third, bold white condensed sans-serif text reading TAMPA WE VE LANDED centered upper third, small orange venuu wordmark bottom right"}]}`;
     }
   },
 
@@ -430,11 +445,11 @@ Brand voice: Confident, aspirational, sexy but never desperate. Think Don Julio 
 
 Generate exactly three things:
 
-1. HIGGSFIELD VIDEO PROMPT — cinematic and specific. Describe camera movement, lighting quality, character movement, atmosphere, color grade. Make it feel like a real film brief not a description.
+1. HIGGSFIELD VIDEO PROMPT — cinematic and specific. Describe camera movement, lighting quality, character movement, atmosphere, color grade. Make it feel like a real film brief.
 
-2. HOOK — the first line seen or heard on screen. Rules: under 8 words, always present tense, always lowercase, never explains itself, implies something is happening RIGHT NOW. Creates tension through incompleteness. Examples: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket."
+2. HOOK — first line seen or heard on screen. Rules: under 8 words, present tense, lowercase, never explains itself, implies something happening RIGHT NOW. Creates tension through incompleteness. Examples: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket."
 
-3. CAPTION — 2-4 lines, Venuu brand voice. Confident and specific. Reference the live headcount feature naturally like a friend mentioning it, not an ad. End with 2-3 hashtags max. No POV, no exclamation spam, no past tense storytelling.
+3. CAPTION — 2-4 lines, Venuu brand voice. Confident and specific. Reference the live headcount feature naturally like a friend, not an ad. End with 2-3 hashtags max. No POV, no exclamation spam, no past tense storytelling.
 
 Return ONLY a JSON object, no markdown:
 {"higgsfield_prompt":"...","hook":"...","caption":"..."}`;
@@ -495,7 +510,7 @@ function setMode(mode, btn) {
 
 function renderFilters(filters) {
   const container = document.getElementById('filtersContainer');
-  const gridClass = filters.length <= 2 ? 'filters-2' : 'filters-3';
+  const gridClass = filters.length <= 2 ? 'filters-2' : filters.length <= 4 ? 'filters-2' : 'filters-3';
   container.innerHTML = `<div class="filters-grid ${gridClass}">${filters.map(f => `
     <div class="filter-group">
       <div class="filter-label">${f.label}</div>
@@ -526,7 +541,7 @@ function clearResults() {
 }
 
 function buildLogDescription(mode, filters) {
-  if (mode === 'story') return `${filters.bar || 'Bar'} · ${filters.deal || 'Story post'}`;
+  if (mode === 'story') return `${filters.bar || 'Bar'} · ${filters.event || filters.deal || 'Story post'}`;
   if (mode === 'carousel') return `${filters.topic || 'Carousel'} · ${filters.slides || 5} slides`;
   if (mode === 'reels') return `${filters.bar || filters.setting || 'Reels'} · ${filters.vibe || 'video'}`;
   return 'Generated content';
@@ -632,9 +647,10 @@ function renderResults(data) {
   if (currentMode === 'story') {
     area.innerHTML = ['prompt1','prompt2','prompt3'].map((key, i) => {
       const id = `result_${key}`;
+      const labels = ['Typography Hero', 'Atmospheric Photo-Real', 'Graphic & Designed'];
       return `<div class="result-card">
         <div class="result-card-header">
-          <div class="result-label">Flyer Prompt ${i+1}</div>
+          <div class="result-label">Prompt ${i+1} — ${labels[i]}</div>
           <div class="card-actions">
             <button class="edit-btn" onclick="toggleEdit(this, '${id}', 9999)">Edit</button>
             <button class="copy-btn" onclick="copyEl('${id}', this)">Copy</button>
