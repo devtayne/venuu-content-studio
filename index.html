@@ -59,12 +59,10 @@
   .slides-container { display: flex; flex-direction: column; gap: 12px; }
   .slide-card { background: rgba(244,123,32,0.04); border: 0.5px solid rgba(244,123,32,0.15); border-radius: 10px; padding: 1rem 1.25rem; }
   .slide-number { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #F47B20; font-weight: 500; margin-bottom: 8px; }
-  .slide-copy { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.8); margin-bottom: 10px; white-space: pre-wrap; outline: none; border-radius: 6px; padding: 2px 4px; transition: background 0.15s; }
-  .slide-copy[contenteditable="true"] { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(244,123,32,0.3); padding: 8px 10px; cursor: text; }
-  .slide-prompt-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin-bottom: 6px; margin-top: 12px; border-top: 0.5px solid rgba(255,255,255,0.06); padding-top: 12px; }
-  .slide-prompt { font-size: 12px; line-height: 1.6; color: rgba(240,238,232,0.5); font-style: italic; white-space: pre-wrap; outline: none; border-radius: 6px; padding: 2px 4px; transition: background 0.15s; }
-  .slide-prompt[contenteditable="true"] { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(244,123,32,0.3); padding: 8px 10px; cursor: text; font-style: normal; color: rgba(240,238,232,0.7); }
-  .slide-actions { display: flex; gap: 6px; margin-top: 8px; }
+  .slide-prompt-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin-bottom: 6px; margin-top: 4px; }
+  .slide-prompt { font-size: 13px; line-height: 1.6; color: rgba(240,238,232,0.7); white-space: pre-wrap; outline: none; border-radius: 6px; padding: 2px 4px; transition: background 0.15s; }
+  .slide-prompt[contenteditable="true"] { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(244,123,32,0.3); padding: 8px 10px; cursor: text; color: rgba(240,238,232,0.8); }
+  .slide-actions { display: flex; gap: 6px; margin-top: 10px; }
   .slide-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; color: rgba(240,238,232,0.35); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
   .slide-btn:hover { border-color: rgba(244,123,32,0.3); color: #F47B20; }
   .slide-btn.copied { color: #7bc67e; }
@@ -79,7 +77,7 @@
   .log-entry-left { display: flex; align-items: center; gap: 10px; }
   .log-mode-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; background: rgba(244,123,32,0.12); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.2); }
   .log-entry-desc { font-size: 12.5px; color: rgba(240,238,232,0.6); }
-  .log-entry-time { font-size: 11px; color: rgba(240,238,232,0.25); }
+  .log-entry-time { font-size: 11px; color: rgba(240,238,232,0.25); flex-shrink: 0; }
   .vision-page { padding: 0; }
   .vision-hero { padding: 2.5rem 2.5rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.07); }
   .vision-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #F47B20; margin-bottom: 10px; font-weight: 500; }
@@ -360,12 +358,7 @@ ${barContext}
 
 Brand: Venuu — pure black backgrounds, orange (#F47B20) as the ONLY accent color, lowercase venuu wordmark. Premium nightlife. 18-28 college crowd.
 
-CRITICAL — these are prompts for an AI IMAGE GENERATOR. Describe what the image LOOKS LIKE visually, not what text to place where. Focus on:
-- Lighting quality, atmosphere, color temperature, mood
-- Compositional elements — what physically occupies each area of the frame
-- Texture, depth of field, bokeh, film grain
-- The emotional feeling the image creates
-- Text elements described as VISUAL OBJECTS — e.g. "glowing amber letterforms fading into dark bokeh" not "put the bar name here"
+CRITICAL — these are prompts for an AI IMAGE GENERATOR. Describe what the image LOOKS LIKE visually, not what text to place where. Focus on lighting quality, atmosphere, color temperature, mood, compositional elements, texture, depth of field, bokeh, film grain, and the emotional feeling the image creates. Text elements should be described as VISUAL OBJECTS — e.g. "glowing amber letterforms fading into dark bokeh" not "put the bar name here".
 
 Make all 3 feel like completely different creative executions:
 - Prompt 1: Typography as the hero — letterforms, type scale, dramatic negative space
@@ -379,7 +372,7 @@ Return ONLY a JSON object, no markdown, no explanation:
 
   carousel: {
     title: 'Carousel Post',
-    sub: 'Generate polished multi-slide carousel copy and image prompts for each slide.',
+    sub: 'Generate polished multi-slide carousel copy and a single post caption.',
     filters: [
       { id: 'topic', label: 'Topic / Announcement', placeholder: 'e.g. Venuu launches in Tampa, How the app works...' },
       { id: 'tone', label: 'Tone', placeholder: 'e.g. Exciting launch, Educational, Hype, Premium...' },
@@ -393,25 +386,21 @@ Brief:
 - Topic: ${f.topic || 'Venuu app announcement'}
 - Tone: ${f.tone || 'exciting and premium'}
 - CTA: ${f.cta || 'Download Venuu'}
-- Location context: Use the city mentioned in the topic. If no city specified, use Knoxville TN. For new city launch content, lean into arrival energy and FOMO. For Knoxville content, lean into social proof and the live headcount feature.
+- Location: Use the city mentioned in the topic. If no city specified, use Knoxville TN. For new city launch content, lean into arrival energy and FOMO. For Knoxville content, lean into social proof and the live headcount feature.
 
 Brand voice: Confident, specific, never corporate. Venuu shows live headcounts at bars so you always know where to go before you leave. That is the core product — real time information about how packed each bar is.
 
 STRICT RULES:
 - Never mention skip the line, VIP access, cover charge, or exclusive perks
 - Never invent bar names or venue details unless provided
-- Slide copy is SHORT — one punchy headline plus maximum 2 supporting lines
-- Write like a brand that respects its audience's intelligence
-- Each slide needs TWO things combined into ONE image prompt: the visual scene description AND the text overlay that appears on top of it
-- Text overlays should be described as visual elements: "bold white sans-serif text reading 'TAMPA WE VE LANDED' centered in upper third over a dark overlay" — describe the typography as part of the image
-- The overall post has ONE caption only — not per slide. Generate a single Instagram caption for the whole carousel at the end.
+- Each slide has a SHORT headline (3-6 words, all caps) that will be overlaid directly on the image
+- The image prompt for each slide describes BOTH the visual scene AND the text overlay as a visual element — e.g. "cinematic aerial Tampa skyline at night, dark semi-transparent gradient overlay in lower third, bold white condensed sans-serif text reading TAMPA WE VE LANDED centered in upper third, small orange venuu wordmark bottom right corner"
+- Generate ONE single Instagram caption for the whole post at the end — not per slide
 
 Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is CTA.
 
 Return ONLY a JSON object, no markdown:
-{"caption":"single instagram caption for the whole post with 2-3 hashtags","slides":[{"slide":1,"headline":"SHORT SLIDE HEADLINE","image_prompt":"full visual scene description including text overlay as a visual element — e.g. cinematic aerial shot of Tampa skyline at night with deep blacks and city lights, dark semi-transparent overlay in lower third, bold white condensed sans-serif text reading TAMPA WE VE LANDED centered in frame, venuu wordmark in orange bottom right corner"}]}
-Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is a clean CTA.
-
+{"caption":"single instagram caption for the whole carousel with 2-3 hashtags","slides":[{"slide":1,"headline":"SLIDE HEADLINE","image_prompt":"full visual scene plus text overlay description"}]}`;
     }
   },
 
@@ -443,9 +432,9 @@ Generate exactly three things:
 
 1. HIGGSFIELD VIDEO PROMPT — cinematic and specific. Describe camera movement, lighting quality, character movement, atmosphere, color grade. Make it feel like a real film brief not a description.
 
-2. HOOK — the first line seen or heard on screen. Rules: under 8 words, always present tense, always lowercase, never explains itself, implies something is happening RIGHT NOW. Creates tension through incompleteness. Think: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket." — a fragment that demands the viewer keep watching.
+2. HOOK — the first line seen or heard on screen. Rules: under 8 words, always present tense, always lowercase, never explains itself, implies something is happening RIGHT NOW. Creates tension through incompleteness. Examples: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket."
 
-3. CAPTION — 2-4 lines, Venuu brand voice. Confident and specific. Reference the live headcount feature naturally like a friend mentioning it, not an ad. End with 2-3 hashtags max. No POV, no exclamation spam, no "vibes are immaculate", no past tense storytelling.
+3. CAPTION — 2-4 lines, Venuu brand voice. Confident and specific. Reference the live headcount feature naturally like a friend mentioning it, not an ad. End with 2-3 hashtags max. No POV, no exclamation spam, no past tense storytelling.
 
 Return ONLY a JSON object, no markdown:
 {"higgsfield_prompt":"...","hook":"...","caption":"..."}`;
@@ -488,14 +477,12 @@ function renderSessionLog() {
 function setMode(mode, btn) {
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-
   if (mode === 'vision') {
     document.getElementById('studioPage').style.display = 'none';
     document.getElementById('visionPage').style.display = 'block';
     currentMode = 'vision';
     return;
   }
-
   document.getElementById('studioPage').style.display = 'block';
   document.getElementById('visionPage').style.display = 'none';
   currentMode = mode;
@@ -540,7 +527,7 @@ function clearResults() {
 
 function buildLogDescription(mode, filters) {
   if (mode === 'story') return `${filters.bar || 'Bar'} · ${filters.deal || 'Story post'}`;
-  if (mode === 'carousel') return `${filters.topic || 'Carousel post'} · ${filters.slides || 5} slides`;
+  if (mode === 'carousel') return `${filters.topic || 'Carousel'} · ${filters.slides || 5} slides`;
   if (mode === 'reels') return `${filters.bar || filters.setting || 'Reels'} · ${filters.vibe || 'video'}`;
   return 'Generated content';
 }
@@ -598,7 +585,7 @@ function batchCopyAll() {
     ['prompt1','prompt2','prompt3'].forEach((k,i) => {
       if (currentData[k]) text += `FLYER PROMPT ${i+1}:\n${currentData[k]}\n\n`;
     });
-} else if (currentMode === 'carousel') {
+  } else if (currentMode === 'carousel') {
     if (currentData.caption) text += `POST CAPTION:\n${currentData.caption}\n\n`;
     (currentData.slides || []).forEach(s => {
       text += `SLIDE ${s.slide} — ${s.headline || ''}:\n${s.image_prompt}\n\n`;
@@ -619,7 +606,7 @@ function toggleEdit(btn, elId, limit) {
   const isEditing = el.getAttribute('contenteditable') === 'true';
   if (isEditing) {
     el.setAttribute('contenteditable', 'false');
-    btn.textContent = btn.textContent.includes('Copy') ? btn.textContent : 'Edit';
+    btn.textContent = 'Edit';
     btn.classList.remove('editing');
   } else {
     el.setAttribute('contenteditable', 'true');
@@ -641,6 +628,7 @@ function toggleEdit(btn, elId, limit) {
 
 function renderResults(data) {
   const area = document.getElementById('resultsArea');
+
   if (currentMode === 'story') {
     area.innerHTML = ['prompt1','prompt2','prompt3'].map((key, i) => {
       const id = `result_${key}`;
@@ -656,7 +644,8 @@ function renderResults(data) {
         <div class="char-count"></div>
       </div>`;
     }).join('');
-} else if (currentMode === 'carousel') {
+
+  } else if (currentMode === 'carousel') {
     const slides = data.slides || [];
     const captionId = 'carousel_caption';
     const captionHtml = data.caption ? `
@@ -683,24 +672,7 @@ function renderResults(data) {
         </div>
       </div>`;
     }).join('')}</div>`;
-      const copyId = `slide_copy_${i}`;
-      const promptId = `slide_prompt_${i}`;
-      return `<div class="slide-card">
-        <div class="slide-number">Slide ${s.slide}</div>
-        <div class="slide-copy" id="${copyId}">${esc(s.copy || '')}</div>
-        <div class="char-count"></div>
-        <div class="slide-actions">
-          <button class="slide-btn" onclick="toggleEdit(this, '${copyId}', 2200)">Edit</button>
-          <button class="slide-btn" onclick="copyEl('${copyId}', this)">Copy Copy</button>
-        </div>
-        <div class="slide-prompt-label">Image Prompt</div>
-        <div class="slide-prompt" id="${promptId}">${esc(s.image_prompt || '')}</div>
-        <div class="slide-actions">
-          <button class="slide-btn" onclick="toggleEdit(this, '${promptId}', 9999)">Edit</button>
-          <button class="slide-btn" onclick="copyEl('${promptId}', this)">Copy Prompt</button>
-        </div>
-      </div>`;
-    }).join('')}</div>`;
+
   } else if (currentMode === 'reels') {
     const items = [
       { key: 'higgsfield_prompt', label: 'Higgsfield Video Prompt', limit: 9999 },
