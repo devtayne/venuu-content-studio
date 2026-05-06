@@ -361,8 +361,30 @@ const modeConfig = {
     prompt: (f) => {
       const bar = findBarProfile(f.bar);
       const barContext = bar ? `BAR PROFILE — ${bar.fullName}:\n- Aesthetic: ${bar.aesthetic}\n- Colors & Lighting: ${bar.colors}\n- Interior: ${bar.interior}\n- Vibe: ${bar.vibe}\n- Signature elements: ${bar.signature}\nUse these specific details to make each flyer feel unmistakably like THIS bar.` : `Bar: ${f.bar || 'Knoxville bar'}`;
-      return `You are a creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).\n\nBrief:\n${barContext}\n- Deal/Event: ${f.deal || 'tonight special'}\n- Urgency/Mood: ${f.urgency || 'tonight only'}\n- Visual Style: ${f.style || 'dark and moody'}\n\nBrand: Venuu — black background, orange (#F47B20) accent color, lowercase venuu wordmark. Premium nightlife aesthetic. Target: 18-28 college crowd.\n\nEach prompt should describe composition and layout referencing the bar's actual aesthetic, text elements to include (bar name, the deal, venuu branding, tonight's date), specific color palette and lighting from this bar's real atmosphere, background and atmosphere. Make all 3 distinctly different — one typography-focused, one atmospheric photo-real, one graphic and designed.\n\nReturn ONLY a JSON object, no markdown:\n{"prompt1":"...","prompt2":"...","prompt3":"..."}`;
-    }
+return `You are a visual creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
+
+BAR BRIEF:
+${barContext}
+- Deal/Event: ${f.deal || 'tonight special'}
+- Urgency: ${f.urgency || 'tonight only'}
+- Visual Direction: ${f.style || 'dark and moody'}
+
+Brand: Venuu — pure black backgrounds, orange (#F47B20) as the ONLY accent color, lowercase venuu wordmark. Premium nightlife. 18-28 college crowd.
+
+CRITICAL — these are prompts for an AI IMAGE GENERATOR, not design instructions. Describe what the image LOOKS LIKE visually, not what text to place where. Focus on:
+- Lighting, atmosphere, mood, color temperature
+- Compositional elements — what occupies each area of the frame
+- Texture, depth, bokeh, grain
+- The feeling the image creates before you read a single word
+- Text elements described as VISUAL OBJECTS — e.g. "glowing orange letterforms" or "thin white sans-serif floating over dark bokeh" not "put the bar name here"
+
+Make all 3 feel like completely different creative executions of the same brief:
+- Prompt 1: Typography as the hero — letterforms, type scale, negative space
+- Prompt 2: Atmosphere/photo-real — you're looking AT the bar, cinematic, feels like you're there
+- Prompt 3: Graphic/illustrative — stylized, geometric, designed
+
+Return ONLY a JSON object, no markdown, no explanation:
+{"prompt1":"...","prompt2":"...","prompt3":"..."}`;    }
   },
   carousel: {
     title: 'Carousel Post',
@@ -374,8 +396,27 @@ const modeConfig = {
       { id: 'cta', label: 'Call to Action', placeholder: 'e.g. Download now, Follow us, Coming soon...' }
     ],
     prompt: (f) => {
-      return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.\n\nBrief:\n- Topic: ${f.topic || 'Venuu app announcement'}\n- Tone: ${f.tone || 'exciting and premium'}\n- CTA: ${f.cta || 'Download Venuu'}\n\nBrand: Venuu — your cheat code for nightlife. Black and orange. Premium but approachable. 18-28 audience.\n\nFor each slide provide slide copy (headline plus 1-2 supporting lines max) and an image generation prompt for that slide's visual. Make slides flow as a narrative — slide 1 hooks, middle slides deliver value, final slide is the CTA.\n\nReturn ONLY a JSON object, no markdown:\n{"slides":[{"slide":1,"copy":"slide headline and supporting text","image_prompt":"detailed image generation prompt"}]}`;
-    }
+return `You are a social media creative director for Venuu, a premium nightlife app based in Knoxville, Tennessee. Create a ${f.slides || 5}-slide Instagram carousel post.
+
+Brief:
+- Topic: ${f.topic || 'Venuu app announcement'}
+- Tone: ${f.tone || 'exciting and premium'}
+- CTA: ${f.cta || 'Download Venuu'}
+- Location: Knoxville, TN (always — never invent other cities)
+
+Brand voice: Confident, specific, never corporate. Venuu shows live headcounts at bars so you always know where to go before you leave. That is the core product — not VIP access, not skip the line, not exclusive perks. The value is INFORMATION — knowing exactly how packed each bar is in real time.
+
+STRICT RULES:
+- Never mention skip the line, VIP access, cover charge, or exclusive perks — these features do not exist yet
+- Never invent a city — always Knoxville unless the topic explicitly states expansion
+- Slide copy should be SHORT — one punchy headline plus maximum 2 supporting lines
+- Write like a brand that respects its audience's intelligence — no hype filler
+- The image prompt for each slide should describe a VISUAL SCENE, not design instructions
+
+Slides should flow as a narrative — slide 1 creates intrigue, middle slides deliver the value proposition clearly, final slide is a clean CTA.
+
+Return ONLY a JSON object, no markdown:
+{"slides":[{"slide":1,"copy":"headline\nsupporting line","image_prompt":"detailed visual scene description"}]}`;    }
   },
   reels: {
     title: 'Reels',
@@ -389,8 +430,7 @@ const modeConfig = {
     prompt: (f) => {
       const bar = findBarProfile(f.bar);
       const barContext = bar ? `Location: ${bar.fullName} — ${bar.aesthetic}. Atmosphere: ${bar.colors}. Known for: ${bar.signature}.` : `Location: ${f.bar || 'Knoxville nightlife'}`;
-      return `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.\n\nBrief:\n- Vibe: ${f.vibe || 'Saturday night'}\n- Character: ${f.character || 'stylish woman in her 20s'}\n- Setting: ${f.setting || 'nightlife bar scene'}\n- ${barContext}\n\nBrand voice: Confident, aspirational, sexy but never desperate. Think Don Julio meets college nightlife. The app shows live headcounts at bars so you always know where to go before you leave.\n\nGenerate:\n1. A detailed Higgsfield video prompt (cinematic, specific about lighting, movement, character, atmosphere)\n2. A scroll-stopping hook (first line of video, under 10 words, lowercase, implies a story)\n3. An Instagram caption (2-4 lines, confident voice, reference live headcount naturally, 2-3 hashtags max, no POV no exclamation spam)\n\nReturn ONLY a JSON object, no markdown:\n{"higgsfield_prompt":"...","hook":"...","caption":"..."}`;
-    }
+      return `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.\n\nBrief:\n- Vibe: ${f.vibe || 'Saturday night'}\n- Character: ${f.character || 'stylish woman in her 20s'}\n- Setting: ${f.setting || 'nightlife bar scene'}\n- ${barContext}\n\nBrand voice: Confident, aspirational, sexy but never desperate. Think Don Julio meets college nightlife. The app shows live headcounts at bars so you always know where to go before you leave.\n\nGenerate:\n1. A detailed Higgsfield video prompt (cinematic, specific about lighting, movement, character, atmosphere)\n2. A scroll-stopping hook (first line of video or text on screen — under 8 words, always present tense or present moment, lowercase, never past tense, never explains itself, implies something is happening RIGHT NOW that you're missing. Think: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket." — incomplete thought that demands completion)
   }
 };
 
