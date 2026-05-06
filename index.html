@@ -402,12 +402,16 @@ STRICT RULES:
 - Never invent bar names or venue details unless provided
 - Slide copy is SHORT — one punchy headline plus maximum 2 supporting lines
 - Write like a brand that respects its audience's intelligence
-- Image prompts describe a VISUAL SCENE, not design instructions — what does the image actually look like
+- Each slide needs TWO things combined into ONE image prompt: the visual scene description AND the text overlay that appears on top of it
+- Text overlays should be described as visual elements: "bold white sans-serif text reading 'TAMPA WE VE LANDED' centered in upper third over a dark overlay" — describe the typography as part of the image
+- The overall post has ONE caption only — not per slide. Generate a single Instagram caption for the whole carousel at the end.
 
-Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is a clean CTA.
+Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is CTA.
 
 Return ONLY a JSON object, no markdown:
-{"slides":[{"slide":1,"copy":"headline\nsupporting line","image_prompt":"detailed visual scene description"}]}`;
+{"caption":"single instagram caption for the whole post with 2-3 hashtags","slides":[{"slide":1,"headline":"SHORT SLIDE HEADLINE","image_prompt":"full visual scene description including text overlay as a visual element — e.g. cinematic aerial shot of Tampa skyline at night with deep blacks and city lights, dark semi-transparent overlay in lower third, bold white condensed sans-serif text reading TAMPA WE VE LANDED centered in frame, venuu wordmark in orange bottom right corner"}]}
+Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is a clean CTA.
+
     }
   },
 
@@ -594,9 +598,10 @@ function batchCopyAll() {
     ['prompt1','prompt2','prompt3'].forEach((k,i) => {
       if (currentData[k]) text += `FLYER PROMPT ${i+1}:\n${currentData[k]}\n\n`;
     });
-  } else if (currentMode === 'carousel') {
+} else if (currentMode === 'carousel') {
+    if (currentData.caption) text += `POST CAPTION:\n${currentData.caption}\n\n`;
     (currentData.slides || []).forEach(s => {
-      text += `SLIDE ${s.slide}:\n${s.copy}\n\nIMAGE PROMPT:\n${s.image_prompt}\n\n`;
+      text += `SLIDE ${s.slide} — ${s.headline || ''}:\n${s.image_prompt}\n\n`;
     });
   } else if (currentMode === 'reels') {
     if (currentData.hook) text += `HOOK:\n${currentData.hook}\n\n`;
@@ -651,9 +656,33 @@ function renderResults(data) {
         <div class="char-count"></div>
       </div>`;
     }).join('');
-  } else if (currentMode === 'carousel') {
+} else if (currentMode === 'carousel') {
     const slides = data.slides || [];
-    area.innerHTML = `<div class="slides-container">${slides.map((s, i) => {
+    const captionId = 'carousel_caption';
+    const captionHtml = data.caption ? `
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-label">Post Caption</div>
+          <div class="card-actions">
+            <button class="edit-btn" onclick="toggleEdit(this, '${captionId}', 2200)">Edit</button>
+            <button class="copy-btn" onclick="copyEl('${captionId}', this)">Copy</button>
+          </div>
+        </div>
+        <div class="result-text" id="${captionId}">${esc(data.caption)}</div>
+        <div class="char-count"></div>
+      </div>` : '';
+    area.innerHTML = captionHtml + `<div class="slides-container">${slides.map((s, i) => {
+      const promptId = `slide_prompt_${i}`;
+      return `<div class="slide-card">
+        <div class="slide-number">Slide ${s.slide} — ${esc(s.headline || '')}</div>
+        <div class="slide-prompt-label">Image + Text Overlay Prompt</div>
+        <div class="slide-prompt" id="${promptId}">${esc(s.image_prompt || '')}</div>
+        <div class="slide-actions">
+          <button class="slide-btn" onclick="toggleEdit(this, '${promptId}', 9999)">Edit</button>
+          <button class="slide-btn" onclick="copyEl('${promptId}', this)">Copy Prompt</button>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
       const copyId = `slide_copy_${i}`;
       const promptId = `slide_prompt_${i}`;
       return `<div class="slide-card">
