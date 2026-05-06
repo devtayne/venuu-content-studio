@@ -59,19 +59,28 @@
   .slides-container { display: flex; flex-direction: column; gap: 12px; }
   .slide-card { background: rgba(244,123,32,0.04); border: 0.5px solid rgba(244,123,32,0.15); border-radius: 10px; padding: 1rem 1.25rem; }
   .slide-number { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #F47B20; font-weight: 500; margin-bottom: 8px; }
-  .slide-copy { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.8); margin-bottom: 10px; white-space: pre-wrap; outline: none; border-radius: 6px; padding: 2px 4px; margin: -2px -4px 8px; transition: background 0.15s; }
-  .slide-copy[contenteditable="true"] { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(244,123,32,0.3); padding: 8px 10px; margin: 0 0 8px; cursor: text; }
+  .slide-copy { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.8); margin-bottom: 10px; white-space: pre-wrap; outline: none; border-radius: 6px; padding: 2px 4px; transition: background 0.15s; }
+  .slide-copy[contenteditable="true"] { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(244,123,32,0.3); padding: 8px 10px; cursor: text; }
   .slide-prompt-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin-bottom: 6px; margin-top: 12px; border-top: 0.5px solid rgba(255,255,255,0.06); padding-top: 12px; }
-  .slide-prompt { font-size: 12px; line-height: 1.6; color: rgba(240,238,232,0.5); font-style: italic; }
-  .slide-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .slide-prompt { font-size: 12px; line-height: 1.6; color: rgba(240,238,232,0.5); font-style: italic; white-space: pre-wrap; outline: none; border-radius: 6px; padding: 2px 4px; transition: background 0.15s; }
+  .slide-prompt[contenteditable="true"] { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(244,123,32,0.3); padding: 8px 10px; cursor: text; font-style: normal; color: rgba(240,238,232,0.7); }
+  .slide-actions { display: flex; gap: 6px; margin-top: 8px; }
   .slide-btn { background: transparent; border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; color: rgba(240,238,232,0.35); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 10px; cursor: pointer; transition: all 0.15s; }
   .slide-btn:hover { border-color: rgba(244,123,32,0.3); color: #F47B20; }
   .slide-btn.copied { color: #7bc67e; }
-  .batch-copy-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 20px; background: transparent; border: 0.5px solid rgba(244,123,32,0.3); color: #F47B20; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .slide-btn.editing { color: #F47B20; border-color: rgba(244,123,32,0.4); background: rgba(244,123,32,0.08); }
+  .batch-copy-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 20px; background: transparent; border: 0.5px solid rgba(244,123,32,0.3); color: #F47B20; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; width: 100%; }
   .batch-copy-btn:hover { background: rgba(244,123,32,0.08); }
-
-  /* VISION PAGE */
-  .vision-page { padding: 0; max-width: 100%; }
+  .session-log { background: rgba(255,255,255,0.02); border: 0.5px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1rem 1.25rem; }
+  .session-log-header { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin-bottom: 10px; font-weight: 500; }
+  .session-log-empty { font-size: 12px; color: rgba(240,238,232,0.2); font-style: italic; }
+  .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+  .log-entry:last-child { border-bottom: none; }
+  .log-entry-left { display: flex; align-items: center; gap: 10px; }
+  .log-mode-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; background: rgba(244,123,32,0.12); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.2); }
+  .log-entry-desc { font-size: 12.5px; color: rgba(240,238,232,0.6); }
+  .log-entry-time { font-size: 11px; color: rgba(240,238,232,0.25); }
+  .vision-page { padding: 0; }
   .vision-hero { padding: 2.5rem 2.5rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.07); }
   .vision-eyebrow { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #F47B20; margin-bottom: 10px; font-weight: 500; }
   .vision-title { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; line-height: 1.1; color: #f0eee8; margin-bottom: 8px; }
@@ -119,13 +128,11 @@
   .vision-legend { padding: 0 2.5rem 2rem; display: flex; gap: 20px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(240,238,232,0.35); }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
-
   @media (max-width: 768px) {
     .main { padding: 1.25rem; }
     .filters-2, .filters-3 { grid-template-columns: 1fr; }
     .mode-tab { padding: 0.75rem 1rem; font-size: 12px; }
-    .vision-hero { padding: 1.5rem; }
-    .pipeline { padding: 1.5rem; }
+    .vision-hero, .pipeline { padding: 1.5rem; }
     .vision-bottom { flex-direction: column; }
     .vb-right { justify-content: center; }
   }
@@ -155,12 +162,15 @@
   <button class="mode-tab" onclick="setMode('vision', this)">◎ Pipeline Vision</button>
 </div>
 
-<!-- STUDIO PAGES -->
 <div id="studioPage">
   <div class="main">
     <div>
       <div class="mode-title" id="modeTitle">Story Post</div>
       <div class="mode-sub" id="modeSub">Generate vertical flyer-style image prompts for bar deals and events tonight.</div>
+    </div>
+    <div id="sessionLog" class="session-log">
+      <div class="session-log-header">Tonight's Session</div>
+      <div id="sessionLogEntries"><div class="session-log-empty">Nothing generated yet this session.</div></div>
     </div>
     <div id="filtersContainer"></div>
     <button class="generate-btn" id="genBtn" onclick="generate()">Generate ✦</button>
@@ -177,7 +187,6 @@
   </div>
 </div>
 
-<!-- VISION PAGE -->
 <div id="visionPage" style="display:none;">
   <div class="vision-page">
     <div class="vision-hero">
@@ -185,7 +194,6 @@
       <div class="vision-title">Autonomous Content.<br><span>Zero Manual Work.</span></div>
       <div class="vision-sub">A fully automated social media engine built on Claude AI, n8n, and Higgsfield — generating, approving, and publishing Venuu content at scale across every partner bar.</div>
     </div>
-
     <div class="pipeline">
       <div class="stage-row">
         <div class="stage">
@@ -201,14 +209,10 @@
               <span class="tool-tag tag-gray">Story · Carousel · Reels</span>
             </div>
           </div>
-          <div class="stage-status">
-            <div class="status-dot dot-live"></div>
-            <div class="status-label">Live</div>
-          </div>
+          <div class="stage-status"><div class="status-dot dot-live"></div><div class="status-label">Live</div></div>
         </div>
       </div>
       <div class="connector-gap"></div>
-
       <div class="stage-row">
         <div class="stage">
           <div class="stage-icon icon-purple">⬡</div>
@@ -223,14 +227,10 @@
               <span class="tool-tag tag-gray">Scheduler</span>
             </div>
           </div>
-          <div class="stage-status">
-            <div class="status-dot dot-live"></div>
-            <div class="status-label">Live</div>
-          </div>
+          <div class="stage-status"><div class="status-dot dot-live"></div><div class="status-label">Live</div></div>
         </div>
       </div>
       <div class="connector-gap"></div>
-
       <div class="stage-row">
         <div class="stage">
           <div class="stage-icon icon-blue">▷</div>
@@ -245,14 +245,10 @@
               <span class="tool-tag tag-gray">Character Consistency</span>
             </div>
           </div>
-          <div class="stage-status">
-            <div class="status-dot dot-building"></div>
-            <div class="status-label">Building</div>
-          </div>
+          <div class="stage-status"><div class="status-dot dot-building"></div><div class="status-label">Building</div></div>
         </div>
       </div>
       <div class="connector-gap"></div>
-
       <div class="stage-row">
         <div class="stage">
           <div class="stage-icon icon-teal">◎</div>
@@ -267,14 +263,10 @@
               <span class="tool-tag tag-gray">Regenerate</span>
             </div>
           </div>
-          <div class="stage-status">
-            <div class="status-dot dot-building"></div>
-            <div class="status-label">Building</div>
-          </div>
+          <div class="stage-status"><div class="status-dot dot-building"></div><div class="status-label">Building</div></div>
         </div>
       </div>
       <div class="connector-gap"></div>
-
       <div class="stage-row">
         <div class="stage">
           <div class="stage-icon icon-green">◈</div>
@@ -289,14 +281,10 @@
               <span class="tool-tag tag-gray">Instant Publish</span>
             </div>
           </div>
-          <div class="stage-status">
-            <div class="status-dot dot-planned"></div>
-            <div class="status-label">Planned</div>
-          </div>
+          <div class="stage-status"><div class="status-dot dot-planned"></div><div class="status-label">Planned</div></div>
         </div>
       </div>
     </div>
-
     <div class="vision-bottom">
       <div class="vb-left">
         <div class="vb-title">From prompt to posted — fully automated.</div>
@@ -308,10 +296,9 @@
         <div class="metric"><div class="metric-num">∞</div><div class="metric-label">Scale</div></div>
       </div>
     </div>
-
     <div class="vision-legend">
       <div class="legend-item"><div class="legend-dot" style="background:#60c070;box-shadow:0 0 4px rgba(96,192,112,0.5);"></div>Live now</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#F47B20;box-shadow:0 0 4px rgba(244,123,32,0.4);animation:blink 2s ease-in-out infinite;"></div>In progress</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F47B20;box-shadow:0 0 4px rgba(244,123,32,0.4);"></div>In progress</div>
       <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15);"></div>Planned</div>
     </div>
   </div>
@@ -360,8 +347,10 @@ const modeConfig = {
     ],
     prompt: (f) => {
       const bar = findBarProfile(f.bar);
-      const barContext = bar ? `BAR PROFILE — ${bar.fullName}:\n- Aesthetic: ${bar.aesthetic}\n- Colors & Lighting: ${bar.colors}\n- Interior: ${bar.interior}\n- Vibe: ${bar.vibe}\n- Signature elements: ${bar.signature}\nUse these specific details to make each flyer feel unmistakably like THIS bar.` : `Bar: ${f.bar || 'Knoxville bar'}`;
-return `You are a visual creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
+      const barContext = bar
+        ? `BAR PROFILE — ${bar.fullName}:\n- Aesthetic: ${bar.aesthetic}\n- Colors & Lighting: ${bar.colors}\n- Interior details: ${bar.interior}\n- Vibe: ${bar.vibe}\n- Signature elements: ${bar.signature}`
+        : `Bar: ${f.bar || 'Knoxville bar'}`;
+      return `You are a visual creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio).
 
 BAR BRIEF:
 ${barContext}
@@ -371,51 +360,57 @@ ${barContext}
 
 Brand: Venuu — pure black backgrounds, orange (#F47B20) as the ONLY accent color, lowercase venuu wordmark. Premium nightlife. 18-28 college crowd.
 
-CRITICAL — these are prompts for an AI IMAGE GENERATOR, not design instructions. Describe what the image LOOKS LIKE visually, not what text to place where. Focus on:
-- Lighting, atmosphere, mood, color temperature
-- Compositional elements — what occupies each area of the frame
-- Texture, depth, bokeh, grain
-- The feeling the image creates before you read a single word
-- Text elements described as VISUAL OBJECTS — e.g. "glowing orange letterforms" or "thin white sans-serif floating over dark bokeh" not "put the bar name here"
+CRITICAL — these are prompts for an AI IMAGE GENERATOR. Describe what the image LOOKS LIKE visually, not what text to place where. Focus on:
+- Lighting quality, atmosphere, color temperature, mood
+- Compositional elements — what physically occupies each area of the frame
+- Texture, depth of field, bokeh, film grain
+- The emotional feeling the image creates
+- Text elements described as VISUAL OBJECTS — e.g. "glowing amber letterforms fading into dark bokeh" not "put the bar name here"
 
-Make all 3 feel like completely different creative executions of the same brief:
-- Prompt 1: Typography as the hero — letterforms, type scale, negative space
-- Prompt 2: Atmosphere/photo-real — you're looking AT the bar, cinematic, feels like you're there
-- Prompt 3: Graphic/illustrative — stylized, geometric, designed
+Make all 3 feel like completely different creative executions:
+- Prompt 1: Typography as the hero — letterforms, type scale, dramatic negative space
+- Prompt 2: Atmosphere and photo-realism — cinematic, feels like you are physically there
+- Prompt 3: Graphic and illustrative — stylized, geometric, intentionally designed
 
 Return ONLY a JSON object, no markdown, no explanation:
-{"prompt1":"...","prompt2":"...","prompt3":"..."}`;    }
+{"prompt1":"...","prompt2":"...","prompt3":"..."}`;
+    }
   },
+
   carousel: {
     title: 'Carousel Post',
     sub: 'Generate polished multi-slide carousel copy and image prompts for each slide.',
     filters: [
-      { id: 'topic', label: 'Topic / Announcement', placeholder: 'e.g. Venuu launches in Nashville, How the app works...' },
-      { id: 'tone', label: 'Tone', placeholder: 'e.g. Exciting announcement, Educational, Hype, Professional...' },
+      { id: 'topic', label: 'Topic / Announcement', placeholder: 'e.g. Venuu launches in Tampa, How the app works...' },
+      { id: 'tone', label: 'Tone', placeholder: 'e.g. Exciting launch, Educational, Hype, Premium...' },
       { id: 'slides', label: 'Number of Slides', placeholder: 'e.g. 5' },
       { id: 'cta', label: 'Call to Action', placeholder: 'e.g. Download now, Follow us, Coming soon...' }
     ],
     prompt: (f) => {
-return `You are a social media creative director for Venuu, a premium nightlife app based in Knoxville, Tennessee. Create a ${f.slides || 5}-slide Instagram carousel post.
+      return `You are a social media creative director for Venuu, a premium nightlife app. Create a ${f.slides || 5}-slide Instagram carousel post.
 
 Brief:
 - Topic: ${f.topic || 'Venuu app announcement'}
 - Tone: ${f.tone || 'exciting and premium'}
 - CTA: ${f.cta || 'Download Venuu'}
-- Location: Use the city mentioned in the topic. If no city is specified, default to Knoxville, TN. For new city launch content, lean into arrival energy and FOMO. For Knoxville content, lean into social proof and the live headcount feature specifically.
-Brand voice: Confident, specific, never corporate. Venuu shows live headcounts at bars so you always know where to go before you leave. That is the core product — not VIP access, not skip the line, not exclusive perks. The value is INFORMATION — knowing exactly how packed each bar is in real time.
+- Location context: Use the city mentioned in the topic. If no city specified, use Knoxville TN. For new city launch content, lean into arrival energy and FOMO. For Knoxville content, lean into social proof and the live headcount feature.
+
+Brand voice: Confident, specific, never corporate. Venuu shows live headcounts at bars so you always know where to go before you leave. That is the core product — real time information about how packed each bar is.
 
 STRICT RULES:
-- Never mention skip the line, VIP access, cover charge, or exclusive perks — these features do not exist yet
-- Never invent details about a city you weren't given — if launching in Tampa, write Tampa energy, Tampa nightlife, Tampa crowd. Don't fabricate specific bar names or venues unless provided.- Slide copy should be SHORT — one punchy headline plus maximum 2 supporting lines
-- Write like a brand that respects its audience's intelligence — no hype filler
-- The image prompt for each slide should describe a VISUAL SCENE, not design instructions
+- Never mention skip the line, VIP access, cover charge, or exclusive perks
+- Never invent bar names or venue details unless provided
+- Slide copy is SHORT — one punchy headline plus maximum 2 supporting lines
+- Write like a brand that respects its audience's intelligence
+- Image prompts describe a VISUAL SCENE, not design instructions — what does the image actually look like
 
-Slides should flow as a narrative — slide 1 creates intrigue, middle slides deliver the value proposition clearly, final slide is a clean CTA.
+Slides flow as a narrative — slide 1 creates intrigue, middle slides deliver value, final slide is a clean CTA.
 
 Return ONLY a JSON object, no markdown:
-{"slides":[{"slide":1,"copy":"headline\nsupporting line","image_prompt":"detailed visual scene description"}]}`;    }
+{"slides":[{"slide":1,"copy":"headline\nsupporting line","image_prompt":"detailed visual scene description"}]}`;
+    }
   },
+
   reels: {
     title: 'Reels',
     sub: 'Generate Higgsfield video prompts, hooks, and captions for Instagram Reels.',
@@ -427,15 +422,64 @@ Return ONLY a JSON object, no markdown:
     ],
     prompt: (f) => {
       const bar = findBarProfile(f.bar);
-      const barContext = bar ? `Location: ${bar.fullName} — ${bar.aesthetic}. Atmosphere: ${bar.colors}. Known for: ${bar.signature}.` : `Location: ${f.bar || 'Knoxville nightlife'}`;
-      return `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.\n\nBrief:\n- Vibe: ${f.vibe || 'Saturday night'}\n- Character: ${f.character || 'stylish woman in her 20s'}\n- Setting: ${f.setting || 'nightlife bar scene'}\n- ${barContext}\n\nBrand voice: Confident, aspirational, sexy but never desperate. Think Don Julio meets college nightlife. The app shows live headcounts at bars so you always know where to go before you leave.\n\nGenerate:\n1. A detailed Higgsfield video prompt (cinematic, specific about lighting, movement, character, atmosphere)\n2. A scroll-stopping hook (first line of video or text on screen — under 8 words, always present tense or present moment, lowercase, never past tense, never explains itself, implies something is happening RIGHT NOW that you're missing. Think: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket." — incomplete thought that demands completion)
+      const barContext = bar
+        ? `Location: ${bar.fullName} — ${bar.aesthetic}. Atmosphere: ${bar.colors}. Known for: ${bar.signature}.`
+        : `Location: ${f.bar || 'Knoxville nightlife'}`;
+      return `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.
+
+Brief:
+- Vibe: ${f.vibe || 'Saturday night'}
+- Character: ${f.character || 'stylish woman in her 20s'}
+- Setting: ${f.setting || 'nightlife bar scene'}
+- ${barContext}
+
+Brand voice: Confident, aspirational, sexy but never desperate. Think Don Julio meets college nightlife. The app shows live headcounts at bars so you always know where to go before you leave.
+
+Generate exactly three things:
+
+1. HIGGSFIELD VIDEO PROMPT — cinematic and specific. Describe camera movement, lighting quality, character movement, atmosphere, color grade. Make it feel like a real film brief not a description.
+
+2. HOOK — the first line seen or heard on screen. Rules: under 8 words, always present tense, always lowercase, never explains itself, implies something is happening RIGHT NOW. Creates tension through incompleteness. Think: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket." — a fragment that demands the viewer keep watching.
+
+3. CAPTION — 2-4 lines, Venuu brand voice. Confident and specific. Reference the live headcount feature naturally like a friend mentioning it, not an ad. End with 2-3 hashtags max. No POV, no exclamation spam, no "vibes are immaculate", no past tense storytelling.
+
+Return ONLY a JSON object, no markdown:
+{"higgsfield_prompt":"...","hook":"...","caption":"..."}`;
+    }
   }
 };
 
 let currentMode = 'story';
 let currentData = {};
+const sessionLog = [];
 
-const CHAR_LIMITS = { Instagram: 2200, TikTok: 150, Hook: 100, 'Higgsfield Video Prompt': 9999, 'Flyer Prompt 1': 9999, 'Flyer Prompt 2': 9999, 'Flyer Prompt 3': 9999, 'Instagram Caption': 2200, 'Video Hook': 100 };
+function getTime() {
+  const now = new Date();
+  return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function addLogEntry(mode, description) {
+  sessionLog.unshift({ mode, description, time: getTime() });
+  renderSessionLog();
+}
+
+function renderSessionLog() {
+  const container = document.getElementById('sessionLogEntries');
+  if (sessionLog.length === 0) {
+    container.innerHTML = '<div class="session-log-empty">Nothing generated yet this session.</div>';
+    return;
+  }
+  const modeLabels = { story: 'Story', carousel: 'Carousel', reels: 'Reels' };
+  container.innerHTML = sessionLog.map(entry => `
+    <div class="log-entry">
+      <div class="log-entry-left">
+        <span class="log-mode-badge">${modeLabels[entry.mode] || entry.mode}</span>
+        <span class="log-entry-desc">${esc(entry.description)}</span>
+      </div>
+      <span class="log-entry-time">${entry.time}</span>
+    </div>
+  `).join('');
+}
 
 function setMode(mode, btn) {
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
@@ -461,7 +505,11 @@ function setMode(mode, btn) {
 function renderFilters(filters) {
   const container = document.getElementById('filtersContainer');
   const gridClass = filters.length <= 2 ? 'filters-2' : 'filters-3';
-  container.innerHTML = `<div class="filters-grid ${gridClass}">${filters.map(f => `<div class="filter-group"><div class="filter-label">${f.label}</div><input class="filter-input" id="filter_${f.id}" type="text" placeholder="${f.placeholder}" /></div>`).join('')}</div>`;
+  container.innerHTML = `<div class="filters-grid ${gridClass}">${filters.map(f => `
+    <div class="filter-group">
+      <div class="filter-label">${f.label}</div>
+      <input class="filter-input" id="filter_${f.id}" type="text" placeholder="${f.placeholder}" />
+    </div>`).join('')}</div>`;
 }
 
 function getFilterValues() {
@@ -477,8 +525,20 @@ function getFilterValues() {
 function clearResults() {
   currentData = {};
   document.getElementById('batchCopyRow').innerHTML = '';
-  document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:32px;opacity:0.3;">◈</div><div>Fill in your filters and hit generate.</div><div style="font-size:11px;opacity:0.5;margin-top:4px;">Powered by Claude AI + Higgsfield</div></div>`;
+  document.getElementById('resultsArea').innerHTML = `
+    <div class="empty-state">
+      <div style="font-size:32px;opacity:0.3;">◈</div>
+      <div>Fill in your filters and hit generate.</div>
+      <div style="font-size:11px;opacity:0.5;margin-top:4px;">Powered by Claude AI + Higgsfield</div>
+    </div>`;
   document.getElementById('errorMsg').classList.remove('visible');
+}
+
+function buildLogDescription(mode, filters) {
+  if (mode === 'story') return `${filters.bar || 'Bar'} · ${filters.deal || 'Story post'}`;
+  if (mode === 'carousel') return `${filters.topic || 'Carousel post'} · ${filters.slides || 5} slides`;
+  if (mode === 'reels') return `${filters.bar || filters.setting || 'Reels'} · ${filters.vibe || 'video'}`;
+  return 'Generated content';
 }
 
 async function generate() {
@@ -494,7 +554,11 @@ async function generate() {
   loader.classList.add('active');
   errorEl.classList.remove('visible');
   document.getElementById('batchCopyRow').innerHTML = '';
-  document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:32px;opacity:0.4;">◈</div><div>Building your content...</div></div>`;
+  document.getElementById('resultsArea').innerHTML = `
+    <div class="empty-state">
+      <div style="font-size:32px;opacity:0.4;">◈</div>
+      <div>Building your content...</div>
+    </div>`;
 
   try {
     const res = await fetch('/api/generate', {
@@ -505,6 +569,7 @@ async function generate() {
     if (!res.ok) throw new Error(`Server error: ${res.status}`);
     const data = await res.json();
     currentData = data;
+    addLogEntry(currentMode, buildLogDescription(currentMode, filters));
     renderResults(data);
     renderBatchCopy(data);
   } catch(e) {
@@ -519,8 +584,8 @@ async function generate() {
 }
 
 function renderBatchCopy(data) {
-  const row = document.getElementById('batchCopyRow');
-  row.innerHTML = `<button class="batch-copy-btn" onclick="batchCopyAll()">⊕ Copy All Content</button>`;
+  document.getElementById('batchCopyRow').innerHTML =
+    `<button class="batch-copy-btn" onclick="batchCopyAll()">⊕ Copy All Content</button>`;
 }
 
 function batchCopyAll() {
@@ -540,22 +605,8 @@ function batchCopyAll() {
   }
   navigator.clipboard.writeText(text.trim()).then(() => {
     const btn = document.querySelector('.batch-copy-btn');
-    if (btn) { btn.textContent = '✓ All Copied!'; setTimeout(() => { btn.innerHTML = '⊕ Copy All Content'; }, 2000); }
+    if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.textContent = '⊕ Copy All Content'; }, 2000); }
   });
-}
-
-function makeEditable(el, limit) {
-  el.setAttribute('contenteditable', 'true');
-  el.focus();
-  const countEl = el.nextElementSibling;
-  function updateCount() {
-    if (!countEl || !countEl.classList.contains('char-count')) return;
-    const len = el.innerText.length;
-    countEl.textContent = `${len} / ${limit}`;
-    countEl.className = 'char-count' + (len > limit ? ' over' : len > limit * 0.9 ? ' warning' : '');
-  }
-  el.addEventListener('input', updateCount);
-  updateCount();
 }
 
 function toggleEdit(btn, elId, limit) {
@@ -563,12 +614,23 @@ function toggleEdit(btn, elId, limit) {
   const isEditing = el.getAttribute('contenteditable') === 'true';
   if (isEditing) {
     el.setAttribute('contenteditable', 'false');
-    btn.textContent = 'Edit';
+    btn.textContent = btn.textContent.includes('Copy') ? btn.textContent : 'Edit';
     btn.classList.remove('editing');
   } else {
-    makeEditable(el, limit || 9999);
+    el.setAttribute('contenteditable', 'true');
+    el.focus();
     btn.textContent = 'Done';
     btn.classList.add('editing');
+    const countEl = el.nextElementSibling;
+    if (countEl && countEl.classList.contains('char-count')) {
+      function update() {
+        const len = el.innerText.length;
+        countEl.textContent = `${len} / ${limit}`;
+        countEl.className = 'char-count' + (len > limit ? ' over' : len > limit * 0.9 ? ' warning' : '');
+      }
+      el.addEventListener('input', update);
+      update();
+    }
   }
 }
 
@@ -591,7 +653,7 @@ function renderResults(data) {
     }).join('');
   } else if (currentMode === 'carousel') {
     const slides = data.slides || [];
-    area.innerHTML = `<div class="slides-container">${slides.map((s,i) => {
+    area.innerHTML = `<div class="slides-container">${slides.map((s, i) => {
       const copyId = `slide_copy_${i}`;
       const promptId = `slide_prompt_${i}`;
       return `<div class="slide-card">
@@ -599,13 +661,13 @@ function renderResults(data) {
         <div class="slide-copy" id="${copyId}">${esc(s.copy || '')}</div>
         <div class="char-count"></div>
         <div class="slide-actions">
-          <button class="slide-btn" onclick="toggleEdit(this, '${copyId}', 2200)">Edit Copy</button>
+          <button class="slide-btn" onclick="toggleEdit(this, '${copyId}', 2200)">Edit</button>
           <button class="slide-btn" onclick="copyEl('${copyId}', this)">Copy Copy</button>
         </div>
         <div class="slide-prompt-label">Image Prompt</div>
         <div class="slide-prompt" id="${promptId}">${esc(s.image_prompt || '')}</div>
         <div class="slide-actions">
-          <button class="slide-btn" onclick="toggleEdit(this, '${promptId}', 9999)">Edit Prompt</button>
+          <button class="slide-btn" onclick="toggleEdit(this, '${promptId}', 9999)">Edit</button>
           <button class="slide-btn" onclick="copyEl('${promptId}', this)">Copy Prompt</button>
         </div>
       </div>`;
