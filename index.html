@@ -162,6 +162,16 @@
   .vision-legend { padding: 0 2.5rem 2rem; display: flex; gap: 20px; }
   .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: rgba(240,238,232,0.35); }
   .legend-dot { width: 7px; height: 7px; border-radius: 50%; }
+  /* IMAGE GENERATION */
+  .img-gen-row { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(255,255,255,0.06); }
+  .img-gen-btn { padding: 9px 16px; background: rgba(244,123,32,0.06); border: 0.5px solid rgba(244,123,32,0.2); border-radius: 7px; color: rgba(244,123,32,0.7); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; width: 100%; text-align: center; }
+  .img-gen-btn:hover { background: rgba(244,123,32,0.12); border-color: rgba(244,123,32,0.4); color: #F47B20; }
+  .img-gen-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .img-preview { display: flex; flex-direction: column; gap: 8px; }
+  .img-download-btn { padding: 7px 14px; background: transparent; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(240,238,232,0.4); font-family: 'DM Sans', sans-serif; font-size: 11px; cursor: pointer; transition: all 0.15s; width: 100%; text-align: center; }
+  .img-download-btn:hover { border-color: rgba(244,123,32,0.3); color: #F47B20; }
+  .img-error { font-size: 12px; color: rgba(226,75,74,0.8); padding: 8px 10px; background: rgba(226,75,74,0.08); border-radius: 6px; }
+
   @media (max-width: 768px) {
     .main { padding: 1.25rem; }
     .filters-2, .filters-3 { grid-template-columns: 1fr; }
@@ -611,6 +621,10 @@ function renderCarouselUI() {
         </div>
       </div>
       <div class="generated-slide-prompt" id="gs_${s.slideNum}">${esc(s.prompt)}</div>
+      <div class="img-gen-row">
+        <button class="img-gen-btn" onclick="generateImage('gs_${s.slideNum}', '1024x1024', this)">◈ Generate Image</button>
+        <div class="img-preview" id="img_gs_${s.slideNum}"></div>
+      </div>
     </div>`).join('');
 
   return `
@@ -862,6 +876,10 @@ function renderStoryResults(data) {
       </div>
       <div class="result-text" id="${id}">${esc(data[key] || 'Not generated')}</div>
       <div class="char-count"></div>
+      <div class="img-gen-row">
+        <button class="img-gen-btn" onclick="generateImage('${id}', '1024x1792', this)">◈ Generate Image</button>
+        <div class="img-preview" id="img_${id}"></div>
+      </div>
     </div>`;
   }).join('');
 }
@@ -890,6 +908,10 @@ function renderQuickCarouselResults(data) {
       <div class="slide-actions">
         <button class="slide-btn" onclick="toggleEditSlide(this, '${pid}', 9999)">Edit</button>
         <button class="slide-btn" onclick="copyEl('${pid}', this)">Copy Prompt</button>
+      </div>
+      <div class="img-gen-row">
+        <button class="img-gen-btn" onclick="generateImage('${pid}', '1024x1024', this)">◈ Generate Image</button>
+        <div class="img-preview" id="img_${pid}"></div>
       </div>
     </div>`;
   }).join('')}</div>`;
@@ -1018,6 +1040,49 @@ function copyEl(id, btn) {
 
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── IMAGE GENERATION ────────────────────────────────────
+async function generateImage(promptElId, size, btn) {
+  const el = document.getElementById(promptElId);
+  if (!el) return;
+  const prompt = el.innerText.trim();
+  if (!prompt) return;
+  const previewId = 'img_' + promptElId;
+  const preview = document.getElementById(previewId);
+  if (!preview) return;
+  const origLabel = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  preview.innerHTML = '';
+  try {
+    const res = await fetch('/api/image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt, quality: 'high', size })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Generation failed');
+    const ts = Date.now();
+    const modePrefix = size === '1024x1792' ? 'story' : 'carousel';
+    const imgId = 'imgr_' + promptElId;
+    preview.innerHTML = `<img src="data:image/png;base64,${data.image}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadImg('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
+    btn.textContent = 'Regenerate Image';
+    btn.disabled = false;
+  } catch (e) {
+    preview.innerHTML = `<div class="img-error">Failed: ${esc(e.message)}</div>`;
+    btn.textContent = origLabel;
+    btn.disabled = false;
+  }
+}
+
+function downloadImg(imgId, filename) {
+  const img = document.getElementById(imgId);
+  if (!img) return;
+  const link = document.createElement('a');
+  link.href = img.src;
+  link.download = filename;
+  link.click();
 }
 
 // ─── INIT ─────────────────────────────────────────────────
