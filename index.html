@@ -374,6 +374,7 @@ let seriesContext = null; // { brief, totalSlides, visualStyle, colorPalette, ty
 let generatedSlides = []; // array of { slideNum, prompt }
 let currentData = {};
 const sessionLog = [];
+const imageDataStore = new Map();
 
 // ─── PROMPTS ─────────────────────────────────────────────
 function buildStoryPrompt(f) {
@@ -1066,7 +1067,8 @@ async function generateImage(promptElId, size, btn) {
     const ts = Date.now();
     const modePrefix = size === '1024x1536' ? 'story' : 'carousel';
     const imgId = 'imgr_' + promptElId;
-    preview.innerHTML = `<img src="data:image/png;base64,${data.image}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadImg('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
+    imageDataStore.set(imgId, data.image);
+    preview.innerHTML = `<img src="data:image/png;base64,${data.image}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadWithLogo('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
     btn.textContent = 'Regenerate Image';
     btn.disabled = false;
   } catch (e) {
@@ -1076,12 +1078,85 @@ async function generateImage(promptElId, size, btn) {
   }
 }
 
-function downloadImg(imgId, filename) {
-  const img = document.getElementById(imgId);
-  if (!img) return;
+async function downloadWithLogo(imgId, filename) {
+  const b64 = imageDataStore.get(imgId);
+  if (!b64) return;
+
+  // Ensure DM Sans 900 is ready for canvas rendering
+  try { await document.fonts.load("900 24px 'DM Sans'"); } catch(e) {}
+
+  // Load the full-resolution base64 image into an Image element
+  const img = new Image();
+  await new Promise((resolve, reject) => {
+    img.onload = resolve;
+    img.onerror = reject;
+    img.src = 'data:image/png;base64,' + b64;
+  });
+
+  const canvas = document.createElement('canvas');
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base image at full resolution
+  ctx.drawImage(img, 0, 0);
+
+  const W = canvas.width;
+  const H = canvas.height;
+  const sc = W / 1024; // images are always 1024px wide
+
+  // Logo overlay dimensions
+  const pillH  = Math.round(52 * sc);
+  const iconSz = Math.round(30 * sc);
+  const fSize  = Math.round(22 * sc);
+  const gap    = Math.round(10 * sc);
+  const padX   = Math.round(20 * sc);
+  const lw     = Math.max(1.5, 2 * sc);
+
+  // Measure text to size pill correctly
+  ctx.font = `900 ${fSize}px 'DM Sans', sans-serif`;
+  const textW = ctx.measureText('venuu').width;
+  const pillW = padX * 2 + iconSz + gap + textW;
+  const pillX = (W - pillW) / 2;
+  const pillY = H - pillH - Math.round(32 * sc);
+
+  // Dark semi-transparent pill background
+  ctx.fillStyle = 'rgba(10,10,15,0.75)';
+  ctx.beginPath();
+  ctx.roundRect(pillX, pillY, pillW, pillH, pillH / 2);
+  ctx.fill();
+
+  // Icon: orange circle
+  const cx = pillX + padX + iconSz / 2;
+  const cy = pillY + pillH / 2;
+  const r  = iconSz / 2;
+
+  ctx.strokeStyle = '#F47B20';
+  ctx.lineWidth = lw;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Icon: V path inside circle
+  ctx.beginPath();
+  ctx.moveTo(cx - r * 0.42, cy - r * 0.38);
+  ctx.lineTo(cx, cy + r * 0.42);
+  ctx.lineTo(cx + r * 0.42, cy - r * 0.38);
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  // "venuu" wordmark
+  ctx.fillStyle = '#F47B20';
+  ctx.font = `900 ${fSize}px 'DM Sans', sans-serif`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText('venuu', pillX + padX + iconSz + gap, cy);
+
+  // Trigger download from canvas — full resolution, no cropping
   const link = document.createElement('a');
-  link.href = img.src;
   link.download = filename;
+  link.href = canvas.toDataURL('image/png');
   link.click();
 }
 
