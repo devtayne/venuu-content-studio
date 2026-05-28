@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-image-alpha',
+        model: 'gpt-image-1',
         prompt,
         size,
         quality,
