@@ -25,7 +25,6 @@ export default async function handler(req, res) {
         prompt,
         size,
         quality,
-        response_format: 'b64_json',
         n: 1
       })
     });
@@ -36,7 +35,20 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: data.error?.message || 'Image generation failed' });
     }
 
-    return res.status(200).json({ image: data.data[0].b64_json, format: 'png' });
+    const item = data.data[0];
+
+    if (item.b64_json) {
+      return res.status(200).json({ image: item.b64_json, format: 'png' });
+    }
+
+    if (item.url) {
+      const imgRes = await fetch(item.url);
+      const buffer = await imgRes.arrayBuffer();
+      const b64 = Buffer.from(buffer).toString('base64');
+      return res.status(200).json({ image: b64, format: 'png' });
+    }
+
+    return res.status(500).json({ error: 'No image data in response' });
 
   } catch (error) {
     return res.status(500).json({ error: 'Image generation failed', details: error.message });
