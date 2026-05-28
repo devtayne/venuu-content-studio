@@ -877,7 +877,7 @@ function renderStoryResults(data) {
       <div class="result-text" id="${id}">${esc(data[key] || 'Not generated')}</div>
       <div class="char-count"></div>
       <div class="img-gen-row">
-        <button class="img-gen-btn" onclick="generateImage('${id}', '1024x1792', this)">◈ Generate Image</button>
+        <button class="img-gen-btn" onclick="generateImage('${id}', '1024x1536', this)">◈ Generate Image</button>
         <div class="img-preview" id="img_${id}"></div>
       </div>
     </div>`;
@@ -1064,7 +1064,7 @@ async function generateImage(promptElId, size, btn) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Generation failed');
     const ts = Date.now();
-    const modePrefix = size === '1024x1792' ? 'story' : 'carousel';
+    const modePrefix = size === '1024x1536' ? 'story' : 'carousel';
     const imgId = 'imgr_' + promptElId;
     preview.innerHTML = `<img src="data:image/png;base64,${data.image}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadImg('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
     btn.textContent = 'Regenerate Image';
