@@ -1063,7 +1063,8 @@ async function generateImage(promptElId, size, btn) {
       body: JSON.stringify({ prompt, quality: 'high', size })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Generation failed');
+    console.log('Image API response:', data);
+    if (!res.ok) throw new Error(data.error?.message || data.details || JSON.stringify(data.error) || 'Generation failed');
     const ts = Date.now();
     const modePrefix = size === '1024x1536' ? 'story' : 'carousel';
     const imgId = 'imgr_' + promptElId;
@@ -1072,6 +1073,7 @@ async function generateImage(promptElId, size, btn) {
     btn.textContent = 'Regenerate Image';
     btn.disabled = false;
   } catch (e) {
+    console.error('Image generation error:', e);
     preview.innerHTML = `<div class="img-error">Failed: ${esc(e.message)}</div>`;
     btn.textContent = origLabel;
     btn.disabled = false;
