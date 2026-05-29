@@ -172,6 +172,12 @@
   .img-download-btn:hover { border-color: rgba(244,123,32,0.3); color: #F47B20; }
   .img-error { font-size: 12px; color: rgba(226,75,74,0.8); padding: 8px 10px; background: rgba(226,75,74,0.08); border-radius: 6px; }
 
+  /* STYLE CHIPS */
+  .style-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .style-chip { padding: 5px 13px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.1); background: transparent; color: rgba(240,238,232,0.4); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px; white-space: nowrap; }
+  .style-chip:hover { border-color: rgba(244,123,32,0.35); color: rgba(240,238,232,0.75); background: rgba(244,123,32,0.05); }
+  .style-chip.active { background: rgba(244,123,32,0.15); border-color: rgba(244,123,32,0.5); color: #F47B20; }
+
   @media (max-width: 768px) {
     .main { padding: 1.25rem; }
     .filters-2, .filters-3 { grid-template-columns: 1fr; }
@@ -367,10 +373,39 @@ function findBarProfile(barInput) {
   return null;
 }
 
+// ─── STYLE PRESETS ────────────────────────────────────────
+const STYLES = {
+  cinematic_dark: {
+    label: 'CINEMATIC DARK',
+    directive: 'ARRI Alexa film photography, deep blacks, anamorphic bokeh, warm orange practical lighting, pushed shadows, slight green in midtones, motivated rim lighting, cinematic color grade, premium nightlife campaign energy'
+  },
+  neon_underground: {
+    label: 'NEON UNDERGROUND',
+    directive: 'vibrant neon signs, electric cyan and magenta and orange, gritty urban night photography, wet pavement reflections, overexposed practical lights, high contrast, underground club energy, street photography aesthetic'
+  },
+  clean_editorial: {
+    label: 'CLEAN EDITORIAL',
+    directive: 'minimal composition, generous white space, muted desaturated palette with single orange accent, clean sans-serif typography, magazine layout aesthetic, lots of breathing room, sophisticated and restrained'
+  },
+  bold_graphic: {
+    label: 'BOLD GRAPHIC',
+    directive: 'flat vector design, geometric shapes, hard edges, maximum contrast black and orange, poster art energy, no photographic elements, illustrative and graphic, bold block typography, reminiscent of sports and streetwear brands'
+  },
+  luxury: {
+    label: 'LUXURY',
+    directive: 'deep navy and gold tones, champagne and amber, premium lifestyle photography, aspirational crowd, bokeh candlelight, Don Julio and Casamigos campaign energy, understated elegance, fashion photography lighting'
+  },
+  college_dive: {
+    label: 'COLLEGE DIVE',
+    directive: 'chaotic fun energy, neon beer signs, sticky floors and pool tables, warm tungsten bar lighting, crowded college crowd, dart boards and TVs, messy authentic atmosphere, irreverent typography mixing fonts and sizes, UTK and college town culture, looks like a Tuesday night that turned into a Friday, genuine and unpolished not corporate'
+  }
+};
+
 // ─── STATE ───────────────────────────────────────────────
 let currentMode = 'story';
+let currentStyle = 'cinematic_dark';
 let carouselSubMode = 'builder'; // 'builder' | 'quick'
-let seriesContext = null; // { brief, totalSlides, visualStyle, colorPalette, typography }
+let seriesContext = null; // { brief, totalSlides, style, colorPalette, typography }
 let generatedSlides = []; // array of { slideNum, prompt }
 let currentData = {};
 const sessionLog = [];
@@ -388,15 +423,15 @@ function buildStoryPrompt(f) {
     f.datetime ? `Date/Time: "${f.datetime}"` : null,
     f.deal ? `Deal/Offer: "${f.deal}"` : null,
     f.extra ? `Extra info: "${f.extra}"` : null,
-    `Brand mark: "venuu" lowercase in orange (#F47B20)`
   ].filter(Boolean).join('\n- ');
 
   return `You are a visual creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio). These prompts will be pasted directly into an AI image generator (GPT Image 2.0 or Nano Banana via Higgsfield).
 
+STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic, overriding all other stylistic defaults:
+${STYLES[currentStyle].directive}
+
 BAR BRIEF:
 ${barContext}
-
-VISUAL DIRECTION: ${f.style || 'dark and moody, premium nightlife aesthetic'}
 
 REQUIRED TEXT ELEMENTS — ALL of these exact words MUST appear rendered in the image. Describe each as a physical typographic element with specific font weight, size, color, placement, and visual treatment:
 - ${requiredText}
@@ -418,11 +453,14 @@ Return ONLY a JSON object, no markdown:
 {"prompt1":"...","prompt2":"...","prompt3":"..."}`;
 }
 
-function buildSeriesContextPrompt(brief, totalSlides, visualStyle) {
+function buildSeriesContextPrompt(brief, totalSlides, style) {
+  const styleDirective = STYLES[style]?.directive || STYLES.cinematic_dark.directive;
   return `You are a creative director establishing a visual identity system for a ${totalSlides}-slide Instagram carousel for Venuu, a premium nightlife app (black and orange brand, 18-28 demographic, Knoxville TN).
 
+STYLE DIRECTIVE — primary creative constraint. Every visual decision in this series must serve this aesthetic:
+${styleDirective}
+
 POST BRIEF: ${brief}
-VISUAL DIRECTION: ${visualStyle || 'premium, dark, cinematic'}
 
 Your job is to define the visual DNA that will make every slide feel like it belongs to the same series. Return a creative brief that will be referenced when generating each individual slide prompt.
 
@@ -440,7 +478,11 @@ Return ONLY a JSON object, no markdown:
 }
 
 function buildSlidePrompt(slideNum, totalSlides, slideBrief, seriesCtx) {
+  const styleDirective = STYLES[seriesCtx.style]?.directive || STYLES.cinematic_dark.directive;
   return `You are a visual creative director generating a single AI image prompt for slide ${slideNum} of ${totalSlides} in an Instagram carousel for Venuu. This prompt will be pasted directly into GPT Image 2.0 or Nano Banana via Higgsfield.
+
+STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic:
+${styleDirective}
 
 SERIES CONTEXT (maintain visual consistency with these across all slides):
 - Concept: ${seriesCtx.concept}
@@ -459,8 +501,7 @@ PROMPT ENGINEERING RULES:
 2. Text as visual objects: describe the exact words to render, their typographic treatment (ultra-condensed bold white, thin italic gold, massive tracking), their placement (upper third, centered, bleeding off frame), and their relationship to the background (floating, embedded, projected)
 3. Specific atmosphere: not "moody" but "single practical orange pendant light cutting through blue cigarette haze, warm spill on polished bar surface"
 4. Color grade direction: "film emulation, pushed shadows, warm highlights, slight green in the midtones"
-5. Venuu brand element: include "venuu" lowercase in orange (#F47B20) as a small but visible element — describe its exact placement and typographic style
-6. 200-300 words — detailed enough that the AI generator has no creative decisions to make
+5. 200-300 words — detailed enough that the AI generator has no creative decisions to make
 
 Return ONLY a JSON object, no markdown:
 {"slidePrompt": "the full detailed image generation prompt for this specific slide"}`;
@@ -469,16 +510,17 @@ Return ONLY a JSON object, no markdown:
 function buildQuickCarouselPrompt(f) {
   return `You are a visual creative director generating a complete ${f.slides || 5}-slide Instagram carousel for Venuu. Each slide prompt will be pasted separately into an AI image generator (GPT Image 2.0 or Nano Banana).
 
+STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic, overriding all other stylistic defaults:
+${STYLES[currentStyle].directive}
+
 POST BRIEF: ${f.brief || 'Venuu carousel post'}
-VISUAL DIRECTION: ${f.style || 'premium, dark, cinematic'}
 CTA: ${f.cta || 'Download Venuu'}
 
-Venuu brand: black (#0a0a0f) background, orange (#F47B20) accent, lowercase "venuu" wordmark. 18-28 demographic, Knoxville TN nightlife app showing live bar headcounts.
+Venuu brand: black (#0a0a0f) background, orange (#F47B20) accent. 18-28 demographic, Knoxville TN nightlife app showing live bar headcounts.
 
 For each slide generate a DEEP, DETAILED image prompt (200-300 words each) suitable for GPT Image 2.0 or Nano Banana. Each prompt must:
 - Use technical photography/cinematography language (camera, lens, lighting, color grade)
 - Describe text as physical visual objects with exact typographic treatment and placement
-- Include the "venuu" brand mark as a described visual element
 - Feel visually cohesive with the other slides but compositionally distinct
 - Be specific enough that the AI has no ambiguity about what to generate
 
@@ -491,7 +533,7 @@ Return ONLY a JSON object, no markdown:
     {
       "slide": 1,
       "headline": "SHORT SLIDE HEADLINE",
-      "imagePrompt": "full 200-300 word image generation prompt with text treatment, lighting, camera, composition, color grade, atmosphere, and venuu brand mark placement"
+      "imagePrompt": "full 200-300 word image generation prompt with text treatment, lighting, camera, composition, color grade, and atmosphere"
     }
   ]
 }`;
@@ -575,6 +617,24 @@ function setMode(mode, btn) {
   renderModeContent();
 }
 
+function renderStyleChips() {
+  return `<div style="display:flex;flex-direction:column;gap:6px;">
+    <div class="filter-label">Visual Style</div>
+    <div class="style-chips">
+      ${Object.entries(STYLES).map(([id, s]) =>
+        `<button class="style-chip${currentStyle === id ? ' active' : ''}" id="style_chip_${id}" onclick="setStyle('${id}')">${s.label}</button>`
+      ).join('')}
+    </div>
+  </div>`;
+}
+
+function setStyle(id) {
+  currentStyle = id;
+  document.querySelectorAll('.style-chip').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('style_chip_' + id);
+  if (el) el.classList.add('active');
+}
+
 function renderModeContent() {
   const container = document.getElementById('modeContent');
   if (currentMode === 'story') container.innerHTML = renderStoryUI();
@@ -591,8 +651,8 @@ function renderStoryUI() {
         <div class="filter-group"><div class="filter-label">Date & Time</div><input class="filter-input" id="s_datetime" placeholder="e.g. Thursday May 9 · 9PM - 2AM"/></div>
         <div class="filter-group"><div class="filter-label">Deal / Offer</div><input class="filter-input" id="s_deal" placeholder="e.g. $3 Margaritas, Free entry before 11..."/></div>
         <div class="filter-group"><div class="filter-label">Extra Details (optional)</div><input class="filter-input" id="s_extra" placeholder="e.g. 21+, Dress code, RSVP required..."/></div>
-        <div class="filter-group"><div class="filter-label">Visual Style</div><input class="filter-input" id="s_style" placeholder="e.g. Dark moody, Bright neon, Luxury..."/></div>
       </div>
+      ${renderStyleChips()}
       <button class="generate-btn" id="genBtn" onclick="generateStory()">Generate Story Prompts ✦</button>
       <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
       <div class="error-msg" id="errorMsg"></div>
@@ -656,10 +716,10 @@ function renderCarouselUI() {
             <div class="filters-2">
               <div class="filter-group"><div class="filter-label">Post Brief</div><textarea class="filter-textarea" id="c_brief" placeholder="Describe the whole post in plain English. e.g. Celebrating Venuu's first month — 5000 downloads, 32 venues, highlight our crazy retention stats. Tone: confident celebration, not bragging."></textarea></div>
               <div class="filter-group">
-                <div class="filter-group" style="margin-bottom:12px;"><div class="filter-label">Total Slides</div><input class="filter-input" id="c_slides" placeholder="e.g. 5" style="margin-bottom:0;"/></div>
-                <div class="filter-group"><div class="filter-label">Visual Style / Direction</div><input class="filter-input" id="c_style" placeholder="e.g. Dark and cinematic, Bright celebratory, Minimal luxury..."/></div>
+                <div class="filter-group"><div class="filter-label">Total Slides</div><input class="filter-input" id="c_slides" placeholder="e.g. 5" style="margin-bottom:0;"/></div>
               </div>
             </div>
+            ${renderStyleChips()}
             <button class="generate-btn" id="genBtn" onclick="generateSeriesContext()">Set Series Context ✦</button>
           `}
           <div class="loading-bar" id="loadingBar" style="margin-top:4px;"><div class="loading-bar-inner"></div></div>
@@ -681,11 +741,11 @@ function renderCarouselUI() {
       ` : `
         <div style="display:flex;flex-direction:column;gap:12px;">
           <div class="filter-group"><div class="filter-label">Post Brief</div><textarea class="filter-textarea" id="q_brief" placeholder="Describe the whole post — topic, tone, key messages, any specific data points or text to include. The more detail you give, the better each slide prompt will be."></textarea></div>
-          <div class="filters-3">
+          <div class="filters-2">
             <div class="filter-group"><div class="filter-label">Number of Slides</div><input class="filter-input" id="q_slides" placeholder="e.g. 5"/></div>
             <div class="filter-group"><div class="filter-label">Call to Action</div><input class="filter-input" id="q_cta" placeholder="e.g. Download Venuu, Follow us..."/></div>
-            <div class="filter-group"><div class="filter-label">Visual Style</div><input class="filter-input" id="q_style" placeholder="e.g. Dark cinematic, Bold graphic, Minimal..."/></div>
           </div>
+          ${renderStyleChips()}
           <button class="generate-btn" id="genBtn" onclick="generateQuickCarousel()">Generate Full Carousel ✦</button>
           <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
           <div class="error-msg" id="errorMsg"></div>
@@ -769,7 +829,7 @@ function showError(msg) {
 async function generateStory() {
   const f = {
     bar: val('s_bar'), event: val('s_event'), datetime: val('s_datetime'),
-    deal: val('s_deal'), extra: val('s_extra'), style: val('s_style')
+    deal: val('s_deal'), extra: val('s_extra')
   };
   setLoading(true);
   document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:32px;opacity:0.4;">◈</div><div>Building your flyer prompts...</div></div>`;
@@ -787,12 +847,11 @@ async function generateStory() {
 async function generateSeriesContext() {
   const brief = val('c_brief');
   const slides = parseInt(val('c_slides')) || 5;
-  const style = val('c_style');
   if (!brief) { showError('Please describe what this post is about.'); return; }
   setLoading(true);
   try {
-    const data = await callAPI(buildSeriesContextPrompt(brief, slides, style));
-    seriesContext = { ...data, totalSlides: slides, brief, visualStyle: style };
+    const data = await callAPI(buildSeriesContextPrompt(brief, slides, currentStyle));
+    seriesContext = { ...data, totalSlides: slides, brief, style: currentStyle };
     generatedSlides = [];
     addLogEntry('series', `${data.seriesTitle || 'Carousel'} · ${slides} slides`);
     renderModeContent();
@@ -831,7 +890,7 @@ async function generateNextSlide() {
 }
 
 async function generateQuickCarousel() {
-  const f = { brief: val('q_brief'), slides: val('q_slides'), cta: val('q_cta'), style: val('q_style') };
+  const f = { brief: val('q_brief'), slides: val('q_slides'), cta: val('q_cta') };
   setLoading(true);
   const area = document.getElementById('resultsArea');
   if (area) area.innerHTML = `<div class="empty-state"><div style="font-size:32px;opacity:0.4;">◈</div><div>Building your carousel prompts...</div></div>`;
@@ -1044,6 +1103,82 @@ function esc(str) {
 }
 
 // ─── IMAGE GENERATION ────────────────────────────────────
+
+// Composites the Venuu logo onto a full-resolution canvas and returns a data URL.
+// Called immediately after API response — both preview and download use the same composite.
+async function compositeWithLogo(b64) {
+  const img = new Image();
+  await new Promise((resolve, reject) => {
+    img.onload = resolve;
+    img.onerror = reject;
+    img.src = 'data:image/png;base64,' + b64;
+  });
+
+  const W = img.naturalWidth;   // Always 1024
+  const H = img.naturalHeight;  // 1536 for story, 1024 for carousel
+
+  const canvas = document.createElement('canvas');
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Draw base image at full native resolution — no scaling
+  ctx.drawImage(img, 0, 0, W, H);
+
+  // Load DM Sans 900 before measuring/drawing text
+  try { await document.fonts.load("900 48px 'DM Sans'"); } catch(e) {}
+
+  // Logo sizing — ~5% of image height for text
+  const fSize  = Math.round(H * 0.05);
+  const iconSz = Math.round(fSize * 1.3);
+  const gap    = Math.round(fSize * 0.45);
+  const padX   = Math.round(fSize * 0.85);
+  const pillH  = Math.round(fSize * 1.9);
+  const lw     = Math.max(2, Math.round(fSize * 0.08));
+
+  ctx.font = `900 ${fSize}px 'DM Sans', 'Arial Black', sans-serif`;
+  const textW = ctx.measureText('venuu').width;
+  const pillW = padX * 2 + iconSz + gap + textW;
+  const pillX = Math.round((W - pillW) / 2);
+  const pillY = H - pillH - 40;
+
+  // Dark semi-transparent pill — rgba(0,0,0,0.6), border-radius 20px
+  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  ctx.beginPath();
+  ctx.roundRect(pillX, pillY, pillW, pillH, 20);
+  ctx.fill();
+
+  const cx = pillX + padX + iconSz / 2;
+  const cy = pillY + pillH / 2;
+  const r  = iconSz / 2;
+
+  ctx.strokeStyle = '#F47B20';
+  ctx.lineWidth = lw;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  // V-in-circle icon: outer circle
+  ctx.beginPath();
+  ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // V-in-circle icon: V chevron
+  ctx.beginPath();
+  ctx.moveTo(cx - r * 0.42, cy - r * 0.38);
+  ctx.lineTo(cx, cy + r * 0.42);
+  ctx.lineTo(cx + r * 0.42, cy - r * 0.38);
+  ctx.stroke();
+
+  // "venuu" wordmark
+  ctx.fillStyle = '#F47B20';
+  ctx.font = `900 ${fSize}px 'DM Sans', 'Arial Black', sans-serif`;
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'left';
+  ctx.fillText('venuu', pillX + padX + iconSz + gap, cy);
+
+  return canvas.toDataURL('image/png');
+}
+
 async function generateImage(promptElId, size, btn) {
   const el = document.getElementById(promptElId);
   if (!el) return;
@@ -1065,11 +1200,17 @@ async function generateImage(promptElId, size, btn) {
     const data = await res.json();
     console.log('Image API response:', data);
     if (!res.ok) throw new Error(data.error?.message || data.details || JSON.stringify(data.error) || 'Generation failed');
+
+    btn.textContent = 'Compositing...';
     const ts = Date.now();
     const modePrefix = size === '1024x1536' ? 'story' : 'carousel';
     const imgId = 'imgr_' + promptElId;
-    imageDataStore.set(imgId, data.image);
-    preview.innerHTML = `<img src="data:image/png;base64,${data.image}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadWithLogo('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
+
+    // Composite at full resolution — store the result data URL for both display and download
+    const compositeUrl = await compositeWithLogo(data.image);
+    imageDataStore.set(imgId, compositeUrl);
+
+    preview.innerHTML = `<img src="${compositeUrl}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadImage('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
     btn.textContent = 'Regenerate Image';
     btn.disabled = false;
   } catch (e) {
@@ -1080,85 +1221,13 @@ async function generateImage(promptElId, size, btn) {
   }
 }
 
-async function downloadWithLogo(imgId, filename) {
-  const b64 = imageDataStore.get(imgId);
-  if (!b64) return;
-
-  // Ensure DM Sans 900 is ready for canvas rendering
-  try { await document.fonts.load("900 24px 'DM Sans'"); } catch(e) {}
-
-  // Load the full-resolution base64 image into an Image element
-  const img = new Image();
-  await new Promise((resolve, reject) => {
-    img.onload = resolve;
-    img.onerror = reject;
-    img.src = 'data:image/png;base64,' + b64;
-  });
-
-  const canvas = document.createElement('canvas');
-  canvas.width = img.naturalWidth;
-  canvas.height = img.naturalHeight;
-  const ctx = canvas.getContext('2d');
-
-  // Draw base image at full resolution
-  ctx.drawImage(img, 0, 0);
-
-  const W = canvas.width;
-  const H = canvas.height;
-  const sc = W / 1024; // images are always 1024px wide
-
-  // Logo overlay dimensions
-  const pillH  = Math.round(52 * sc);
-  const iconSz = Math.round(30 * sc);
-  const fSize  = Math.round(22 * sc);
-  const gap    = Math.round(10 * sc);
-  const padX   = Math.round(20 * sc);
-  const lw     = Math.max(1.5, 2 * sc);
-
-  // Measure text to size pill correctly
-  ctx.font = `900 ${fSize}px 'DM Sans', sans-serif`;
-  const textW = ctx.measureText('venuu').width;
-  const pillW = padX * 2 + iconSz + gap + textW;
-  const pillX = (W - pillW) / 2;
-  const pillY = H - pillH - Math.round(32 * sc);
-
-  // Dark semi-transparent pill background
-  ctx.fillStyle = 'rgba(10,10,15,0.75)';
-  ctx.beginPath();
-  ctx.roundRect(pillX, pillY, pillW, pillH, pillH / 2);
-  ctx.fill();
-
-  // Icon: orange circle
-  const cx = pillX + padX + iconSz / 2;
-  const cy = pillY + pillH / 2;
-  const r  = iconSz / 2;
-
-  ctx.strokeStyle = '#F47B20';
-  ctx.lineWidth = lw;
-  ctx.beginPath();
-  ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Icon: V path inside circle
-  ctx.beginPath();
-  ctx.moveTo(cx - r * 0.42, cy - r * 0.38);
-  ctx.lineTo(cx, cy + r * 0.42);
-  ctx.lineTo(cx + r * 0.42, cy - r * 0.38);
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-  ctx.stroke();
-
-  // "venuu" wordmark
-  ctx.fillStyle = '#F47B20';
-  ctx.font = `900 ${fSize}px 'DM Sans', sans-serif`;
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'left';
-  ctx.fillText('venuu', pillX + padX + iconSz + gap, cy);
-
-  // Trigger download from canvas — full resolution, no cropping
+// Download the already-composited image — no reprocessing needed
+function downloadImage(imgId, filename) {
+  const dataUrl = imageDataStore.get(imgId);
+  if (!dataUrl) return;
   const link = document.createElement('a');
   link.download = filename;
-  link.href = canvas.toDataURL('image/png');
+  link.href = dataUrl;
   link.click();
 }
 
