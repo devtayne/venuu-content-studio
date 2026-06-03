@@ -1106,18 +1106,18 @@ async function compositeWithLogo(b64) {
   const scores = corners.map((c, i) => ({ c, score: luminance(c.x, c.y) + (i < 2 ? topBias : 0) }));
   const best = scores.reduce((a, b) => b.score < a.score ? b : a).c;
 
-  // Draw dark pill at the winning corner
-  ctx.fillStyle = 'rgba(0,0,0,0.55)';
-  ctx.beginPath();
-  ctx.roundRect(best.x, best.y, pillW, pillH, pillH / 2);
-  ctx.fill();
-
-  // Draw "venuu" wordmark
+  // Draw "venuu" wordmark — no background, subtle shadow for legibility
+  ctx.shadowColor = 'rgba(0,0,0,0.65)';
+  ctx.shadowBlur = Math.round(fSize * 0.35);
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
   ctx.fillStyle = '#F47B20';
   ctx.font = `900 ${fSize}px 'DM Sans', 'Arial Black', sans-serif`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'left';
   ctx.fillText('venuu', best.x + padX, best.y + pillH / 2);
+  ctx.shadowColor = 'transparent';
+  ctx.shadowBlur = 0;
 
   return canvas.toDataURL('image/png');
 }
