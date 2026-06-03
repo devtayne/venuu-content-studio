@@ -1153,7 +1153,9 @@ async function generateImage(promptElId, size, btn) {
     const compositeUrl = await compositeWithLogo(data.image);
     imageDataStore.set(imgId, compositeUrl);
 
-    preview.innerHTML = `<img src="${compositeUrl}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="downloadImage('${imgId}', 'venuu-${modePrefix}-${ts}.png')">⬇ Download PNG</button>`;
+    const isIOS = /iPhone|iPad/.test(navigator.userAgent);
+    const saveBtnLabel = isIOS ? 'Save to Photos' : '⬇ Download PNG';
+    preview.innerHTML = `<img src="${compositeUrl}" id="${imgId}" alt="Generated" style="width:100%;border-radius:8px;display:block;"><button class="img-download-btn" onclick="saveImage('${imgId}', 'venuu-${modePrefix}-${ts}.png')">${saveBtnLabel}</button>`;
     btn.textContent = 'Regenerate Image';
     btn.disabled = false;
   } catch (e) {
@@ -1172,6 +1174,35 @@ function downloadImage(imgId, filename) {
   link.download = filename;
   link.href = dataUrl;
   link.click();
+}
+
+function dataURLtoBlob(dataUrl) {
+  const [header, body] = dataUrl.split(',');
+  const mime = header.match(/:(.*?);/)[1];
+  const binary = atob(body);
+  const arr = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) arr[i] = binary.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
+
+async function saveImage(imgId, filename) {
+  const dataUrl = imageDataStore.get(imgId);
+  if (!dataUrl) return;
+  // Web Share API — on iOS this triggers the native share sheet
+  // where the user can tap "Save Image" to save to the camera roll
+  if (navigator.share && navigator.canShare) {
+    try {
+      const file = new File([dataURLtoBlob(dataUrl)], filename, { type: 'image/png' });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file] });
+        return;
+      }
+    } catch(e) {
+      if (e.name === 'AbortError') return; // user dismissed share sheet
+    }
+  }
+  // Fallback for desktop
+  downloadImage(imgId, filename);
 }
 
 // ─── MOBILE NAV ──────────────────────────────────────────
