@@ -178,6 +178,26 @@
   .style-chip:hover { border-color: rgba(244,123,32,0.35); color: rgba(240,238,232,0.75); background: rgba(244,123,32,0.05); }
   .style-chip.active { background: rgba(244,123,32,0.15); border-color: rgba(244,123,32,0.5); color: #F47B20; }
 
+  /* KNOWLEDGE BASE */
+  .kb-page { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
+  .kb-bar-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.15s; }
+  .kb-bar-card:hover { border-color: rgba(244,123,32,0.2); }
+  .kb-bar-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .kb-bar-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .kb-bar-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .kb-bar-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: #f0eee8; }
+  .kb-bar-key { font-size: 11px; color: rgba(240,238,232,0.25); font-family: monospace; letter-spacing: 0.3px; }
+  .kb-city-badge { font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 20px; display: inline-block; }
+  .kb-city-knoxville { background: rgba(244,123,32,0.12); color: #F47B20; border: 0.5px solid rgba(244,123,32,0.25); }
+  .kb-city-tampa { background: rgba(60,130,220,0.12); color: #6aabf0; border: 0.5px solid rgba(60,130,220,0.25); }
+  .kb-city-other { background: rgba(255,255,255,0.06); color: rgba(240,238,232,0.5); border: 0.5px solid rgba(255,255,255,0.1); }
+  .kb-bar-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: flex-start; }
+  .kb-preview-text { font-size: 12.5px; color: rgba(240,238,232,0.4); line-height: 1.5; }
+  .kb-edit-form { border-top: 0.5px solid rgba(255,255,255,0.07); padding-top: 14px; margin-top: 2px; flex-direction: column; gap: 10px; }
+  .kb-add-form-inner { background: rgba(244,123,32,0.04); border: 0.5px solid rgba(244,123,32,0.2); border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
+  .danger-btn { background: transparent; border: 0.5px solid rgba(226,75,74,0.25); border-radius: 6px; color: rgba(226,75,74,0.6); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 5px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .danger-btn:hover { border-color: rgba(226,75,74,0.5); color: rgba(226,75,74,0.9); background: rgba(226,75,74,0.06); }
+
   @media (max-width: 768px) {
     .main { padding: 1.25rem; }
     .filters-2, .filters-3 { grid-template-columns: 1fr; }
@@ -210,7 +230,7 @@
   <button class="mode-tab active" onclick="setMode('story', this)">◻ Story</button>
   <button class="mode-tab" onclick="setMode('carousel', this)">◈ Carousel</button>
   <button class="mode-tab" onclick="setMode('reels', this)">▷ Reels</button>
-  <button class="mode-tab" onclick="setMode('vision', this)">◎ Pipeline Vision</button>
+  <button class="mode-tab" onclick="setMode('kb', this)">◉ Knowledge Base</button>
 </div>
 
 <div id="studioPage">
@@ -227,120 +247,7 @@
   </div>
 </div>
 
-<div id="visionPage" style="display:none;">
-  <div class="vision-page">
-    <div class="vision-hero">
-      <div class="vision-eyebrow">Venuu · AISM Pipeline</div>
-      <div class="vision-title">Autonomous Content.<br><span>Zero Manual Work.</span></div>
-      <div class="vision-sub">A fully automated social media engine built on Claude AI, n8n, and Higgsfield — generating, approving, and publishing Venuu content at scale across every partner bar.</div>
-    </div>
-    <div class="pipeline">
-      <div class="stage-row">
-        <div class="stage">
-          <div class="stage-icon icon-orange">✦</div>
-          <div class="stage-body">
-            <div class="stage-label">Stage 01</div>
-            <div class="stage-name">Content Studio</div>
-            <div class="stage-desc">Select mode, bar, vibe, and deal. Claude generates captions, hooks, image prompts, and Higgsfield video prompts — with full knowledge of every partner bar's aesthetic, colors, and personality.</div>
-            <div class="stage-tools">
-              <span class="tool-tag tag-orange">Claude API</span>
-              <span class="tool-tag tag-orange">Bar Knowledge Base</span>
-              <span class="tool-tag tag-gray">18 Partner Bars</span>
-              <span class="tool-tag tag-gray">Story · Carousel · Reels</span>
-            </div>
-          </div>
-          <div class="stage-status"><div class="status-dot dot-live"></div><div class="status-label">Live</div></div>
-        </div>
-      </div>
-      <div class="connector-gap"></div>
-      <div class="stage-row">
-        <div class="stage">
-          <div class="stage-icon icon-purple">⬡</div>
-          <div class="stage-body">
-            <div class="stage-label">Stage 02</div>
-            <div class="stage-name">n8n Workflow Engine</div>
-            <div class="stage-desc">n8n orchestrates the entire backend — receiving webhook triggers from the studio, routing prompts to Claude, managing approval flows, scheduling posts, and logging every output.</div>
-            <div class="stage-tools">
-              <span class="tool-tag tag-purple">n8n Cloud</span>
-              <span class="tool-tag tag-purple">Webhook Triggers</span>
-              <span class="tool-tag tag-purple">Approval Routing</span>
-              <span class="tool-tag tag-gray">Scheduler</span>
-            </div>
-          </div>
-          <div class="stage-status"><div class="status-dot dot-live"></div><div class="status-label">Live</div></div>
-        </div>
-      </div>
-      <div class="connector-gap"></div>
-      <div class="stage-row">
-        <div class="stage">
-          <div class="stage-icon icon-blue">▷</div>
-          <div class="stage-body">
-            <div class="stage-label">Stage 03</div>
-            <div class="stage-name">Higgsfield Video Generation</div>
-            <div class="stage-desc">AI-generated cinematic video and image content. Bar-specific prompts built from the knowledge base feed into Higgsfield — producing on-brand Reels, Venuu girl content, and bar flythroughs.</div>
-            <div class="stage-tools">
-              <span class="tool-tag tag-blue">Higgsfield</span>
-              <span class="tool-tag tag-blue">GPT Image 2.0</span>
-              <span class="tool-tag tag-blue">Nano Banana</span>
-              <span class="tool-tag tag-gray">Character Consistency</span>
-            </div>
-          </div>
-          <div class="stage-status"><div class="status-dot dot-building"></div><div class="status-label">Building</div></div>
-        </div>
-      </div>
-      <div class="connector-gap"></div>
-      <div class="stage-row">
-        <div class="stage">
-          <div class="stage-icon icon-teal">◎</div>
-          <div class="stage-body">
-            <div class="stage-label">Stage 04</div>
-            <div class="stage-name">Human Approval Layer</div>
-            <div class="stage-desc">Every piece of content hits a review screen before going live. Preview, edit in place, approve or regenerate with one tap. Quality control without slowing down the pipeline.</div>
-            <div class="stage-tools">
-              <span class="tool-tag tag-teal">Content Studio UI</span>
-              <span class="tool-tag tag-teal">Edit in Place</span>
-              <span class="tool-tag tag-gray">One-tap Approve</span>
-            </div>
-          </div>
-          <div class="stage-status"><div class="status-dot dot-building"></div><div class="status-label">Building</div></div>
-        </div>
-      </div>
-      <div class="connector-gap"></div>
-      <div class="stage-row">
-        <div class="stage">
-          <div class="stage-icon icon-green">◈</div>
-          <div class="stage-body">
-            <div class="stage-label">Stage 05</div>
-            <div class="stage-name">Auto-Publish to Instagram</div>
-            <div class="stage-desc">Approved content publishes automatically — Story, Carousel, or Reel — on a schedule or instantly. n8n handles all posting logic. No manual uploads, no copy-pasting.</div>
-            <div class="stage-tools">
-              <span class="tool-tag tag-green">Instagram API</span>
-              <span class="tool-tag tag-green">Buffer / Make</span>
-              <span class="tool-tag tag-gray">Scheduled Posts</span>
-            </div>
-          </div>
-          <div class="stage-status"><div class="status-dot dot-planned"></div><div class="status-label">Planned</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="vision-bottom">
-      <div class="vb-left">
-        <div class="vb-title">From prompt to posted — fully automated.</div>
-        <div class="vb-sub">One person runs 5–6 content channels simultaneously.<br>Every bar. Every night. Every format. Zero manual work.</div>
-      </div>
-      <div class="vb-right">
-        <div class="metric"><div class="metric-num">18</div><div class="metric-label">Partner Bars</div></div>
-        <div class="metric"><div class="metric-num">3</div><div class="metric-label">Content Modes</div></div>
-        <div class="metric"><div class="metric-num">∞</div><div class="metric-label">Scale</div></div>
-      </div>
-    </div>
-    <div class="vision-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#60c070;box-shadow:0 0 4px rgba(96,192,112,0.5);"></div>Live now</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#F47B20;box-shadow:0 0 4px rgba(244,123,32,0.4);"></div>In progress</div>
-      <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15);"></div>Planned</div>
-    </div>
-  </div>
-</div>
+<div id="kbPage" style="display:none;"><div id="kbContent"></div></div>
 
 <script>
 const barKnowledgeBase = {
@@ -610,14 +517,15 @@ function renderSessionLog() {
 function setMode(mode, btn) {
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  if (mode === 'vision') {
+  if (mode === 'kb') {
     document.getElementById('studioPage').style.display = 'none';
-    document.getElementById('visionPage').style.display = 'block';
-    currentMode = 'vision';
+    document.getElementById('kbPage').style.display = 'block';
+    currentMode = 'kb';
+    renderKBPage();
     return;
   }
   document.getElementById('studioPage').style.display = 'block';
-  document.getElementById('visionPage').style.display = 'none';
+  document.getElementById('kbPage').style.display = 'none';
   currentMode = mode;
   const titles = { story: 'Story Post', carousel: 'Carousel', reels: 'Reels' };
   const subs = {
@@ -1244,7 +1152,221 @@ function downloadImage(imgId, filename) {
   link.click();
 }
 
+// ─── KNOWLEDGE BASE ──────────────────────────────────────
+const TAMPA_BAR_KEYS = new Set(['m bird','lower deck','armature works','american social','511 franklin','the patio','blind goat','sunset rodeo','macdintons','boulon','predalina']);
+
+function cssId(key) { return key.replace(/[^a-z0-9]/gi, '_'); }
+
+function getBarCity(key, bar) {
+  if (bar.city) return bar.city;
+  return TAMPA_BAR_KEYS.has(key) ? 'Tampa' : 'Knoxville';
+}
+
+function cityCssClass(city) {
+  if (!city) return 'kb-city-other';
+  const c = city.toLowerCase();
+  if (c === 'knoxville') return 'kb-city-knoxville';
+  if (c === 'tampa') return 'kb-city-tampa';
+  return 'kb-city-other';
+}
+
+function initKB() {
+  try {
+    const saved = localStorage.getItem('venuu_kb');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.keys(barKnowledgeBase).forEach(k => delete barKnowledgeBase[k]);
+      Object.keys(parsed).forEach(k => { barKnowledgeBase[k] = parsed[k]; });
+    }
+  } catch(e) {}
+}
+
+function saveKBToStorage() {
+  try { localStorage.setItem('venuu_kb', JSON.stringify(barKnowledgeBase)); } catch(e) {}
+}
+
+function renderKBPage() {
+  const container = document.getElementById('kbContent');
+  if (!container) return;
+  const bars = Object.entries(barKnowledgeBase);
+  container.innerHTML = `
+    <div class="kb-page">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div>
+          <div class="mode-title">Knowledge Base</div>
+          <div class="mode-sub">${bars.length} bars · add, edit, or remove venue profiles</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="secondary-btn" style="font-size:11px;padding:6px 12px;opacity:0.45;" onclick="resetKBToDefaults()">Reset to defaults</button>
+          <button class="secondary-btn" onclick="startAddBar()">+ Add Bar</button>
+        </div>
+      </div>
+      <input class="filter-input" id="kb_search" placeholder="Search bars by name, city, or vibe..." oninput="filterKBBars()">
+      <div id="kbAddForm" style="display:none;">
+        <div class="kb-add-form-inner">
+          <div style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#F47B20;font-weight:500;margin-bottom:4px;">New Bar</div>
+          ${renderKBAddFields()}
+          <div style="display:flex;gap:8px;margin-top:4px;">
+            <button class="generate-btn" style="max-width:140px;padding:11px 20px;" onclick="saveAddBar()">Add Bar</button>
+            <button class="secondary-btn" onclick="cancelAddBar()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div id="kbBarList" style="display:flex;flex-direction:column;gap:10px;">
+        ${bars.map(([key, bar]) => renderBarCard(key, bar)).join('')}
+      </div>
+    </div>`;
+}
+
+function renderKBAddFields() {
+  const fields = [
+    { id:'key',       label:'Search ID',           type:'input',    placeholder:'lowercase slug, e.g. the griffin',      hint:'Must match how users type the bar name (partial match supported)' },
+    { id:'fullName',  label:'Full Name',            type:'input',    placeholder:'e.g. The Griffin Bar & Grill' },
+    { id:'city',      label:'City / Market',        type:'input',    placeholder:'e.g. Tampa' },
+    { id:'aesthetic', label:'Aesthetic',            type:'textarea', placeholder:'Overall visual vibe and character...' },
+    { id:'colors',    label:'Colors & Lighting',    type:'textarea', placeholder:'Color palette, lighting quality...' },
+    { id:'interior',  label:'Interior',             type:'textarea', placeholder:'Physical space, layout, notable features...' },
+    { id:'vibe',      label:'Vibe',                 type:'textarea', placeholder:'Energy, reputation, crowd culture...' },
+    { id:'crowd',     label:'Crowd (optional)',     type:'textarea', placeholder:'Who goes here...' },
+    { id:'signature', label:'Signature',            type:'textarea', placeholder:'What this bar is known for...' },
+  ];
+  return fields.map(f => `
+    <div class="filter-group">
+      <div class="filter-label">${f.label}${f.hint ? ` <span style="text-transform:none;letter-spacing:0;color:rgba(240,238,232,0.25);font-size:10px;font-weight:400;">${f.hint}</span>` : ''}</div>
+      ${f.type === 'input'
+        ? `<input class="filter-input" id="kbadd_${f.id}" placeholder="${f.placeholder || ''}">`
+        : `<textarea class="filter-textarea" id="kbadd_${f.id}" placeholder="${f.placeholder || ''}" style="min-height:56px;"></textarea>`
+      }
+    </div>`).join('');
+}
+
+function renderBarCard(key, bar) {
+  const id = cssId(key);
+  const city = getBarCity(key, bar);
+  return `
+    <div class="kb-bar-card" id="kb_card_${id}">
+      <div class="kb-bar-header">
+        <div class="kb-bar-info">
+          <div class="kb-bar-meta">
+            <span class="kb-city-badge ${cityCssClass(city)}">${esc(city)}</span>
+            <span class="kb-bar-name">${esc(bar.fullName || key)}</span>
+          </div>
+          <span class="kb-bar-key">"${esc(key)}"</span>
+        </div>
+        <div class="kb-bar-actions">
+          <button class="secondary-btn" style="padding:5px 12px;font-size:11px;" data-barkey="${esc(key)}" onclick="startEditBar(this.dataset.barkey)">Edit</button>
+          <button class="danger-btn" data-barkey="${esc(key)}" onclick="deleteBar(this.dataset.barkey)">Delete</button>
+        </div>
+      </div>
+      <div class="kb-preview-text">${esc(bar.aesthetic || '')}</div>
+      <div class="kb-edit-form" id="kb_edit_${id}" style="display:none;">
+        ${renderBarEditFields(key, bar)}
+      </div>
+    </div>`;
+}
+
+function renderBarEditFields(key, bar) {
+  const id = cssId(key);
+  const city = getBarCity(key, bar);
+  const fields = [
+    { id:'fullName',  label:'Full Name',         type:'input',    val: bar.fullName  || '' },
+    { id:'city',      label:'City / Market',     type:'input',    val: city },
+    { id:'aesthetic', label:'Aesthetic',         type:'textarea', val: bar.aesthetic || '' },
+    { id:'colors',    label:'Colors & Lighting', type:'textarea', val: bar.colors    || '' },
+    { id:'interior',  label:'Interior',          type:'textarea', val: bar.interior  || '' },
+    { id:'vibe',      label:'Vibe',              type:'textarea', val: bar.vibe      || '' },
+    { id:'crowd',     label:'Crowd (optional)',  type:'textarea', val: bar.crowd     || '' },
+    { id:'signature', label:'Signature',         type:'textarea', val: bar.signature || '' },
+  ];
+  return fields.map(f => `
+    <div class="filter-group">
+      <div class="filter-label">${f.label}</div>
+      ${f.type === 'input'
+        ? `<input class="filter-input" id="kbe_${id}_${f.id}" value="${esc(f.val)}">`
+        : `<textarea class="filter-textarea" id="kbe_${id}_${f.id}" style="min-height:56px;">${esc(f.val)}</textarea>`
+      }
+    </div>`).join('') + `
+  <div style="display:flex;gap:8px;margin-top:4px;">
+    <button class="generate-btn" style="max-width:120px;padding:11px 20px;" data-barkey="${esc(key)}" onclick="saveEditBar(this.dataset.barkey)">Save</button>
+    <button class="secondary-btn" data-barkey="${esc(key)}" onclick="cancelEditBar(this.dataset.barkey)">Cancel</button>
+  </div>`;
+}
+
+function startEditBar(key) {
+  document.querySelectorAll('.kb-edit-form').forEach(f => { f.style.display = 'none'; });
+  const form = document.getElementById('kb_edit_' + cssId(key));
+  if (form) { form.style.display = 'flex'; form.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+
+function cancelEditBar(key) {
+  const form = document.getElementById('kb_edit_' + cssId(key));
+  if (form) form.style.display = 'none';
+}
+
+function saveEditBar(key) {
+  const id = cssId(key);
+  const g = f => { const el = document.getElementById(`kbe_${id}_${f}`); return el ? el.value.trim() : ''; };
+  const fullName = g('fullName');
+  if (!fullName) { alert('Full name is required.'); return; }
+  const updated = { fullName, aesthetic: g('aesthetic'), colors: g('colors'), interior: g('interior'), vibe: g('vibe'), signature: g('signature') };
+  const crowd = g('crowd'); if (crowd) updated.crowd = crowd;
+  const city  = g('city');  if (city)  updated.city  = city;
+  barKnowledgeBase[key] = updated;
+  saveKBToStorage();
+  renderKBPage();
+  setTimeout(() => { const c = document.getElementById('kb_card_' + id); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+}
+
+function deleteBar(key) {
+  const name = barKnowledgeBase[key]?.fullName || key;
+  if (!confirm(`Delete "${name}"?\n\nThis removes it from the knowledge base. Use "Reset to defaults" to restore all original bars.`)) return;
+  delete barKnowledgeBase[key];
+  saveKBToStorage();
+  renderKBPage();
+}
+
+function startAddBar() {
+  const form = document.getElementById('kbAddForm');
+  if (form) { form.style.display = 'block'; form.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+
+function cancelAddBar() {
+  const form = document.getElementById('kbAddForm');
+  if (form) form.style.display = 'none';
+}
+
+function saveAddBar() {
+  const keyEl = document.getElementById('kbadd_key');
+  const key = keyEl ? keyEl.value.trim().toLowerCase() : '';
+  if (!key) { alert('Search ID is required.'); return; }
+  if (barKnowledgeBase[key]) { alert(`A bar with ID "${key}" already exists. Use a different search ID.`); return; }
+  const g = f => { const el = document.getElementById('kbadd_' + f); return el ? el.value.trim() : ''; };
+  const fullName = g('fullName');
+  if (!fullName) { alert('Full name is required.'); return; }
+  const bar = { fullName };
+  ['aesthetic','colors','interior','vibe','crowd','signature'].forEach(f => { const v = g(f); if (v) bar[f] = v; });
+  const city = g('city'); if (city) bar.city = city;
+  barKnowledgeBase[key] = bar;
+  saveKBToStorage();
+  renderKBPage();
+  setTimeout(() => { const c = document.getElementById('kb_card_' + cssId(key)); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+}
+
+function filterKBBars() {
+  const q = (document.getElementById('kb_search')?.value || '').toLowerCase();
+  document.querySelectorAll('.kb-bar-card').forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function resetKBToDefaults() {
+  if (!confirm('Reset to default bar list?\n\nAll edits and additions will be lost. The page will reload.')) return;
+  localStorage.removeItem('venuu_kb');
+  location.reload();
+}
+
 // ─── INIT ─────────────────────────────────────────────────
+initKB();
 renderModeContent();
 </script>
 </body>
