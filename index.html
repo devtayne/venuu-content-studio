@@ -252,7 +252,7 @@
   <button class="mode-tab active" data-mode="story" onclick="setMode('story', this)">◻ Story</button>
   <button class="mode-tab" data-mode="carousel" onclick="setMode('carousel', this)">◈ Carousel</button>
   <button class="mode-tab" data-mode="reels" onclick="setMode('reels', this)">▷ Reels</button>
-  <button class="mode-tab" data-mode="kb" onclick="setMode('kb', this)">◉ Knowledge Base</button>
+  <button class="mode-tab" data-mode="kb" onclick="setMode('kb', this)">◉ Bar Base</button>
 </div>
 
 <div id="studioPage">
@@ -1288,7 +1288,7 @@ function renderKBPage() {
     <div class="kb-page">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
         <div>
-          <div class="mode-title">Knowledge Base</div>
+          <div class="mode-title">Bar Base</div>
           <div class="mode-sub">${allBars.length} bars · add, edit, or remove venue profiles</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
@@ -1500,7 +1500,7 @@ renderModeContent();
       <span class="sidebar-item-icon">▷</span>Reels
     </button>
     <button class="sidebar-item" data-mode="kb" onclick="sidebarSetMode('kb')">
-      <span class="sidebar-item-icon">◉</span>Knowledge Base
+      <span class="sidebar-item-icon">◉</span>Bar Base
     </button>
   </nav>
 </div>
