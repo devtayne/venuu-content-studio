@@ -177,6 +177,7 @@
   .style-chip { padding: 5px 13px; border-radius: 20px; border: 0.5px solid rgba(255,255,255,0.1); background: transparent; color: rgba(240,238,232,0.4); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px; white-space: nowrap; }
   .style-chip:hover { border-color: rgba(244,123,32,0.35); color: rgba(240,238,232,0.75); background: rgba(244,123,32,0.05); }
   .style-chip.active { background: rgba(244,123,32,0.15); border-color: rgba(244,123,32,0.5); color: #F47B20; }
+  .style-desc { font-size: 11.5px; color: rgba(240,238,232,0.38); line-height: 1.5; font-style: italic; padding-top: 3px; min-height: 1.5em; transition: opacity 0.15s; }
 
   /* KNOWLEDGE BASE */
   .kb-page { padding: 2rem; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
@@ -273,37 +274,37 @@
 
 <script>
 const barKnowledgeBase = {
-  "cool beans": { fullName: "Cool Beans Bar & Grill", aesthetic: "iconic UTK campus dive bar, neon-lit and chaotic in the best way", colors: "warm neon glow, dark interiors, orange and green accents", interior: "neon signs covering every wall, dart boards, pool tables, stuffed animals on ceiling, jumbotron patio", vibe: "Knoxville's longest running dive bar since 2000, every UTK student's second home, always packed always loud", signature: "Purple Hooter cocktail, legendary bartender Kevin, beer pong tables" },
-  "half barrel": { fullName: "The Half Barrel", aesthetic: "upscale college pub with serious bourbon credentials", colors: "dark wood tones, warm amber lighting, classic pub palette", interior: "long bar down the right side, wood-paneled walls, booths, pool tables in back, rear patio", vibe: "Cumberland Ave institution, best bourbon selection outside Kentucky, 35+ draft beers", signature: "40+ beers on tap, massive bourbon selection, trivia nights Thursdays" },
-  "hanna's": { fullName: "Hanna's", aesthetic: "Fort Sanders neighborhood bar, laid back and local", colors: "warm tones, casual college bar palette", interior: "neighborhood bar feel, intimate, regulars-driven", vibe: "Fort Sanders staple, low-key and welcoming", signature: "neighborhood regulars, casual vibe, affordable drinks" },
-  "kern's food hall": { fullName: "Kern's Food Hall", aesthetic: "historic 1931 Art Deco industrial bakery, South Knoxville's premier food and entertainment destination", colors: "weathered steel beams, dark charcoal steelwork, terra-cotta tile, warm natural light", interior: "65000 sq ft historic industrial space, exposed steel beams, wood ceilings, factory silo, rooftop bar", vibe: "community gathering place, historic preservation meets modern culinary scene, live music", signature: "rooftop bar, historic Art Deco facade, live music, 20+ food vendors" },
-  "literboard": { fullName: "LiterBoard", aesthetic: "modern college bar with a party game focus", colors: "bright, energetic, fun", interior: "game-focused layout, social and competitive atmosphere", vibe: "built around drinking games and social competition, high energy", signature: "drinking games, high energy, party atmosphere" },
-  "lunaverse": { fullName: "LunaVerse", aesthetic: "Knoxville's premier nightclub, eclectic and immersive", colors: "purple, cosmic tones, neon, moody club lighting", interior: "nightclub layout, dance floor, DJ booth, atmospheric lighting", vibe: "one of Knoxville's top nightlife destinations, serious party energy", signature: "DJ nights, featured Venuu partner, dance floor, immersive atmosphere" },
-  "old city sports bar": { fullName: "Old City Sports Bar", aesthetic: "classic sports bar in Knoxville's historic Old City", colors: "sports bar palette, TVs everywhere, team colors", interior: "multiple screens, bar seating, game day setup", vibe: "Old City location, game day central, casual and accessible", signature: "Old City location, game day atmosphere, multiple sports screens" },
-  "preservation pub": { fullName: "Preservation Pub", aesthetic: "three-story quirky speakeasy meets rooftop beer garden, Knoxville institution", colors: "eclectic, kitschy, string lights, crystals, flamingos", interior: "three floors each with distinct vibe, Moonshine Roof Garden with Magic Beer Tree, plastic flamingos", vibe: "Market Square landmark, 300+ beers, rooftop city views, live music always", signature: "Magic Beer Tree, Moonshine Roof Garden, 300+ beers, flamingos, Market Square views" },
-  "radius rooftop": { fullName: "Radius Rooftop Bar & Lounge", aesthetic: "upscale hotel rooftop bar above Embassy Suites, 360-degree circular bar, rooftop pool", colors: "sophisticated dark tones, warm accent lighting, city skyline backdrop", interior: "360 circular bar, indoor and outdoor rooftop, adjacent rooftop pool, panoramic city views", vibe: "Knoxville's most premium nightlife spot, stunning views of Sunsphere and Smokies", signature: "rooftop pool, 360 bar, Sunsphere views, best bourbon downtown, VIP energy" },
-  "southbound": { fullName: "Southbound Nightclub", aesthetic: "Knoxville's largest nightclub, Old City dance club royalty", colors: "club lighting, colorful DJ lights, dark club aesthetic with neon accents", interior: "three floors, three large dance floors, six full-service bars, Old City courtyard outdoor stage", vibe: "THE nightclub in Knoxville, DJ Eric B resident DJ, nightclub attire mandatory", signature: "DJ Eric B, three dance floors, VIP bottle service, Old City Courtyard outdoor stage" },
-  "southside garage": { fullName: "Southside Garage", aesthetic: "South Knoxville food truck park meets craft beer bar, laid back and outdoorsy", colors: "casual industrial, outdoor patio vibes", interior: "large indoor-outdoor setup, big patios, patio games, TV screens", vibe: "South Landing area, craft beer haven, trivia Tuesdays", signature: "craft beer selection, Southwestern food, large patios, patio games" },
-  "sunspot": { fullName: "Sunspot", aesthetic: "Cumberland Ave staple, artsy and eclectic with long Knoxville history", colors: "warm, artistic, eclectic, colorful and creative", interior: "creative decor, warm atmosphere, Cumberland Ave location", vibe: "long-standing Knoxville institution on the Strip, artsy crowd, creative energy", signature: "Strip location, longtime Knoxville staple, artistic atmosphere" },
-  "taqueria mares": { fullName: "Taqueria Mares", aesthetic: "vibrant Mexican bar and restaurant with authentic energy", colors: "bright, warm Mexican palette, vibrant and colorful", interior: "Mexican restaurant atmosphere, bar area, lively and colorful", vibe: "authentic Mexican food meets Knoxville nightlife, margarita central", signature: "authentic Mexican cuisine, margaritas, vibrant atmosphere" },
-  "the bookstore": { fullName: "The Bookstore Bar", aesthetic: "quirky literary-themed bar, one of Knoxville's hidden gems", colors: "warm, bookish, intimate, dark wood and warm light", interior: "book-themed decor, intimate setting, cozy bar atmosphere", vibe: "unique concept, literary aesthetic, conversation-focused, UTK area", signature: "literary theme, intimate atmosphere, unique Knoxville bar concept" },
-  "the hill": { fullName: "The Hill Bar & Grill", aesthetic: "classic Knoxville bar and grill, Fort Sanders neighborhood anchor", colors: "traditional bar palette, warm and welcoming", interior: "bar and grill setup, TV screens, comfortable seating", vibe: "neighborhood institution, solid drinks, game day reliable", signature: "neighborhood bar staple, reliable game day spot" },
-  "undeclared": { fullName: "Undeclared", aesthetic: "college bar built for chaotic fun, young and uninhibited", colors: "college bar palette, energetic and fun", interior: "college bar layout, high energy, social setup", vibe: "chaotic college energy, UTK adjacent, young crowd", signature: "college party atmosphere, young crowd, Strip location" },
-  "yacht club": { fullName: "Fort Sanders Yacht Club", aesthetic: "beloved Fort Sanders dive bar with retro gaming and craft beer charm", colors: "warm, dim, cozy, classic dive bar palette with nerdy twist", interior: "booth seating, warm lighting, coin-op arcade games, smoking parlor in rear", vibe: "one of Knoxville's hidden gems, retro gaming meets craft beer, intimate and unpretentious", signature: "Mario Kart and Super Smash Bros, coin-op arcade, smoking parlor" },
-  "yee-haw": { fullName: "Yee-Haw Brewing Company", aesthetic: "Knoxville's beloved craft brewery with Southern pride and industrial cool", colors: "warm industrial tones, Southern craft brewery palette, warm wood and brick", interior: "brewery taproom setup, industrial aesthetic, warm and inviting", vibe: "Knoxville craft beer institution, Southern roots meets craft culture, taproom energy", signature: "house-brewed craft beers, Southern brewing heritage, taproom atmosphere" },
+  "cool beans": { fullName: "Cool Beans Bar & Grill", aesthetic: "iconic UTK campus dive bar, neon-lit and chaotic in the best way", colors: "warm neon glow, dark interiors, orange and green accents", interior: "neon signs covering every wall, dart boards, pool tables, stuffed animals on ceiling, jumbotron patio", vibe: "Knoxville's longest running dive bar since 2000, every UTK student's second home, always packed always loud", signature: "Purple Hooter cocktail, legendary bartender Kevin, beer pong tables", defaultStyle: "college_dive", visualAnchor: "neon-covered walls and stuffed animals dangling from the ceiling above the pool tables" },
+  "half barrel": { fullName: "The Half Barrel", aesthetic: "upscale college pub with serious bourbon credentials", colors: "dark wood tones, warm amber lighting, classic pub palette", interior: "long bar down the right side, wood-paneled walls, booths, pool tables in back, rear patio", vibe: "Cumberland Ave institution, best bourbon selection outside Kentucky, 35+ draft beers", signature: "40+ beers on tap, massive bourbon selection, trivia nights Thursdays", defaultStyle: "cinematic_dark", visualAnchor: "long wooden bar running the right side wall, backlit by amber rows of bourbon bottles" },
+  "hanna's": { fullName: "Hanna's", aesthetic: "Fort Sanders neighborhood bar, laid back and local", colors: "warm tones, casual college bar palette", interior: "neighborhood bar feel, intimate, regulars-driven", vibe: "Fort Sanders staple, low-key and welcoming", signature: "neighborhood regulars, casual vibe, affordable drinks", defaultStyle: "analog_film", visualAnchor: "intimate Fort Sanders corner bar, worn stools, warm tungsten light, regulars at ease" },
+  "kern's food hall": { fullName: "Kern's Food Hall", aesthetic: "historic 1931 Art Deco industrial bakery, South Knoxville's premier food and entertainment destination", colors: "weathered steel beams, dark charcoal steelwork, terra-cotta tile, warm natural light", interior: "65000 sq ft historic industrial space, exposed steel beams, wood ceilings, factory silo, rooftop bar", vibe: "community gathering place, historic preservation meets modern culinary scene, live music", signature: "rooftop bar, historic Art Deco facade, live music, 20+ food vendors", defaultStyle: "bold_graphic", visualAnchor: "exposed Art Deco steel beams and the original factory silo inside the 1931 warehouse" },
+  "literboard": { fullName: "LiterBoard", aesthetic: "modern college bar with a party game focus", colors: "bright, energetic, fun", interior: "game-focused layout, social and competitive atmosphere", vibe: "built around drinking games and social competition, high energy", signature: "drinking games, high energy, party atmosphere", defaultStyle: "neon_underground", visualAnchor: "neon-lit game tables with competitive drinkers mid-game" },
+  "lunaverse": { fullName: "LunaVerse", aesthetic: "Knoxville's premier nightclub, eclectic and immersive", colors: "purple, cosmic tones, neon, moody club lighting", interior: "nightclub layout, dance floor, DJ booth, atmospheric lighting", vibe: "one of Knoxville's top nightlife destinations, serious party energy", signature: "DJ nights, featured Venuu partner, dance floor, immersive atmosphere", defaultStyle: "neon_underground", visualAnchor: "cosmic purple dance floor immersed in layered club lighting from the DJ booth" },
+  "old city sports bar": { fullName: "Old City Sports Bar", aesthetic: "classic sports bar in Knoxville's historic Old City", colors: "sports bar palette, TVs everywhere, team colors", interior: "multiple screens, bar seating, game day setup", vibe: "Old City location, game day central, casual and accessible", signature: "Old City location, game day atmosphere, multiple sports screens", defaultStyle: "bold_graphic", visualAnchor: "historic Old City brick walls behind a bank of glowing sports screens" },
+  "preservation pub": { fullName: "Preservation Pub", aesthetic: "three-story quirky speakeasy meets rooftop beer garden, Knoxville institution", colors: "eclectic, kitschy, string lights, crystals, flamingos", interior: "three floors each with distinct vibe, Moonshine Roof Garden with Magic Beer Tree, plastic flamingos", vibe: "Market Square landmark, 300+ beers, rooftop city views, live music always", signature: "Magic Beer Tree, Moonshine Roof Garden, 300+ beers, flamingos, Market Square views", defaultStyle: "college_dive", visualAnchor: "plastic flamingos flanking the Magic Beer Tree on the Moonshine Roof Garden with Market Square below" },
+  "radius rooftop": { fullName: "Radius Rooftop Bar & Lounge", aesthetic: "upscale hotel rooftop bar above Embassy Suites, 360-degree circular bar, rooftop pool", colors: "sophisticated dark tones, warm accent lighting, city skyline backdrop", interior: "360 circular bar, indoor and outdoor rooftop, adjacent rooftop pool, panoramic city views", vibe: "Knoxville's most premium nightlife spot, stunning views of Sunsphere and Smokies", signature: "rooftop pool, 360 bar, Sunsphere views, best bourbon downtown, VIP energy", defaultStyle: "luxury", visualAnchor: "the 360-degree circular bar with the golden Sunsphere glowing through floor-to-ceiling glass behind it" },
+  "southbound": { fullName: "Southbound Nightclub", aesthetic: "Knoxville's largest nightclub, Old City dance club royalty", colors: "club lighting, colorful DJ lights, dark club aesthetic with neon accents", interior: "three floors, three large dance floors, six full-service bars, Old City courtyard outdoor stage", vibe: "THE nightclub in Knoxville, DJ Eric B resident DJ, nightclub attire mandatory", signature: "DJ Eric B, three dance floors, VIP bottle service, Old City Courtyard outdoor stage", defaultStyle: "neon_underground", visualAnchor: "three stacked dance floors flooding with DJ lighting, crowd silhouettes on each level" },
+  "southside garage": { fullName: "Southside Garage", aesthetic: "South Knoxville food truck park meets craft beer bar, laid back and outdoorsy", colors: "casual industrial, outdoor patio vibes", interior: "large indoor-outdoor setup, big patios, patio games, TV screens", vibe: "South Landing area, craft beer haven, trivia Tuesdays", signature: "craft beer selection, Southwestern food, large patios, patio games", defaultStyle: "analog_film", visualAnchor: "expansive South Knoxville patio at dusk, patio games and craft beer in the warm evening light" },
+  "sunspot": { fullName: "Sunspot", aesthetic: "Cumberland Ave staple, artsy and eclectic with long Knoxville history", colors: "warm, artistic, eclectic, colorful and creative", interior: "creative decor, warm atmosphere, Cumberland Ave location", vibe: "long-standing Knoxville institution on the Strip, artsy crowd, creative energy", signature: "Strip location, longtime Knoxville staple, artistic atmosphere", defaultStyle: "clean_editorial", visualAnchor: "eclectic artsy Cumberland Ave storefront with warm creative interior visible through windows" },
+  "taqueria mares": { fullName: "Taqueria Mares", aesthetic: "vibrant Mexican bar and restaurant with authentic energy", colors: "bright, warm Mexican palette, vibrant and colorful", interior: "Mexican restaurant atmosphere, bar area, lively and colorful", vibe: "authentic Mexican food meets Knoxville nightlife, margarita central", signature: "authentic Mexican cuisine, margaritas, vibrant atmosphere", defaultStyle: "miami_nights", visualAnchor: "vibrant Mexican bar counter with salt-rimmed margaritas and colorful decor under warm light" },
+  "the bookstore": { fullName: "The Bookstore Bar", aesthetic: "quirky literary-themed bar, one of Knoxville's hidden gems", colors: "warm, bookish, intimate, dark wood and warm light", interior: "book-themed decor, intimate setting, cozy bar atmosphere", vibe: "unique concept, literary aesthetic, conversation-focused, UTK area", signature: "literary theme, intimate atmosphere, unique Knoxville bar concept", defaultStyle: "dark_romance", visualAnchor: "book-lined walls in warm amber candlelight behind a quiet bar glass" },
+  "the hill": { fullName: "The Hill Bar & Grill", aesthetic: "classic Knoxville bar and grill, Fort Sanders neighborhood anchor", colors: "traditional bar palette, warm and welcoming", interior: "bar and grill setup, TV screens, comfortable seating", vibe: "neighborhood institution, solid drinks, game day reliable", signature: "neighborhood bar staple, reliable game day spot", defaultStyle: "cinematic_dark", visualAnchor: "Fort Sanders neighborhood corner, warm tungsten bar light spilling onto the street at dusk" },
+  "undeclared": { fullName: "Undeclared", aesthetic: "college bar built for chaotic fun, young and uninhibited", colors: "college bar palette, energetic and fun", interior: "college bar layout, high energy, social setup", vibe: "chaotic college energy, UTK adjacent, young crowd", signature: "college party atmosphere, young crowd, Strip location", defaultStyle: "college_dive", visualAnchor: "packed Strip bar floor with UTK crowd in full chaotic college energy" },
+  "yacht club": { fullName: "Fort Sanders Yacht Club", aesthetic: "beloved Fort Sanders dive bar with retro gaming and craft beer charm", colors: "warm, dim, cozy, classic dive bar palette with nerdy twist", interior: "booth seating, warm lighting, coin-op arcade games, smoking parlor in rear", vibe: "one of Knoxville's hidden gems, retro gaming meets craft beer, intimate and unpretentious", signature: "Mario Kart and Super Smash Bros, coin-op arcade, smoking parlor", defaultStyle: "retro_poster", visualAnchor: "coin-op arcade cabinets glowing blue-green in the warm dim dive bar corner" },
+  "yee-haw": { fullName: "Yee-Haw Brewing Company", aesthetic: "Knoxville's beloved craft brewery with Southern pride and industrial cool", colors: "warm industrial tones, Southern craft brewery palette, warm wood and brick", interior: "brewery taproom setup, industrial aesthetic, warm and inviting", vibe: "Knoxville craft beer institution, Southern roots meets craft culture, taproom energy", signature: "house-brewed craft beers, Southern brewing heritage, taproom atmosphere", defaultStyle: "analog_film", visualAnchor: "craft brewery taproom with warm brick walls, wooden bar top, and row of house-brewed tap handles" },
 
   // ── Tampa ─────────────────────────────────────────────────
-  "m bird": { fullName: "M.Bird", aesthetic: "tropical mod-deco rooftop lounge perched above historic Armature Works, Tampa Heights crown jewel", colors: "lush tropical greens, antique gold accents, warm pendant lighting, palm trees against sunset sky, Hillsborough River backdrop", interior: "3500 sq ft split between covered terrace with exposed hardwood trusses and open-air seating, custom banquettes in muted tropical fabrics, terrazzo columns, geometric mural at entrance, day beds and circular Hollywood-style seating", vibe: "Tampa's premier rooftop destination, 21+ only adults escape, bottle service and live DJs, weekend rooftop brunch, reservations rare so arrive early, panoramic views of downtown Tampa and Hillsborough River", crowd: "stylish young professionals, date night crowd, upscale-casual dresscode, Tampa's see-and-be-seen rooftop set", signature: "tropical curated cocktails, Caribbean and Mediterranean small plates, sunset views, live DJs, no kids policy" },
-  "lower deck": { fullName: "The Lower Deck", aesthetic: "relaxed dockside waterfront bar at pier level of Harbour Island, casual coastal escape from the city", colors: "natural coastal tones, waterfront blues, warm casual lighting, Tampa skyline backdrop", interior: "marina level open-air setup at Pointe on Harbour Island, panoramic waterfront views of downtown Tampa, indoor and outdoor dockside seating", vibe: "laid-back neighborhood waterfront bar, craft cocktails and immersive music experience, from Three Oaks Hospitality, perfect for group gatherings and corporate happy hours", crowd: "Harbour Island locals, young professionals, after-work crowd, waterfront regulars", signature: "fresh raw oysters, shrimp scampi toast, craft cocktails, panoramic Tampa waterfront views, dockside escape energy" },
-  "armature works": { fullName: "Armature Works", aesthetic: "historic 1910 streetcar warehouse transformed into Tampa Heights' premier food hall and entertainment destination on the Hillsborough River", colors: "exposed brick, original wood floors, industrial steel, warm Edison lighting, lush outdoor greenery along the riverwalk", interior: "22000 sq ft Heights Public Market food hall with exposed brick and ductwork, communal tables, 15+ local food vendors, outdoor riverside lawn with giant chess and checkers, M.Bird rooftop above, event spaces throughout", vibe: "Tampa's most iconic mixed-use destination, beloved by locals and tourists, always something happening, family-friendly by day and nightlife destination by night, Riverwalk access", crowd: "diverse Tampa crowd, food lovers, date nights, families, young professionals, tourists discovering the city", signature: "Heights Public Market food hall, M.Bird rooftop bar, riverside lawn with yard games, live events, Bar AW craft cocktails, frequent special events" },
-  "american social": { fullName: "American Social Bar & Kitchen", aesthetic: "upscale waterfront sports bar and gastropub on Harbour Island, ranked #39 in US Top 100 Independents by sales", colors: "Americana-style interior, warm tones, omnipresent flat screens, open patio with Garrison Channel and Tampa skyline views", interior: "9100 sq ft inside plus 5000 sq ft exterior patio, four full bars, self-serve six-tap communal beer wall, private booths with draft lines, raw bar, waterfront patio overlooking Tampa skyline", vibe: "high-energy gastropub that transitions to dance club at 11pm, DJ until 3am on weekends, Taco Tuesday and weekly events, near Amalie Arena, 40+ craft beers on tap", crowd: "young professionals, sports fans, Harbour Island residents, Channelside crowd, upscale bar energy without the pretension", signature: "40 craft beers on tap, communal beer wall, waterfront Tampa skyline views, turns to dance club at 11pm, weekend bottomless brunch mimosas" },
-  "511 franklin": { fullName: "511 Franklin", aesthetic: "elevated craft cocktail bar and late-night destination in the heart of downtown Tampa, 23+ crowd", colors: "exposed brick walls, stylish dark interior, outdoor patio on Franklin Street", interior: "exposed brick walls, stylish cocktail bar design, complemented by outdoor street patio, downtown Tampa location at 511 N Franklin St", vibe: "downtown Tampa's premier craft cocktail and nightlife destination from Station and Bowery, ages 23+ only, live DJs, chef-driven menu, VIP table reservations available", crowd: "downtown professionals, 23+ nightlife crowd, cocktail enthusiasts, Tampa after-dark regulars", signature: "signature cocktails including The Big Guava (Teremana Tequila, Aperol, guava, lime, black salt), late-night destination energy, 23+ door policy" },
-  "the patio": { fullName: "The Patio", aesthetic: "unpretentious SoHo neighborhood bar, cheap drinks and no frills, exactly what it sounds like", colors: "casual bar palette, TVs everywhere, outdoor patio as the centerpiece", interior: "interior bar with TVs perfect for game watching, outdoor patio as the main focal point and namesake, relaxed and unfussy layout", vibe: "SoHo staple for when you want a cold cheap drink without the pretension, consistently voted among South Tampa favorites, game day reliable", crowd: "SoHo regulars, sports fans, neighborhood locals who want a no-nonsense bar experience", signature: "cold cheap drinks, outdoor patio, game day TVs, unpretentious SoHo neighborhood energy" },
-  "blind goat": { fullName: "The Blind Goat Food & Drink Co.", aesthetic: "Prohibition-era inspired craft bar and eatery, voted Best Pub in Tampa 2024 and 2025, independently owned South Tampa gem", colors: "warm industrial tones, prohibition speakeasy aesthetic, cozy and lived-in", interior: "dart boards, mini stage for live events, great back room, outdoor patio space, more TVs than you can count, prohibition-style bar design", vibe: "10-year South Tampa institution, independently owned by George, craft beer and creative cocktails, pizza and small plates, Thursday and Friday $5 pizza nights with live music, bingo nights, trivia, dog-friendly patio", crowd: "South Tampa locals, craft beer enthusiasts, people who hate pretentious bars, regulars who know everyone", signature: "Blackberry Whiskey Smash, craft beer selection, $5 pizza nights with live music, dart boards, prohibition speakeasy concept, Best Pub in Tampa two years running" },
-  "sunset rodeo": { fullName: "Sunset Rodeo", aesthetic: "Nashville-inspired live music bar and outdoor oasis on South Howard Avenue, Tampa's answer to a honky tonk", colors: "warm Southern tones, string lights, outdoor Nashville patio energy, rustic and lively", interior: "outdoor oasis patio layout on S Howard Ave, live music stage, Nashville bar aesthetic, hot chicken and cold beer energy", vibe: "Nashville nights under Tampa lights, live music weekly with country and Southern rock, 23+ Thursdays and 21+ other nights, high energy rowdy good time, quickly becoming SoHo's hottest spot", crowd: "SoHo regulars, live music lovers, country and Southern rock fans, 21-23+ Tampa nightlife crowd", signature: "live music every week, hot chicken, outdoor oasis patio, Nashville-inspired concept, country and Southern rock acts" },
-  "macdintons": { fullName: "MacDinton's Irish Pub", aesthetic: "SoHo's biggest Irish pub and nightlife institution, massive indoor-outdoor setup that packs out every weekend", colors: "classic Irish pub palette, warm lighting, outdoor patio with string lights, lively and loud", interior: "huge indoor and outdoor spaces, large outdoor patio, multiple bars, DJs and live entertainment, TVs for sports especially soccer and EPL", vibe: "SoHo staple drawing locals and tourists, high-energy clubby Irish pub atmosphere, watch parties, themed nights, holiday bashes, VIP tables and bottle service, 21-year-old UT girls and everyone in between", crowd: "SoHo crowd of all ages, soccer fans, tourists, young college-adjacent crowd, weekend warriors", signature: "DJ nights, live entertainment, outdoor patio, soccer and EPL watch parties, VIP bottle service, classic Irish pub menu" },
-  "boulon": { fullName: "Boulon Brasserie", aesthetic: "modern French brasserie in Tampa's Water Street district, Great Gatsby elegance meets contemporary design by Montreal architects", colors: "soft tan, black, gold, rich blue-teal navy, floor-to-ceiling windows, warm European lighting, gold and cream tones throughout", interior: "7000 sq ft with high ceilings, open floor plan, bar spanning the length of the dining room with intimate alcoves, two outdoor patios, hexagonal design motifs referencing the bolt concept, adjacent to Amalie Arena", vibe: "Water Street Tampa anchor, all-day dining from breakfast through late night, Parisian brasserie energy with upbeat music that turns techno on peak nights, special occasion destination, Michelin-adjacent caliber", crowd: "Water Street professionals, special occasion diners, upscale young crowd, pre and post Amalie Arena events", signature: "French classics with modern twist, espresso martinis, floor-to-ceiling windows, hexagonal design throughout, Water Street Tampa prestige location" },
-  "predalina": { fullName: "Predalina", aesthetic: "Mediterranean coastal restaurant, cocktail lounge, and after-dark destination on Water Street, alegria de viver — the joy of living well", colors: "earthy tones, gold and ceramic accents, aged brass fixtures, hand-laid mosaics, olive trees, heavy drapery, gold disco ball glittering overhead", interior: "7000 sq ft with two cocktail lounges flanking a brass-top bar, painted dance floors, hand-painted tile mural of Predalina Oliveira, mosaic walls and floors, olive trees, cozy intimate corners, 2000 sq ft patio with umbrellas and string lights along Water Street", vibe: "the most electric and glamorous concept from Oxford Commons, equal parts restaurant cocktail lounge and after-dark destination, cocktails savored amongst the glitter of a gold disco ball, evenings morph into effortless cool", crowd: "Water Street upscale crowd, Mediterranean food lovers, date night and special occasion, late-night cocktail lounge regulars", signature: "hand-laid mosaic design, gold disco ball, painted dance floor, Blue Crab Chitara, Potato Stroma, Steak Frites, named after owner's great-grandmother who lived to 101" }
+  "m bird": { fullName: "M.Bird", aesthetic: "tropical mod-deco rooftop lounge perched above historic Armature Works, Tampa Heights crown jewel", colors: "lush tropical greens, antique gold accents, warm pendant lighting, palm trees against sunset sky, Hillsborough River backdrop", interior: "3500 sq ft split between covered terrace with exposed hardwood trusses and open-air seating, custom banquettes in muted tropical fabrics, terrazzo columns, geometric mural at entrance, day beds and circular Hollywood-style seating", vibe: "Tampa's premier rooftop destination, 21+ only adults escape, bottle service and live DJs, weekend rooftop brunch, reservations rare so arrive early, panoramic views of downtown Tampa and Hillsborough River", crowd: "stylish young professionals, date night crowd, upscale-casual dresscode, Tampa's see-and-be-seen rooftop set", signature: "tropical curated cocktails, Caribbean and Mediterranean small plates, sunset views, live DJs, no kids policy", defaultStyle: "golden_hour", visualAnchor: "rooftop terrace canopy framing the Hillsborough River at golden hour, downtown Tampa skyline glowing beyond" },
+  "lower deck": { fullName: "The Lower Deck", aesthetic: "relaxed dockside waterfront bar at pier level of Harbour Island, casual coastal escape from the city", colors: "natural coastal tones, waterfront blues, warm casual lighting, Tampa skyline backdrop", interior: "marina level open-air setup at Pointe on Harbour Island, panoramic waterfront views of downtown Tampa, indoor and outdoor dockside seating", vibe: "laid-back neighborhood waterfront bar, craft cocktails and immersive music experience, from Three Oaks Hospitality, perfect for group gatherings and corporate happy hours", crowd: "Harbour Island locals, young professionals, after-work crowd, waterfront regulars", signature: "fresh raw oysters, shrimp scampi toast, craft cocktails, panoramic Tampa waterfront views, dockside escape energy", defaultStyle: "cinematic_dark", visualAnchor: "dockside pier at night with Tampa skyline glowing in the still waterfront reflection" },
+  "armature works": { fullName: "Armature Works", aesthetic: "historic 1910 streetcar warehouse transformed into Tampa Heights' premier food hall and entertainment destination on the Hillsborough River", colors: "exposed brick, original wood floors, industrial steel, warm Edison lighting, lush outdoor greenery along the riverwalk", interior: "22000 sq ft Heights Public Market food hall with exposed brick and ductwork, communal tables, 15+ local food vendors, outdoor riverside lawn with giant chess and checkers, M.Bird rooftop above, event spaces throughout", vibe: "Tampa's most iconic mixed-use destination, beloved by locals and tourists, always something happening, family-friendly by day and nightlife destination by night, Riverwalk access", crowd: "diverse Tampa crowd, food lovers, date nights, families, young professionals, tourists discovering the city", signature: "Heights Public Market food hall, M.Bird rooftop bar, riverside lawn with yard games, live events, Bar AW craft cocktails, frequent special events", defaultStyle: "bold_graphic", visualAnchor: "historic 1910 industrial warehouse facade and arched entryway with the Hillsborough River visible beyond" },
+  "american social": { fullName: "American Social Bar & Kitchen", aesthetic: "upscale waterfront sports bar and gastropub on Harbour Island, ranked #39 in US Top 100 Independents by sales", colors: "Americana-style interior, warm tones, omnipresent flat screens, open patio with Garrison Channel and Tampa skyline views", interior: "9100 sq ft inside plus 5000 sq ft exterior patio, four full bars, self-serve six-tap communal beer wall, private booths with draft lines, raw bar, waterfront patio overlooking Tampa skyline", vibe: "high-energy gastropub that transitions to dance club at 11pm, DJ until 3am on weekends, Taco Tuesday and weekly events, near Amalie Arena, 40+ craft beers on tap", crowd: "young professionals, sports fans, Harbour Island residents, Channelside crowd, upscale bar energy without the pretension", signature: "40 craft beers on tap, communal beer wall, waterfront Tampa skyline views, turns to dance club at 11pm, weekend bottomless brunch mimosas", defaultStyle: "cinematic_dark", visualAnchor: "outdoor waterfront patio with craft beer tap wall and Tampa skyline glowing across Garrison Channel" },
+  "511 franklin": { fullName: "511 Franklin", aesthetic: "elevated craft cocktail bar and late-night destination in the heart of downtown Tampa, 23+ crowd", colors: "exposed brick walls, stylish dark interior, outdoor patio on Franklin Street", interior: "exposed brick walls, stylish cocktail bar design, complemented by outdoor street patio, downtown Tampa location at 511 N Franklin St", vibe: "downtown Tampa's premier craft cocktail and nightlife destination from Station and Bowery, ages 23+ only, live DJs, chef-driven menu, VIP table reservations available", crowd: "downtown professionals, 23+ nightlife crowd, cocktail enthusiasts, Tampa after-dark regulars", signature: "signature cocktails including The Big Guava (Teremana Tequila, Aperol, guava, lime, black salt), late-night destination energy, 23+ door policy", defaultStyle: "dark_romance", visualAnchor: "exposed brick wall behind craft cocktails on a dark downtown Franklin Street at night" },
+  "the patio": { fullName: "The Patio", aesthetic: "unpretentious SoHo neighborhood bar, cheap drinks and no frills, exactly what it sounds like", colors: "casual bar palette, TVs everywhere, outdoor patio as the centerpiece", interior: "interior bar with TVs perfect for game watching, outdoor patio as the main focal point and namesake, relaxed and unfussy layout", vibe: "SoHo staple for when you want a cold cheap drink without the pretension, consistently voted among South Tampa favorites, game day reliable", crowd: "SoHo regulars, sports fans, neighborhood locals who want a no-nonsense bar experience", signature: "cold cheap drinks, outdoor patio, game day TVs, unpretentious SoHo neighborhood energy", defaultStyle: "college_dive", visualAnchor: "SoHo outdoor patio with mismatched chairs, cold cheap drinks, and zero pretension" },
+  "blind goat": { fullName: "The Blind Goat Food & Drink Co.", aesthetic: "Prohibition-era inspired craft bar and eatery, voted Best Pub in Tampa 2024 and 2025, independently owned South Tampa gem", colors: "warm industrial tones, prohibition speakeasy aesthetic, cozy and lived-in", interior: "dart boards, mini stage for live events, great back room, outdoor patio space, more TVs than you can count, prohibition-style bar design", vibe: "10-year South Tampa institution, independently owned by George, craft beer and creative cocktails, pizza and small plates, Thursday and Friday $5 pizza nights with live music, bingo nights, trivia, dog-friendly patio", crowd: "South Tampa locals, craft beer enthusiasts, people who hate pretentious bars, regulars who know everyone", signature: "Blackberry Whiskey Smash, craft beer selection, $5 pizza nights with live music, dart boards, prohibition speakeasy concept, Best Pub in Tampa two years running", defaultStyle: "analog_film", visualAnchor: "prohibition-era dark wood bar with dart boards behind and craft taps lit in warm South Tampa light" },
+  "sunset rodeo": { fullName: "Sunset Rodeo", aesthetic: "Nashville-inspired live music bar and outdoor oasis on South Howard Avenue, Tampa's answer to a honky tonk", colors: "warm Southern tones, string lights, outdoor Nashville patio energy, rustic and lively", interior: "outdoor oasis patio layout on S Howard Ave, live music stage, Nashville bar aesthetic, hot chicken and cold beer energy", vibe: "Nashville nights under Tampa lights, live music weekly with country and Southern rock, 23+ Thursdays and 21+ other nights, high energy rowdy good time, quickly becoming SoHo's hottest spot", crowd: "SoHo regulars, live music lovers, country and Southern rock fans, 21-23+ Tampa nightlife crowd", signature: "live music every week, hot chicken, outdoor oasis patio, Nashville-inspired concept, country and Southern rock acts", defaultStyle: "retro_poster", visualAnchor: "outdoor stage under string lights with live band playing to a packed SoHo patio crowd" },
+  "macdintons": { fullName: "MacDinton's Irish Pub", aesthetic: "SoHo's biggest Irish pub and nightlife institution, massive indoor-outdoor setup that packs out every weekend", colors: "classic Irish pub palette, warm lighting, outdoor patio with string lights, lively and loud", interior: "huge indoor and outdoor spaces, large outdoor patio, multiple bars, DJs and live entertainment, TVs for sports especially soccer and EPL", vibe: "SoHo staple drawing locals and tourists, high-energy clubby Irish pub atmosphere, watch parties, themed nights, holiday bashes, VIP tables and bottle service, 21-year-old UT girls and everyone in between", crowd: "SoHo crowd of all ages, soccer fans, tourists, young college-adjacent crowd, weekend warriors", signature: "DJ nights, live entertainment, outdoor patio, soccer and EPL watch parties, VIP bottle service, classic Irish pub menu", defaultStyle: "neon_underground", visualAnchor: "massive SoHo outdoor patio under Irish pub neon with DJ energy and packed weekend crowd" },
+  "boulon": { fullName: "Boulon Brasserie", aesthetic: "modern French brasserie in Tampa's Water Street district, Great Gatsby elegance meets contemporary design by Montreal architects", colors: "soft tan, black, gold, rich blue-teal navy, floor-to-ceiling windows, warm European lighting, gold and cream tones throughout", interior: "7000 sq ft with high ceilings, open floor plan, bar spanning the length of the dining room with intimate alcoves, two outdoor patios, hexagonal design motifs referencing the bolt concept, adjacent to Amalie Arena", vibe: "Water Street Tampa anchor, all-day dining from breakfast through late night, Parisian brasserie energy with upbeat music that turns techno on peak nights, special occasion destination, Michelin-adjacent caliber", crowd: "Water Street professionals, special occasion diners, upscale young crowd, pre and post Amalie Arena events", signature: "French classics with modern twist, espresso martinis, floor-to-ceiling windows, hexagonal design throughout, Water Street Tampa prestige location", defaultStyle: "luxury", visualAnchor: "French brasserie floor-to-ceiling windows framing Water Street Tampa at night, warm interior gold light against dark street" },
+  "predalina": { fullName: "Predalina", aesthetic: "Mediterranean coastal restaurant, cocktail lounge, and after-dark destination on Water Street, alegria de viver — the joy of living well", colors: "earthy tones, gold and ceramic accents, aged brass fixtures, hand-laid mosaics, olive trees, heavy drapery, gold disco ball glittering overhead", interior: "7000 sq ft with two cocktail lounges flanking a brass-top bar, painted dance floors, hand-painted tile mural of Predalina Oliveira, mosaic walls and floors, olive trees, cozy intimate corners, 2000 sq ft patio with umbrellas and string lights along Water Street", vibe: "the most electric and glamorous concept from Oxford Commons, equal parts restaurant cocktail lounge and after-dark destination, cocktails savored amongst the glitter of a gold disco ball, evenings morph into effortless cool", crowd: "Water Street upscale crowd, Mediterranean food lovers, date night and special occasion, late-night cocktail lounge regulars", signature: "hand-laid mosaic design, gold disco ball, painted dance floor, Blue Crab Chitara, Potato Stroma, Steak Frites, named after owner's great-grandmother who lived to 101", defaultStyle: "dark_romance", visualAnchor: "gold disco ball casting glitter over hand-laid mosaic dance floor with olive trees and brass bar in background" }
 };
 
 function findBarProfile(barInput) {
@@ -319,27 +320,87 @@ function findBarProfile(barInput) {
 const STYLES = {
   cinematic_dark: {
     label: 'CINEMATIC DARK',
-    directive: 'ARRI Alexa film photography, deep blacks, anamorphic bokeh, warm orange practical lighting, pushed shadows, slight green in midtones, motivated rim lighting, cinematic color grade, premium nightlife campaign energy'
+    description: 'ARRI Alexa color science, deep blacks, anamorphic bokeh. Premium nightlife campaign energy.',
+    directive: 'ARRI Alexa film photography, deep blacks, anamorphic bokeh, warm orange practical lighting, pushed shadows, slight green in midtones, motivated rim lighting, cinematic color grade, premium nightlife campaign energy',
+    doNot: 'No stock-photo smiling faces. No fake camera flashes. No generic nightlife clichés. No oversaturated HDR looks.',
+    fontStyle: 'condensed heavy-weight sans, tracking slightly out, warm white or amber letterforms'
   },
   neon_underground: {
     label: 'NEON UNDERGROUND',
-    directive: 'vibrant neon signs, electric cyan and magenta and orange, gritty urban night photography, wet pavement reflections, overexposed practical lights, high contrast, underground club energy, street photography aesthetic'
+    description: 'Electric cyan, magenta, neon orange. Wet pavement reflections, urban underground photography.',
+    directive: 'vibrant neon signs, electric cyan and magenta and orange, gritty urban night photography, wet pavement reflections, overexposed practical lights, high contrast, underground club energy, street photography aesthetic',
+    doNot: 'No clean or polished aesthetics. No suburban energy. No generic glowing signs without grit or wet pavement context.',
+    fontStyle: 'bold or compressed sans, neon color or white glowing, slight bloom effect on letterforms'
   },
   clean_editorial: {
     label: 'CLEAN EDITORIAL',
-    directive: 'minimal composition, generous white space, muted desaturated palette with single orange accent, clean sans-serif typography, magazine layout aesthetic, lots of breathing room, sophisticated and restrained'
+    description: 'Minimal, generous white space, muted palette with single accent. Magazine sophistication.',
+    directive: 'minimal composition, generous white space, muted desaturated palette with single orange accent, clean sans-serif typography, magazine layout aesthetic, lots of breathing room, sophisticated and restrained',
+    doNot: 'No clutter. No busy backgrounds. No neon. No hard-contrast edges. No more than two competing visual elements.',
+    fontStyle: 'thin or medium-weight geometric sans, generous tracking, precise alignment, no decorative flourishes'
   },
   bold_graphic: {
     label: 'BOLD GRAPHIC',
-    directive: 'flat vector design, geometric shapes, hard edges, maximum contrast black and orange, poster art energy, no photographic elements, illustrative and graphic, bold block typography, reminiscent of sports and streetwear brands'
+    description: 'Flat vector, geometric, zero photography. Streetwear and sports brand poster energy.',
+    directive: 'flat vector design, geometric shapes, hard edges, maximum contrast black and orange, poster art energy, no photographic elements, illustrative and graphic, bold block typography, reminiscent of sports and streetwear brands',
+    doNot: 'No photographic elements. No realistic textures. No soft anything. No gradients in backgrounds.',
+    fontStyle: 'ultra-bold slab or display, massive scale, zero or negative tracking, all-caps, hard geometric edges'
   },
   luxury: {
     label: 'LUXURY',
-    directive: 'deep navy and gold tones, champagne and amber, premium lifestyle photography, aspirational crowd, bokeh candlelight, Don Julio and Casamigos campaign energy, understated elegance, fashion photography lighting'
+    description: 'Deep navy and gold, champagne, Don Julio campaign energy. Understated aspiration.',
+    directive: 'deep navy and gold tones, champagne and amber, premium lifestyle photography, aspirational crowd, bokeh candlelight, Don Julio and Casamigos campaign energy, understated elegance, fashion photography lighting',
+    doNot: 'No college or dive bar energy. No bright garish colors. No plastic-looking surfaces. No excessive color saturation.',
+    fontStyle: 'light or ultra-condensed high-contrast serif, gold or cream letterforms, elegant spacing, refined weight contrast'
   },
   college_dive: {
     label: 'COLLEGE DIVE',
-    directive: 'chaotic fun energy, neon beer signs, sticky floors and pool tables, warm tungsten bar lighting, crowded college crowd, dart boards and TVs, messy authentic atmosphere, irreverent typography mixing fonts and sizes, UTK and college town culture, looks like a Tuesday night that turned into a Friday, genuine and unpolished not corporate'
+    description: 'Chaotic fun. Neon beer signs, sticky floors, Tuesday night that became a Friday. Irreverent.',
+    directive: 'chaotic fun energy, neon beer signs, sticky floors and pool tables, warm tungsten bar lighting, crowded college crowd, dart boards and TVs, messy authentic atmosphere, irreverent typography mixing fonts and sizes, UTK and college town culture, looks like a Tuesday night that turned into a Friday, genuine and unpolished not corporate',
+    doNot: 'No professional photography lighting. No clean compositions. No polished or aspirational energy. No perfection.',
+    fontStyle: 'mismatched fonts and weights, irregular baseline, multiple colors, irreverent sizing, pure college chaos energy'
+  },
+  analog_film: {
+    label: 'ANALOG FILM',
+    description: 'Grain, light leaks, 35mm warmth. Feels like someone shot this at 3am. Lo-fi and real.',
+    directive: 'shot on 35mm film, heavy visible grain over entire image, warm light leaks bleeding from frame edges, pushed ISO color shifts, faded blacks and lifted shadows, muted film palette of dusty oranges and faded greens, light-bleed halation around practical lights, slight motion blur on movement, documentary naturalness, feels like a found photo not a produced ad',
+    doNot: 'No digital clarity or sharpness. No perfect lighting setups. No clean colors. No artificial HDR. No studio perfection.',
+    fontStyle: 'worn letterpress or slightly distressed type, uneven baseline, dusty cream or warm amber tones, handmade quality'
+  },
+  dark_romance: {
+    label: 'DARK ROMANCE',
+    description: 'Velvet, candlelight, intimate. Gothic softness meets nightlife — luxury with an edge.',
+    directive: 'deep velvet blacks and rich burgundy wine reds, candlelight as primary light source casting warm amber pools, baroque or gothic architectural details in shadow, heavy shadow fill with only faces or objects catching the light, smoke or incense haze, deep jewel tones of wine red and midnight blue, intimate suffocating dark beauty',
+    doNot: 'No bright colors. No club energy. No modern or sterile design. No direct camera flash. No clean open spaces.',
+    fontStyle: 'high-contrast serif or blackletter, thin strokes meeting thick strokes, cream or wine red letterforms, elegant and slightly menacing'
+  },
+  miami_nights: {
+    label: 'MIAMI NIGHTS',
+    description: 'Pastel neon, South Beach palette, lush tropical. Pool party that went past midnight.',
+    directive: 'South Beach Miami color palette of pastel pink, turquoise, lime green and coral neon, palm trees silhouetted against deep blue sky, open-air tropical bar energy, Art Deco building facades or pool reflections, warm humid night air, neon signs reflecting off wet surfaces, glamorous and hedonistic but bright not dark',
+    doNot: 'No dark moody tones. No cold industrial settings. No gray or desaturated color. No interior darkness.',
+    fontStyle: 'retro italic script or Art Deco display, pink or turquoise, large and playful, rounded warm letterforms'
+  },
+  retro_poster: {
+    label: 'RETRO POSTER',
+    description: 'Vintage screen-print, distressed paper, gig poster energy. Looks like it\'s been on a telephone pole.',
+    directive: 'vintage gig poster aesthetic, screen-print textures with misregistration and ink bleed, distressed aged paper background with stains and fold lines, limited flat color palette of 2-4 colors, halftone dot patterns, woodcut or linocut illustration style, 1960s-1980s concert poster energy, sun-faded colors, rough paper grain',
+    doNot: 'No digital cleanliness. No photography. No modern typography. No gradients. No realistic rendering.',
+    fontStyle: 'condensed woodtype or slab serif, tight stacked layout, aged cream or warm white letterforms on dark ink'
+  },
+  golden_hour: {
+    label: 'GOLDEN HOUR',
+    description: 'Warm sunset amber, outdoor rooftop energy. The magic 20 minutes before dark.',
+    directive: 'golden hour cinematography, warm amber and orange sunlight as primary light source casting long directional shadows, low sun position creating lens flare and backlit silhouettes, outdoor venue or rooftop setting, warm film emulation with lifted shadows and glowing warm highlights, heat haze or dust catching the sunlight, last perfect hour of day before night begins',
+    doNot: 'No dark interiors. No cold or blue tones. No harsh overhead lighting. No night club darkness.',
+    fontStyle: 'warm cream or amber, clean geometric or humanist sans, sun-warm and legible against glowing sky'
+  },
+  rave_underground: {
+    label: 'RAVE / UNDERGROUND',
+    description: 'Strobe-lit warehouse, industrial chaos, Berlin basement energy. Rawer than a nightclub.',
+    directive: 'industrial warehouse or basement rave setting, strobe freeze-frame motion blur on crowd, deep ultraviolet and white strobe light, exposed concrete walls and steel beams, sweaty crowd silhouettes backlit by strobes, smoke machine at ground level, raw industrial textures, de-saturated except for single cyan or UV accent, feels documentarian not produced, dangerous raw energy',
+    doNot: 'No polished club interiors. No VIP bottle service energy. No aspirational luxury. No clean design. No colorful fun.',
+    fontStyle: 'monospace or industrial sans, all-caps, cold white or UV purple, technical and blunt, zero decoration'
   }
 };
 
@@ -354,12 +415,45 @@ let kbCityFilter = 'all';
 const sessionLog = [];
 const imageDataStore = new Map();
 
+// ─── HELPERS ─────────────────────────────────────────────
+function getTimeAtmosphere(datetimeStr) {
+  if (!datetimeStr) return null;
+  const match = datetimeStr.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+  if (!match) return null;
+  let hour = parseInt(match[1]);
+  const ampm = (match[3] || '').toLowerCase();
+  if (ampm === 'pm' && hour !== 12) hour += 12;
+  if (ampm === 'am' && hour === 12) hour = 0;
+  if (hour >= 15 && hour < 17) return 'late afternoon happy hour — slanted warm light through windows, post-work energy slowly building, that loose first-drink feeling';
+  if (hour >= 17 && hour < 19) return 'golden pre-game hour — last of the sun fading, city transitioning to night, anticipation and possibility in the air';
+  if (hour >= 19 && hour < 21) return 'early night build-up — just dark enough for neon to start singing, crowd finding their footing, the night\'s promise still intact';
+  if (hour >= 21 && hour < 23) return 'prime time peak — crowd at full energy, practical lights working against total darkness, the undeniable sweet spot of the night';
+  if (hour >= 23 || hour < 2) return 'deep night — past midnight gravity, the people who stayed, neon burning against pure black sky, every drink a commitment';
+  if (hour >= 2) return 'after hours — last call energy, floor sticky, lights slightly up, that specific 3am feeling when only the real ones remain';
+  return null;
+}
+
+function getBarFontPersonality(bar) {
+  if (!bar || !bar.defaultStyle) return null;
+  return STYLES[bar.defaultStyle]?.fontStyle || null;
+}
+
 // ─── PROMPTS ─────────────────────────────────────────────
 function buildStoryPrompt(f) {
   const bar = findBarProfile(f.bar);
+  const style = STYLES[currentStyle];
   const barContext = bar
-    ? `BAR PROFILE — ${bar.fullName}:\n- Aesthetic: ${bar.aesthetic}\n- Colors & Lighting: ${bar.colors}\n- Interior: ${bar.interior}\n- Vibe: ${bar.vibe}\n- Signature elements: ${bar.signature}`
+    ? `BAR PROFILE — ${bar.fullName}:
+- Aesthetic: ${bar.aesthetic}
+- Colors & Lighting: ${bar.colors}
+- Interior: ${bar.interior}
+- Vibe: ${bar.vibe}
+- Signature elements: ${bar.signature}${bar.crowd ? '\n- Crowd: ' + bar.crowd : ''}${bar.visualAnchor ? '\n- Visual Anchor (ground the composition in this element): ' + bar.visualAnchor : ''}`
     : `Bar: ${f.bar || 'Knoxville nightlife venue'}`;
+
+  const timeAtmosphere = getTimeAtmosphere(f.datetime);
+  const fontPersonality = bar ? getBarFontPersonality(bar) : null;
+
   const requiredText = [
     f.bar ? `Bar name: "${f.bar}"` : null,
     f.event ? `Event name: "${f.event}"` : null,
@@ -370,9 +464,15 @@ function buildStoryPrompt(f) {
 
   return `You are a visual creative director generating AI image prompts for Venuu, a premium nightlife app. Create 3 distinct vertical flyer image prompts for Instagram Story format (9:16 ratio). These prompts will be pasted directly into an AI image generator (GPT Image 2.0 or Nano Banana via Higgsfield).
 
-STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic, overriding all other stylistic defaults:
-${STYLES[currentStyle].directive}
+STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic:
+${style.directive}
 
+HARD EXCLUSIONS for this style — never generate any of these:
+${style.doNot}
+${timeAtmosphere ? `
+TIME ATMOSPHERE — weave this energy into the lighting and mood:
+${timeAtmosphere}
+` : ''}
 BAR BRIEF:
 ${barContext}
 
@@ -380,28 +480,34 @@ REQUIRED TEXT ELEMENTS — ALL of these exact words MUST appear rendered in the 
 - ${requiredText}
 
 PROMPT ENGINEERING RULES FOR AI IMAGE GENERATORS:
-1. Describe lighting with technical precision: "warm amber practical lighting at f/1.4, ARRI Alexa color science, deep shadows with orange rim light"
-2. Specify camera and lens: "shot on anamorphic lens, slight lens flare, cinematic aspect"
-3. Describe text as physical objects: "massive bone-white ultra-condensed sans-serif letterforms, slightly tracked out, casting subtle drop shadow on dark background" — never say "text that reads X", say "the words [X] rendered in [specific typographic treatment]"
-4. Use film and photography language: bokeh, depth of field, color grade, grain, practical lights, motivated lighting
-5. Be specific about atmosphere: "smoke machine haze catching a single orange spotlight", not "moody atmosphere"
-6. Every prompt must be 150-250 words — detailed enough that the image generator has no ambiguity
+1. Technical lighting precision: "warm amber practical lighting at f/1.4, ARRI Alexa color science, deep shadows with orange rim light"
+2. Specify camera and lens: "shot on anamorphic lens, slight lens flare, cinematic aspect ratio"
+3. Text as physical objects — never say "text that reads X". Say "the words [X] rendered in [specific typographic treatment, size, color, placement, relationship to background]"
+4. Film and photography language: bokeh, depth of field, color grade, grain, practical lights, motivated lighting
+5. Specific atmosphere, not vague: "smoke machine haze catching a single orange spotlight" not "moody atmosphere"
+6. Each prompt 150-250 words — detailed enough the image generator has no creative decisions to make
 
-Make all 3 feel like completely different creative executions:
-- Prompt 1 — TYPOGRAPHY HERO: Text dominates. Dramatic scale, aggressive negative space, minimal scene. The words are the design.
-- Prompt 2 — ATMOSPHERIC SCENE: Cinematic bar environment in full detail. Text integrated naturally into the scene as signage, light projections, or overlays.
-- Prompt 3 — GRAPHIC SYSTEM: Bold graphic design language. Geometric, illustrative, or abstract visual concept with text as part of the design system.
+Make all 3 feel like completely different creative executions of the same event:
+
+PROMPT 1 — TYPOGRAPHY HERO: Text completely dominates the frame. The words ARE the design — set them at aggressive scale with dramatic contrast. Minimal or abstract background, deep negative space. Use size contrast between words (one word at massive scale, others smaller), play with tracking, baseline shifts, or rotation. Font personality for this specific bar's aesthetic: ${fontPersonality || 'bold and impactful, reflecting the bar identity'}. Background should be minimal and supporting — one color field, one texture, one abstract shape — nothing that competes with the type.
+
+PROMPT 2 — ATMOSPHERIC SCENE: A real photographer's eye on a real bar moment. Anchor the composition in the bar's Visual Anchor above — that specific physical space or object must be identifiable in the scene. CRITICAL: avoid the generic "AI nightclub" look — no beautiful-crowd symmetry, no glass-and-bokeh arrangements, no perfect lighting setups. Instead: imperfect practical lighting with motivated shadows, real textures (worn surfaces, fingerprint-smudged glass, sticky floor reflections), and one honest human moment (a hand reaching for a drink, a silhouette at the bar, smoke catching a single light beam). Text appears as physical signage, a light projection on a wall, or an object in the scene — never a floating overlay.
+
+PROMPT 3 — GRAPHIC SYSTEM: A designed artifact — poster, brand moment, visual system — not a photograph with text on it. Geometric, illustrative, or abstract concept where type and graphic elements are equal collaborators. Can reference the bar's world through abstract shapes, color, or texture without depicting it literally. Make this the most inventive and visually surprising of the three.
 
 Return ONLY a JSON object, no markdown:
 {"prompt1":"...","prompt2":"...","prompt3":"..."}`;
 }
 
 function buildSeriesContextPrompt(brief, totalSlides, style) {
-  const styleDirective = STYLES[style]?.directive || STYLES.cinematic_dark.directive;
+  const styleObj = STYLES[style] || STYLES.cinematic_dark;
   return `You are a creative director establishing a visual identity system for a ${totalSlides}-slide Instagram carousel for Venuu, a premium nightlife app (black and orange brand, 18-28 demographic, Knoxville TN).
 
 STYLE DIRECTIVE — primary creative constraint. Every visual decision in this series must serve this aesthetic:
-${styleDirective}
+${styleObj.directive}
+
+HARD EXCLUSIONS — never use any of these in any slide:
+${styleObj.doNot}
 
 POST BRIEF: ${brief}
 
@@ -421,11 +527,14 @@ Return ONLY a JSON object, no markdown:
 }
 
 function buildSlidePrompt(slideNum, totalSlides, slideBrief, seriesCtx) {
-  const styleDirective = STYLES[seriesCtx.style]?.directive || STYLES.cinematic_dark.directive;
+  const styleObj = STYLES[seriesCtx.style] || STYLES.cinematic_dark;
   return `You are a visual creative director generating a single AI image prompt for slide ${slideNum} of ${totalSlides} in an Instagram carousel for Venuu. This prompt will be pasted directly into GPT Image 2.0 or Nano Banana via Higgsfield.
 
 STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic:
-${styleDirective}
+${styleObj.directive}
+
+HARD EXCLUSIONS — never generate any of these:
+${styleObj.doNot}
 
 SERIES CONTEXT (maintain visual consistency with these across all slides):
 - Concept: ${seriesCtx.concept}
@@ -451,10 +560,14 @@ Return ONLY a JSON object, no markdown:
 }
 
 function buildQuickCarouselPrompt(f) {
+  const style = STYLES[currentStyle];
   return `You are a visual creative director generating a complete ${f.slides || 5}-slide Instagram carousel for Venuu. Each slide prompt will be pasted separately into an AI image generator (GPT Image 2.0 or Nano Banana).
 
-STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic, overriding all other stylistic defaults:
-${STYLES[currentStyle].directive}
+STYLE DIRECTIVE — primary creative constraint. Every visual decision must serve this aesthetic:
+${style.directive}
+
+HARD EXCLUSIONS — never generate any of these across any slide:
+${style.doNot}
 
 POST BRIEF: ${f.brief || 'Venuu carousel post'}
 CTA: ${f.cta || 'Download Venuu'}
@@ -484,10 +597,17 @@ Return ONLY a JSON object, no markdown:
 
 function buildReelsPrompt(f) {
   const bar = findBarProfile(f.bar);
+  const style = STYLES[currentStyle];
   const barContext = bar
-    ? `Location: ${bar.fullName} — ${bar.aesthetic}. Atmosphere: ${bar.colors}. Known for: ${bar.signature}.`
+    ? `Location: ${bar.fullName} — ${bar.aesthetic}. Interior: ${bar.interior}. Atmosphere: ${bar.colors}. Crowd: ${bar.crowd || bar.vibe}. Known for: ${bar.signature}.${bar.visualAnchor ? ' Visual Anchor: ' + bar.visualAnchor + '.' : ''}`
     : `Location: ${f.bar || 'Knoxville nightlife'}`;
-  return `You are a creative director generating content for Venuu, a premium nightlife app in Knoxville. Create a complete Instagram Reels content package.
+  return `You are a creative director generating content for Venuu, a premium nightlife app. Create a complete Instagram Reels content package.
+
+STYLE DIRECTIVE — let this shape the visual language of the video prompt:
+${style.directive}
+
+AVOID in the video prompt:
+${style.doNot}
 
 Brief:
 - Vibe: ${f.vibe || 'Saturday night'}
@@ -499,7 +619,7 @@ Brand voice: Confident, aspirational, sexy but never desperate. Think Don Julio 
 
 Generate exactly three things:
 
-1. HIGGSFIELD VIDEO PROMPT — cinematic and specific. Describe camera movement (dolly, orbit, tracking shot), lighting quality and source, character movement and wardrobe, atmosphere, color grade. 150-200 words. Make it feel like a real film brief a DP would follow.
+1. HIGGSFIELD VIDEO PROMPT — cinematic and specific. Describe camera movement (dolly, orbit, tracking shot), lighting quality and source, character movement and wardrobe, atmosphere, color grade. Reference the bar's specific visual anchor and physical space. 150-200 words. Make it feel like a real film brief a DP would follow.
 
 2. HOOK — first line seen or heard on screen. Under 8 words, present tense, lowercase, never explains itself, implies something happening RIGHT NOW. Creates tension through incompleteness. Examples: "radius at 9pm. you already know." or "she checked the app. grabbed her jacket."
 
@@ -563,6 +683,7 @@ function setMode(mode, btn) {
 }
 
 function renderStyleChips() {
+  const desc = STYLES[currentStyle]?.description || '';
   return `<div style="display:flex;flex-direction:column;gap:6px;">
     <div class="filter-label">Visual Style</div>
     <div class="style-chips">
@@ -570,6 +691,7 @@ function renderStyleChips() {
         `<button class="style-chip${currentStyle === id ? ' active' : ''}" id="style_chip_${id}" onclick="setStyle('${id}')">${s.label}</button>`
       ).join('')}
     </div>
+    <div class="style-desc" id="style-desc-text">${desc}</div>
   </div>`;
 }
 
@@ -578,6 +700,8 @@ function setStyle(id) {
   document.querySelectorAll('.style-chip').forEach(el => el.classList.remove('active'));
   const el = document.getElementById('style_chip_' + id);
   if (el) el.classList.add('active');
+  const descEl = document.getElementById('style-desc-text');
+  if (descEl) descEl.textContent = STYLES[id]?.description || '';
 }
 
 function renderModeContent() {
