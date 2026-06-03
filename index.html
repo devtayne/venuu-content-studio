@@ -198,14 +198,33 @@
   .danger-btn { background: transparent; border: 0.5px solid rgba(226,75,74,0.25); border-radius: 6px; color: rgba(226,75,74,0.6); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 5px 12px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
   .danger-btn:hover { border-color: rgba(226,75,74,0.5); color: rgba(226,75,74,0.9); background: rgba(226,75,74,0.06); }
 
+  /* MOBILE NAV — hamburger + sidebar (hidden on desktop) */
+  .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px 6px; margin-right: 2px; flex-shrink: 0; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: #f0eee8; border-radius: 2px; }
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 900; opacity: 0; transition: opacity 0.25s ease; }
+  .sidebar-overlay.visible { opacity: 1; }
+  .sidebar { display: none; position: fixed; top: 0; left: 0; width: 75%; max-width: 300px; height: 100%; background: #0a0a0f; border-right: 0.5px solid rgba(255,255,255,0.13); transform: translateX(-100%); transition: transform 0.25s ease; z-index: 1000; flex-direction: column; }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.25rem 1rem; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  .sidebar-close { background: none; border: none; color: rgba(240,238,232,0.35); font-size: 18px; line-height: 1; cursor: pointer; padding: 4px; transition: color 0.15s; }
+  .sidebar-close:hover { color: #f0eee8; }
+  .sidebar-nav { display: flex; flex-direction: column; padding: 0.5rem 0; }
+  .sidebar-item { display: flex; align-items: center; gap: 13px; padding: 1rem 1.5rem; background: none; border: none; border-left: 3px solid transparent; color: rgba(240,238,232,0.45); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; text-align: left; transition: all 0.15s; }
+  .sidebar-item:hover { color: rgba(240,238,232,0.8); background: rgba(255,255,255,0.03); }
+  .sidebar-item.active { color: #F47B20; border-left-color: #F47B20; background: rgba(244,123,32,0.06); }
+  .sidebar-item-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
   @media (max-width: 768px) {
     .main { padding: 1.25rem; }
     .filters-2, .filters-3 { grid-template-columns: 1fr; }
     .mode-tab { padding: 0.75rem 1rem; font-size: 12px; }
-    .vision-hero, .pipeline { padding: 1.5rem; }
-    .vision-bottom { flex-direction: column; }
-    .vb-right { justify-content: center; }
     .carousel-mode-row { flex-direction: column; }
+    /* mobile nav */
+    .mode-tabs { display: none; }
+    .hamburger { display: flex; }
+    .sidebar { display: flex; }
+    .sidebar-overlay { display: block; pointer-events: none; }
+    .sidebar-overlay.visible { pointer-events: all; }
   }
 </style>
 </head>
@@ -213,6 +232,9 @@
 
 <div class="header">
   <div class="header-left">
+    <button class="hamburger" onclick="openSidebar()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="32" height="32" rx="8" fill="#1a1a1a"/>
       <circle cx="16" cy="16" r="11" stroke="#F47B20" stroke-width="2" fill="none"/>
@@ -227,10 +249,10 @@
 </div>
 
 <div class="mode-tabs">
-  <button class="mode-tab active" onclick="setMode('story', this)">◻ Story</button>
-  <button class="mode-tab" onclick="setMode('carousel', this)">◈ Carousel</button>
-  <button class="mode-tab" onclick="setMode('reels', this)">▷ Reels</button>
-  <button class="mode-tab" onclick="setMode('kb', this)">◉ Knowledge Base</button>
+  <button class="mode-tab active" data-mode="story" onclick="setMode('story', this)">◻ Story</button>
+  <button class="mode-tab" data-mode="carousel" onclick="setMode('carousel', this)">◈ Carousel</button>
+  <button class="mode-tab" data-mode="reels" onclick="setMode('reels', this)">▷ Reels</button>
+  <button class="mode-tab" data-mode="kb" onclick="setMode('kb', this)">◉ Knowledge Base</button>
 </div>
 
 <div id="studioPage">
@@ -517,7 +539,8 @@ function renderSessionLog() {
 // ─── MODE RENDERING ───────────────────────────────────────
 function setMode(mode, btn) {
   document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  if (btn) btn.classList.add('active');
+  updateSidebarActive(mode);
   if (mode === 'kb') {
     document.getElementById('studioPage').style.display = 'none';
     document.getElementById('kbPage').style.display = 'block';
@@ -1153,6 +1176,31 @@ function downloadImage(imgId, filename) {
   link.click();
 }
 
+// ─── MOBILE NAV ──────────────────────────────────────────
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function sidebarSetMode(mode) {
+  closeSidebar();
+  const tab = document.querySelector(`.mode-tab[data-mode="${mode}"]`);
+  setMode(mode, tab);
+}
+
+function updateSidebarActive(mode) {
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.classList.toggle('active', item.dataset.mode === mode);
+  });
+}
+
 // ─── KNOWLEDGE BASE ──────────────────────────────────────
 const TAMPA_BAR_KEYS = new Set(['m bird','lower deck','armature works','american social','511 franklin','the patio','blind goat','sunset rodeo','macdintons','boulon','predalina']);
 
@@ -1399,5 +1447,34 @@ function resetKBToDefaults() {
 initKB();
 renderModeContent();
 </script>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- Mobile sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div>
+      <div class="logo" style="font-size:20px;">venuu</div>
+      <div class="tagline">Your cheat code for nightlife</div>
+    </div>
+    <button class="sidebar-close" onclick="closeSidebar()" aria-label="Close menu">✕</button>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="sidebar-item active" data-mode="story" onclick="sidebarSetMode('story')">
+      <span class="sidebar-item-icon">◻</span>Story
+    </button>
+    <button class="sidebar-item" data-mode="carousel" onclick="sidebarSetMode('carousel')">
+      <span class="sidebar-item-icon">◈</span>Carousel
+    </button>
+    <button class="sidebar-item" data-mode="reels" onclick="sidebarSetMode('reels')">
+      <span class="sidebar-item-icon">▷</span>Reels
+    </button>
+    <button class="sidebar-item" data-mode="kb" onclick="sidebarSetMode('kb')">
+      <span class="sidebar-item-icon">◉</span>Knowledge Base
+    </button>
+  </nav>
+</div>
+
 </body>
 </html>
