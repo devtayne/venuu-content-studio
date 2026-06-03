@@ -1059,67 +1059,65 @@ async function compositeWithLogo(b64) {
     img.src = 'data:image/png;base64,' + b64;
   });
 
-  const W = img.naturalWidth;   // Always 1024
-  const H = img.naturalHeight;  // 1536 for story, 1024 for carousel
+  const W = img.naturalWidth;
+  const H = img.naturalHeight;
 
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
   const ctx = canvas.getContext('2d');
-
-  // Draw base image at full native resolution — no scaling
   ctx.drawImage(img, 0, 0, W, H);
 
-  // Load DM Sans 900 before measuring/drawing text
   try { await document.fonts.load("900 48px 'DM Sans'"); } catch(e) {}
 
-  // Logo sizing — ~5% of image height for text
-  const fSize  = Math.round(H * 0.05);
-  const iconSz = Math.round(fSize * 1.3);
-  const gap    = Math.round(fSize * 0.45);
-  const padX   = Math.round(fSize * 0.85);
-  const pillH  = Math.round(fSize * 1.9);
-  const lw     = Math.max(2, Math.round(fSize * 0.08));
+  // Wordmark-only sizing
+  const fSize = Math.round(H * 0.04);
+  const padX  = Math.round(fSize * 1.1);
+  const padY  = Math.round(fSize * 0.6);
 
   ctx.font = `900 ${fSize}px 'DM Sans', 'Arial Black', sans-serif`;
   const textW = ctx.measureText('venuu').width;
-  const pillW = padX * 2 + iconSz + gap + textW;
-  const pillX = Math.round((W - pillW) / 2);
-  const pillY = H - pillH - 40;
+  const pillW = padX * 2 + textW;
+  const pillH = fSize + padY * 2;
+  const margin = Math.round(W * 0.045);
 
-  // Dark semi-transparent pill — rgba(0,0,0,0.6), border-radius 20px
-  ctx.fillStyle = 'rgba(0,0,0,0.6)';
+  // Four candidate corners: [top-left, top-right, bottom-left, bottom-right]
+  const corners = [
+    { x: margin,             y: margin },
+    { x: W - pillW - margin, y: margin },
+    { x: margin,             y: H - pillH - margin },
+    { x: W - pillW - margin, y: H - pillH - margin },
+  ];
+
+  // Sample average luminance of the image region behind each candidate pill
+  function luminance(x, y) {
+    const sx = Math.max(0, x), sy = Math.max(0, y);
+    const sw = Math.min(pillW, W - sx), sh = Math.min(pillH, H - sy);
+    if (sw <= 0 || sh <= 0) return 255;
+    const d = ctx.getImageData(sx, sy, sw, sh).data;
+    let s = 0;
+    for (let i = 0; i < d.length; i += 4) s += 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+    return s / (d.length / 4);
+  }
+
+  // Score each corner: lower = darker region. Bias of +18 on top corners
+  // so bottom corners win in ambiguous lighting (more natural watermark placement).
+  const topBias = 18;
+  const scores = corners.map((c, i) => ({ c, score: luminance(c.x, c.y) + (i < 2 ? topBias : 0) }));
+  const best = scores.reduce((a, b) => b.score < a.score ? b : a).c;
+
+  // Draw dark pill at the winning corner
+  ctx.fillStyle = 'rgba(0,0,0,0.55)';
   ctx.beginPath();
-  ctx.roundRect(pillX, pillY, pillW, pillH, 20);
+  ctx.roundRect(best.x, best.y, pillW, pillH, pillH / 2);
   ctx.fill();
 
-  const cx = pillX + padX + iconSz / 2;
-  const cy = pillY + pillH / 2;
-  const r  = iconSz / 2;
-
-  ctx.strokeStyle = '#F47B20';
-  ctx.lineWidth = lw;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-
-  // V-in-circle icon: outer circle
-  ctx.beginPath();
-  ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // V-in-circle icon: V chevron
-  ctx.beginPath();
-  ctx.moveTo(cx - r * 0.42, cy - r * 0.38);
-  ctx.lineTo(cx, cy + r * 0.42);
-  ctx.lineTo(cx + r * 0.42, cy - r * 0.38);
-  ctx.stroke();
-
-  // "venuu" wordmark
+  // Draw "venuu" wordmark
   ctx.fillStyle = '#F47B20';
   ctx.font = `900 ${fSize}px 'DM Sans', 'Arial Black', sans-serif`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'left';
-  ctx.fillText('venuu', pillX + padX + iconSz + gap, cy);
+  ctx.fillText('venuu', best.x + padX, best.y + pillH / 2);
 
   return canvas.toDataURL('image/png');
 }
