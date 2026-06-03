@@ -328,6 +328,7 @@ let carouselSubMode = 'builder'; // 'builder' | 'quick'
 let seriesContext = null; // { brief, totalSlides, style, colorPalette, typography }
 let generatedSlides = []; // array of { slideNum, prompt }
 let currentData = {};
+let kbCityFilter = 'all';
 const sessionLog = [];
 const imageDataStore = new Map();
 
@@ -1188,18 +1189,42 @@ function saveKBToStorage() {
 function renderKBPage() {
   const container = document.getElementById('kbContent');
   if (!container) return;
-  const bars = Object.entries(barKnowledgeBase);
+  const allBars = Object.entries(barKnowledgeBase);
+
+  // City order: Knoxville, Tampa, then any extras alphabetically
+  const cityPriority = ['Knoxville', 'Tampa'];
+  const citiesSet = new Set(allBars.map(([k, b]) => getBarCity(k, b)));
+  const cities = [...cityPriority.filter(c => citiesSet.has(c)), ...[...citiesSet].filter(c => !cityPriority.includes(c)).sort()];
+
+  // Filter then sort: within a city filter just alpha; "all" groups by city order then alpha
+  const filtered = kbCityFilter === 'all'
+    ? allBars.slice().sort(([ka, a], [kb, b]) => {
+        const ci = cities.indexOf(getBarCity(ka, a));
+        const cj = cities.indexOf(getBarCity(kb, b));
+        return ci !== cj ? ci - cj : (a.fullName || '').localeCompare(b.fullName || '');
+      })
+    : allBars
+        .filter(([k, b]) => getBarCity(k, b) === kbCityFilter)
+        .sort(([, a], [, b]) => (a.fullName || '').localeCompare(b.fullName || ''));
+
   container.innerHTML = `
     <div class="kb-page">
       <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;">
         <div>
           <div class="mode-title">Knowledge Base</div>
-          <div class="mode-sub">${bars.length} bars · add, edit, or remove venue profiles</div>
+          <div class="mode-sub">${allBars.length} bars · add, edit, or remove venue profiles</div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <button class="secondary-btn" style="font-size:11px;padding:6px 12px;opacity:0.45;" onclick="resetKBToDefaults()">Reset to defaults</button>
           <button class="secondary-btn" onclick="startAddBar()">+ Add Bar</button>
         </div>
+      </div>
+      <div class="style-chips">
+        <button class="style-chip${kbCityFilter === 'all' ? ' active' : ''}" onclick="setKBCityFilter('all')">All (${allBars.length})</button>
+        ${cities.map(c => {
+          const n = allBars.filter(([k, b]) => getBarCity(k, b) === c).length;
+          return `<button class="style-chip${kbCityFilter === c ? ' active' : ''}" data-city="${esc(c)}" onclick="setKBCityFilter(this.dataset.city)">${esc(c)} (${n})</button>`;
+        }).join('')}
       </div>
       <input class="filter-input" id="kb_search" placeholder="Search bars by name, city, or vibe..." oninput="filterKBBars()">
       <div id="kbAddForm" style="display:none;">
@@ -1213,7 +1238,7 @@ function renderKBPage() {
         </div>
       </div>
       <div id="kbBarList" style="display:flex;flex-direction:column;gap:10px;">
-        ${bars.map(([key, bar]) => renderBarCard(key, bar)).join('')}
+        ${filtered.map(([key, bar]) => renderBarCard(key, bar)).join('')}
       </div>
     </div>`;
 }
@@ -1350,6 +1375,11 @@ function saveAddBar() {
   saveKBToStorage();
   renderKBPage();
   setTimeout(() => { const c = document.getElementById('kb_card_' + cssId(key)); if (c) c.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 50);
+}
+
+function setKBCityFilter(city) {
+  kbCityFilter = city;
+  renderKBPage();
 }
 
 function filterKBBars() {
